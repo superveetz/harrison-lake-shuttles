@@ -1,0 +1,549 @@
+type App {
+  id: ID!
+  name: String!
+  slogan: String
+  infoEmail: String!
+  companyStreetAddress: String
+  companyCity: String
+  companyProvState: String
+  companyPostalZip: String
+  companyStartYear: String
+}
+
+type TicketType {
+  id: ID!
+  age: String!
+  price: Float!
+  ticket: Ticket!
+}
+
+type TicketSaleType {
+  id: ID!
+  age: String!
+  travellerName: String!
+  price: Float!
+  ticket: TicketSale
+}
+
+type Ticket {
+  id: ID!
+  orderNum: Int
+  departsLong: String
+  arrivesLong: String
+  departsLocName: String
+  departsLocStreet: String
+  departsLocCity: String
+  departsLocPostal: String
+  departsTime: String
+  departsDesc: String
+  arrivesLocName: String
+  arrivesLocStreet: String
+  arrivesLocCity: String
+  arrivesLocPostal: String
+  arrivesTime: String
+  arrivesDesc: String
+  transitDesc: String
+  restBreakLocations: [String]
+  ticketTypes(filter: ModelTicketTypeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTicketTypeConnection
+}
+
+type TicketSale {
+  id: ID!
+  type: Ticket!
+  arrivesDropoffLoc: String
+  departsPickupLoc: String
+  requiresWheelchair: Boolean!
+  ticketTypes(filter: ModelTicketSaleTypeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTicketSaleTypeConnection
+  transaction: Transaction
+  schedule: Schedule
+}
+
+type Transaction {
+  id: ID!
+  payeeName: String!
+  payeeEmail: String!
+  payeePhone: String!
+  totalPaid: Float!
+  tickets(filter: ModelTicketSaleFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTicketSaleConnection
+}
+
+type Schedule {
+  id: ID!
+  date: String!
+  departureTicket: Ticket!
+  tickets(filter: ModelTicketSaleFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTicketSaleConnection
+  reservedSeats(filter: ModelReservedSeatFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelReservedSeatConnection
+  closed: Boolean
+}
+
+type ReservedSeat {
+  id: ID!
+  name: String!
+  note: String
+  requiresWheelchair: Boolean
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelAppConnection {
+  items: [App]
+  nextToken: String
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelAppFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  slogan: ModelStringFilterInput
+  infoEmail: ModelStringFilterInput
+  companyStreetAddress: ModelStringFilterInput
+  companyCity: ModelStringFilterInput
+  companyProvState: ModelStringFilterInput
+  companyPostalZip: ModelStringFilterInput
+  companyStartYear: ModelStringFilterInput
+  and: [ModelAppFilterInput]
+  or: [ModelAppFilterInput]
+  not: ModelAppFilterInput
+}
+
+type Query {
+  getApp(id: ID!): App
+  listApps(filter: ModelAppFilterInput, limit: Int, nextToken: String): ModelAppConnection
+  getTicketType(id: ID!): TicketType
+  listTicketTypes(filter: ModelTicketTypeFilterInput, limit: Int, nextToken: String): ModelTicketTypeConnection
+  getTicketSaleType(id: ID!): TicketSaleType
+  listTicketSaleTypes(filter: ModelTicketSaleTypeFilterInput, limit: Int, nextToken: String): ModelTicketSaleTypeConnection
+  getTicket(id: ID!): Ticket
+  listTickets(filter: ModelTicketFilterInput, limit: Int, nextToken: String): ModelTicketConnection
+  getTicketSale(id: ID!): TicketSale
+  listTicketSales(filter: ModelTicketSaleFilterInput, limit: Int, nextToken: String): ModelTicketSaleConnection
+  getTransaction(id: ID!): Transaction
+  listTransactions(filter: ModelTransactionFilterInput, limit: Int, nextToken: String): ModelTransactionConnection
+  getSchedule(id: ID!): Schedule
+  listSchedules(filter: ModelScheduleFilterInput, limit: Int, nextToken: String): ModelScheduleConnection
+  getReservedSeat(id: ID!): ReservedSeat
+  listReservedSeats(filter: ModelReservedSeatFilterInput, limit: Int, nextToken: String): ModelReservedSeatConnection
+}
+
+input CreateAppInput {
+  id: ID
+  name: String!
+  slogan: String
+  infoEmail: String!
+  companyStreetAddress: String
+  companyCity: String
+  companyProvState: String
+  companyPostalZip: String
+  companyStartYear: String
+}
+
+input UpdateAppInput {
+  id: ID!
+  name: String
+  slogan: String
+  infoEmail: String
+  companyStreetAddress: String
+  companyCity: String
+  companyProvState: String
+  companyPostalZip: String
+  companyStartYear: String
+}
+
+input DeleteAppInput {
+  id: ID
+}
+
+type Mutation {
+  createApp(input: CreateAppInput!): App
+  updateApp(input: UpdateAppInput!): App
+  deleteApp(input: DeleteAppInput!): App
+  createTicketType(input: CreateTicketTypeInput!): TicketType
+  updateTicketType(input: UpdateTicketTypeInput!): TicketType
+  deleteTicketType(input: DeleteTicketTypeInput!): TicketType
+  createTicketSaleType(input: CreateTicketSaleTypeInput!): TicketSaleType
+  updateTicketSaleType(input: UpdateTicketSaleTypeInput!): TicketSaleType
+  deleteTicketSaleType(input: DeleteTicketSaleTypeInput!): TicketSaleType
+  createTicket(input: CreateTicketInput!): Ticket
+  updateTicket(input: UpdateTicketInput!): Ticket
+  deleteTicket(input: DeleteTicketInput!): Ticket
+  createTicketSale(input: CreateTicketSaleInput!): TicketSale
+  updateTicketSale(input: UpdateTicketSaleInput!): TicketSale
+  deleteTicketSale(input: DeleteTicketSaleInput!): TicketSale
+  createTransaction(input: CreateTransactionInput!): Transaction
+  updateTransaction(input: UpdateTransactionInput!): Transaction
+  deleteTransaction(input: DeleteTransactionInput!): Transaction
+  createSchedule(input: CreateScheduleInput!): Schedule
+  updateSchedule(input: UpdateScheduleInput!): Schedule
+  deleteSchedule(input: DeleteScheduleInput!): Schedule
+  createReservedSeat(input: CreateReservedSeatInput!): ReservedSeat
+  updateReservedSeat(input: UpdateReservedSeatInput!): ReservedSeat
+  deleteReservedSeat(input: DeleteReservedSeatInput!): ReservedSeat
+}
+
+type Subscription {
+  onCreateApp: App @aws_subscribe(mutations: ["createApp"])
+  onUpdateApp: App @aws_subscribe(mutations: ["updateApp"])
+  onDeleteApp: App @aws_subscribe(mutations: ["deleteApp"])
+  onCreateTicketType: TicketType @aws_subscribe(mutations: ["createTicketType"])
+  onUpdateTicketType: TicketType @aws_subscribe(mutations: ["updateTicketType"])
+  onDeleteTicketType: TicketType @aws_subscribe(mutations: ["deleteTicketType"])
+  onCreateTicketSaleType: TicketSaleType @aws_subscribe(mutations: ["createTicketSaleType"])
+  onUpdateTicketSaleType: TicketSaleType @aws_subscribe(mutations: ["updateTicketSaleType"])
+  onDeleteTicketSaleType: TicketSaleType @aws_subscribe(mutations: ["deleteTicketSaleType"])
+  onCreateTicket: Ticket @aws_subscribe(mutations: ["createTicket"])
+  onUpdateTicket: Ticket @aws_subscribe(mutations: ["updateTicket"])
+  onDeleteTicket: Ticket @aws_subscribe(mutations: ["deleteTicket"])
+  onCreateTicketSale: TicketSale @aws_subscribe(mutations: ["createTicketSale"])
+  onUpdateTicketSale: TicketSale @aws_subscribe(mutations: ["updateTicketSale"])
+  onDeleteTicketSale: TicketSale @aws_subscribe(mutations: ["deleteTicketSale"])
+  onCreateTransaction: Transaction @aws_subscribe(mutations: ["createTransaction"])
+  onUpdateTransaction: Transaction @aws_subscribe(mutations: ["updateTransaction"])
+  onDeleteTransaction: Transaction @aws_subscribe(mutations: ["deleteTransaction"])
+  onCreateSchedule: Schedule @aws_subscribe(mutations: ["createSchedule"])
+  onUpdateSchedule: Schedule @aws_subscribe(mutations: ["updateSchedule"])
+  onDeleteSchedule: Schedule @aws_subscribe(mutations: ["deleteSchedule"])
+  onCreateReservedSeat: ReservedSeat @aws_subscribe(mutations: ["createReservedSeat"])
+  onUpdateReservedSeat: ReservedSeat @aws_subscribe(mutations: ["updateReservedSeat"])
+  onDeleteReservedSeat: ReservedSeat @aws_subscribe(mutations: ["deleteReservedSeat"])
+}
+
+type ModelTicketTypeConnection {
+  items: [TicketType]
+  nextToken: String
+}
+
+input ModelTicketTypeFilterInput {
+  id: ModelIDFilterInput
+  age: ModelStringFilterInput
+  price: ModelFloatFilterInput
+  and: [ModelTicketTypeFilterInput]
+  or: [ModelTicketTypeFilterInput]
+  not: ModelTicketTypeFilterInput
+}
+
+input CreateTicketTypeInput {
+  id: ID
+  age: String!
+  price: Float!
+  ticketTypeTicketId: ID!
+}
+
+input UpdateTicketTypeInput {
+  id: ID!
+  age: String
+  price: Float
+  ticketTypeTicketId: ID
+}
+
+input DeleteTicketTypeInput {
+  id: ID
+}
+
+type ModelTicketSaleTypeConnection {
+  items: [TicketSaleType]
+  nextToken: String
+}
+
+input ModelTicketSaleTypeFilterInput {
+  id: ModelIDFilterInput
+  age: ModelStringFilterInput
+  travellerName: ModelStringFilterInput
+  price: ModelFloatFilterInput
+  and: [ModelTicketSaleTypeFilterInput]
+  or: [ModelTicketSaleTypeFilterInput]
+  not: ModelTicketSaleTypeFilterInput
+}
+
+input CreateTicketSaleTypeInput {
+  id: ID
+  age: String!
+  travellerName: String!
+  price: Float!
+  ticketSaleTypeTicketId: ID
+}
+
+input UpdateTicketSaleTypeInput {
+  id: ID!
+  age: String
+  travellerName: String
+  price: Float
+  ticketSaleTypeTicketId: ID
+}
+
+input DeleteTicketSaleTypeInput {
+  id: ID
+}
+
+type ModelTicketConnection {
+  items: [Ticket]
+  nextToken: String
+}
+
+input ModelTicketFilterInput {
+  id: ModelIDFilterInput
+  orderNum: ModelIntFilterInput
+  departsLong: ModelStringFilterInput
+  arrivesLong: ModelStringFilterInput
+  departsLocName: ModelStringFilterInput
+  departsLocStreet: ModelStringFilterInput
+  departsLocCity: ModelStringFilterInput
+  departsLocPostal: ModelStringFilterInput
+  departsTime: ModelStringFilterInput
+  departsDesc: ModelStringFilterInput
+  arrivesLocName: ModelStringFilterInput
+  arrivesLocStreet: ModelStringFilterInput
+  arrivesLocCity: ModelStringFilterInput
+  arrivesLocPostal: ModelStringFilterInput
+  arrivesTime: ModelStringFilterInput
+  arrivesDesc: ModelStringFilterInput
+  transitDesc: ModelStringFilterInput
+  restBreakLocations: ModelStringFilterInput
+  and: [ModelTicketFilterInput]
+  or: [ModelTicketFilterInput]
+  not: ModelTicketFilterInput
+}
+
+input CreateTicketInput {
+  id: ID
+  orderNum: Int
+  departsLong: String
+  arrivesLong: String
+  departsLocName: String
+  departsLocStreet: String
+  departsLocCity: String
+  departsLocPostal: String
+  departsTime: String
+  departsDesc: String
+  arrivesLocName: String
+  arrivesLocStreet: String
+  arrivesLocCity: String
+  arrivesLocPostal: String
+  arrivesTime: String
+  arrivesDesc: String
+  transitDesc: String
+  restBreakLocations: [String]
+}
+
+input UpdateTicketInput {
+  id: ID!
+  orderNum: Int
+  departsLong: String
+  arrivesLong: String
+  departsLocName: String
+  departsLocStreet: String
+  departsLocCity: String
+  departsLocPostal: String
+  departsTime: String
+  departsDesc: String
+  arrivesLocName: String
+  arrivesLocStreet: String
+  arrivesLocCity: String
+  arrivesLocPostal: String
+  arrivesTime: String
+  arrivesDesc: String
+  transitDesc: String
+  restBreakLocations: [String]
+}
+
+input DeleteTicketInput {
+  id: ID
+}
+
+type ModelTicketSaleConnection {
+  items: [TicketSale]
+  nextToken: String
+}
+
+input ModelTicketSaleFilterInput {
+  id: ModelIDFilterInput
+  arrivesDropoffLoc: ModelStringFilterInput
+  departsPickupLoc: ModelStringFilterInput
+  requiresWheelchair: ModelBooleanFilterInput
+  and: [ModelTicketSaleFilterInput]
+  or: [ModelTicketSaleFilterInput]
+  not: ModelTicketSaleFilterInput
+}
+
+input CreateTicketSaleInput {
+  id: ID
+  arrivesDropoffLoc: String
+  departsPickupLoc: String
+  requiresWheelchair: Boolean!
+  ticketSaleTypeId: ID!
+  ticketSaleTransactionId: ID
+  ticketSaleScheduleId: ID
+}
+
+input UpdateTicketSaleInput {
+  id: ID!
+  arrivesDropoffLoc: String
+  departsPickupLoc: String
+  requiresWheelchair: Boolean
+  ticketSaleTypeId: ID
+  ticketSaleTransactionId: ID
+  ticketSaleScheduleId: ID
+}
+
+input DeleteTicketSaleInput {
+  id: ID
+}
+
+type ModelTransactionConnection {
+  items: [Transaction]
+  nextToken: String
+}
+
+input ModelTransactionFilterInput {
+  id: ModelIDFilterInput
+  payeeName: ModelStringFilterInput
+  payeeEmail: ModelStringFilterInput
+  payeePhone: ModelStringFilterInput
+  totalPaid: ModelFloatFilterInput
+  and: [ModelTransactionFilterInput]
+  or: [ModelTransactionFilterInput]
+  not: ModelTransactionFilterInput
+}
+
+input CreateTransactionInput {
+  id: ID
+  payeeName: String!
+  payeeEmail: String!
+  payeePhone: String!
+  totalPaid: Float!
+}
+
+input UpdateTransactionInput {
+  id: ID!
+  payeeName: String
+  payeeEmail: String
+  payeePhone: String
+  totalPaid: Float
+}
+
+input DeleteTransactionInput {
+  id: ID
+}
+
+type ModelScheduleConnection {
+  items: [Schedule]
+  nextToken: String
+}
+
+input ModelScheduleFilterInput {
+  id: ModelIDFilterInput
+  date: ModelStringFilterInput
+  closed: ModelBooleanFilterInput
+  and: [ModelScheduleFilterInput]
+  or: [ModelScheduleFilterInput]
+  not: ModelScheduleFilterInput
+}
+
+input CreateScheduleInput {
+  id: ID
+  date: String!
+  closed: Boolean
+  scheduleDepartureTicketId: ID!
+}
+
+input UpdateScheduleInput {
+  id: ID!
+  date: String
+  closed: Boolean
+  scheduleDepartureTicketId: ID
+}
+
+input DeleteScheduleInput {
+  id: ID
+}
+
+type ModelReservedSeatConnection {
+  items: [ReservedSeat]
+  nextToken: String
+}
+
+input ModelReservedSeatFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  note: ModelStringFilterInput
+  requiresWheelchair: ModelBooleanFilterInput
+  and: [ModelReservedSeatFilterInput]
+  or: [ModelReservedSeatFilterInput]
+  not: ModelReservedSeatFilterInput
+}
+
+input CreateReservedSeatInput {
+  id: ID
+  name: String!
+  note: String
+  requiresWheelchair: Boolean
+  scheduleReservedSeatsId: ID
+}
+
+input UpdateReservedSeatInput {
+  id: ID!
+  name: String
+  note: String
+  requiresWheelchair: Boolean
+  scheduleReservedSeatsId: ID
+}
+
+input DeleteReservedSeatInput {
+  id: ID
+}

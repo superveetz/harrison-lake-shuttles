@@ -1,0 +1,102 @@
+.Primary {
+  position: relative;
+  color: ghostwhite;
+  background-color: rgb(17, 126, 13);
+  border-radius: 0px;
+  margin: 0px 10px;
+  border: 1px solid darkgreen;
+  box-shadow: 0px 0px 10px 0px black;
+  text-shadow: 1px 1px 1px #222;
+  transition: all 0.3s ease;
+}
+
+.Secondary {
+  position: relative;
+  color: ghostwhite;
+  background-color: rgb(43, 147, 216);
+  border-radius: 0px;
+  margin: 0px 10px;
+  border: 1px solid rgb(28, 112, 248);
+  box-shadow: 0px 0px 10px 0px black;
+  text-shadow: 1px 1px 1px #222;
+  transition: all 0.3s ease;
+}
+
+.Danger {
+  position: relative;
+  color: ghostwhite;
+  background-color: rgb(175, 47, 53);
+  border-radius: 0px;
+  margin: 0px 10px;
+  border: 1px solid rgb(138, 23, 38);
+  box-shadow: 0px 0px 10px 0px black;
+  text-shadow: 1px 1px 1px #222;
+  transition: all 0.3s ease;
+}
+
+.XL {
+  padding: 16px;
+  font-size: 1.75rem;
+}
+
+@media (min-width: 992px) {
+  .Primary::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    max-width: 220px;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20%;
+    border-bottom: 4px solid rgb(249, 253, 11);
+    box-shadow: 0px 0px 1px black;
+    transition: all 0.3s ease;
+  }
+  .Primary:hover {
+    color: rgb(250, 154, 64);
+  }
+  .Primary:hover::after {
+    width: 50%;
+  }
+
+  .Secondary::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    max-width: 220px;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20%;
+    border-bottom: 4px solid rgb(249, 253, 11);
+    box-shadow: 0px 0px 1px black;
+    transition: all 0.3s ease;
+  }
+  .Secondary:hover {
+    color: rgb(248, 171, 99);
+  }
+  .Secondary:hover::after {
+    width: 50%;
+  }
+
+  .Danger::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    max-width: 220px;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20%;
+    border-bottom: 4px solid rgb(249, 253, 11);
+    box-shadow: 0px 0px 1px black;
+    transition: all 0.3s ease;
+  }
+  .Danger:hover {
+    color: rgb(248, 171, 99);
+  }
+  .Danger:hover::after {
+    width: 50%;
+  }
+}

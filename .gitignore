@@ -11,6 +11,9 @@
 # production
 /build
 
+#themes
+/themes
+
 # misc
 .DS_Store
 .env.local

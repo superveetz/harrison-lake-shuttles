@@ -1,0 +1,8 @@
+.navbar .navbar-toggler {
+	z-index: 150;
+	background-color: white;
+	border-radius: 0;
+}
+
+.navbar .navbar-toggler .navbar-toggler-icon::after {
+}

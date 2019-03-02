@@ -1,0 +1,11 @@
+.Slide {
+	height: 800px;
+	overflow: hidden;
+	position: relative;
+}
+
+.Slide img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}

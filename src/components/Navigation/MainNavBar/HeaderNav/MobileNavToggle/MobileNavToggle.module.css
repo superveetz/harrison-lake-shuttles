@@ -1,0 +1,72 @@
+/* From: https://codepen.io/designcouch/pen/Atyop */
+
+.MobileNavToggle {
+  margin: 21px 0;
+  width: 36px;
+  height: 32px;
+  position: absolute;
+  right: 10%;
+  top: 0;
+  transform: rotate(0deg);
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+  z-index: 500;
+}
+
+@media (max-width: 567px) {
+  /* .MobileNavToggle {
+		margin-right: 20px;
+	} */
+}
+
+.MobileNavToggle span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: #4a4a4a;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+}
+
+.MobileNavToggle.open span {
+  height: 8px;
+}
+
+/* Icon 3 */
+
+.MobileNavToggle span:nth-child(1) {
+  top: 0px;
+}
+
+.MobileNavToggle span:nth-child(2),
+.MobileNavToggle span:nth-child(3) {
+  top: 12px;
+}
+
+.MobileNavToggle span:nth-child(4) {
+  top: 24px;
+}
+
+.MobileNavToggle.open span:nth-child(1) {
+  top: 12px;
+  width: 0%;
+  left: 50%;
+}
+
+.MobileNavToggle.open span:nth-child(2) {
+  transform: rotate(45deg);
+}
+
+.MobileNavToggle.open span:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.MobileNavToggle.open span:nth-child(4) {
+  top: 12px;
+  width: 0%;
+  left: 50%;
+}

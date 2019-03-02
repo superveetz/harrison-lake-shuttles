@@ -1,0 +1,50 @@
+.SelectTicketCard {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  white-space: normal;
+}
+
+.SelectTicketCard .Header {
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.SelectTicketCard .Title {
+  font-size: 18px;
+  font-weight: 300px;
+}
+
+.SelectTicketCard .SubTitle {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.SelectTicketCard .DepAddrTitle {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: "Roboto";
+  text-align: center;
+}
+
+.SelectTicketCard .DepAddrTitle span {
+  padding-bottom: 2px;
+  border-bottom: 1px solid black;
+}
+
+.SelectTicketCard .DepAddr {
+  font-size: 14px;
+  margin-bottom: 10px;
+  white-space: normal;
+}
+
+.SelectTicketCard .DepTime {
+  font-style: italic;
+  font-size: 12px;
+}
+
+.SelectTicketCard .ArrDesc {
+  white-space: normal;
+  font-size: 14px;
+}

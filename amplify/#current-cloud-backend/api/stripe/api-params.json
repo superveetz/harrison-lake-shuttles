@@ -1,0 +1,46 @@
+{
+    "paths": [
+        {
+            "name": "/resend-order-confirmation-email",
+            "lambdaFunction": "stripe",
+            "privacy": {
+                "protected": true,
+                "auth": "rw",
+                "unauth": "rw"
+            }
+        },
+        {
+            "name": "/process-transaction",
+            "lambdaFunction": "stripe",
+            "privacy": {
+                "protected": true,
+                "auth": "rw",
+                "unauth": "rw"
+            }
+        }
+    ],
+    "resourceName": "stripe",
+    "apiName": "harrisonlakeshuttles26b4117d",
+    "functionArns": [
+        {
+            "lambdaFunction": "stripe"
+        }
+    ],
+    "privacy": {
+        "auth": 2,
+        "unauth": 2,
+        "authRoleName": "harrisonlakeshuttles-20190114002647-authRole",
+        "unAuthRoleName": "harrisonlakeshuttles-20190114002647-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "stripe",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "07905dd1"
+}

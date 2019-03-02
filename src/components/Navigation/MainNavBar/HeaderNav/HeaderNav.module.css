@@ -1,0 +1,53 @@
+.HeaderNav .Nav {
+  /* background-color: rgb(141, 201, 241); */
+  background-color: #ffffff !important;
+  padding: 0;
+  z-index: 50;
+  background-attachment: fixed;
+  box-shadow: inset 0px 0px 10px black;
+}
+
+.HeaderNav .Nav ul li {
+  padding: 16px 0;
+  border-radius: 0px;
+}
+
+.HeaderNav a {
+  color: #4a4a4a !important;
+  display: inline-block;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  /* text-shadow: 1px 1px rgb(122, 122, 122); */
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+}
+
+.HeaderNav ul a:hover,
+.HeaderNav ul a:active,
+.HeaderNav ul a.Active {
+  color: rgb(255, 255, 255) !important;
+  text-shadow: 1px 1px rgb(0, 0, 0);
+  position: relative;
+  /* background-color: rgba(19, 63, 133, 0.9) !important; */
+  background-color: rgba(53, 53, 53, 0.596) !important;
+  box-shadow: inset 0px 0px 5px rgb(0, 0, 0);
+}
+
+.HeaderNav a.Active::after {
+  content: "";
+  position: absolute;
+  width: 45px;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 20%;
+  border-bottom: 3px solid rgb(36, 134, 32);
+}
+
+@media (max-width: 992px) {
+  .HeaderNav .Nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}

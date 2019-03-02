@@ -1,0 +1,10 @@
+/* need to overwrite slick styles */
+.slick-prev {
+  left: 25px !important;
+  z-index: 1 !important;
+}
+
+.slick-next {
+  right: 25px !important;
+  z-index: 1 !important;
+}

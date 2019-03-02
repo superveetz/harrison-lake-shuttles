@@ -1,0 +1,9 @@
+export const AUTH_START = "AUTH_START";
+export const AUTH_SUCCESS = "AUTH_SUCCESS";
+export const AUTH_FAIL = "AUTH_FAIL";
+export const AUTH_SIGN_OUT = "AUTH_SIGN_OUT";
+export const AUTH_GET_AWS_USER_POOL = "AUTH_GET_AWS_USER_POOL";
+
+export const APP_DATA_GET_START = "APP_DATA_GET_START";
+export const APP_DATA_GET_SUCCESS = "APP_DATA_GET_SUCCESS";
+export const APP_DATA_GET_FAIL = "APP_DATA_GET_FAIL";

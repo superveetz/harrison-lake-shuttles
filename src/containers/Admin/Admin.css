@@ -1,0 +1,18 @@
+#admin .admin-navbar-toggle {
+  top: 7px;
+  left: 7px;
+  width: 80px;
+}
+
+@media (min-width: 600px) {
+  #admin .admin-navbar-toggle {
+    width: 96px;
+    top: 3px;
+  }
+}
+
+@media (min-width: 992px) {
+  #admin .admin-navbar-toggle {
+    top: 4px;
+  }
+}

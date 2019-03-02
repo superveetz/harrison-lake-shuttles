@@ -1,0 +1,28 @@
+.SubHeader {
+    font-family: "Roboto", Arial;
+    color: #333;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.SubHeader.Centered {
+    text-align: center;
+}
+
+.SubHeader.RightAligned {
+    text-align: right;
+}
+
+h1.SubHeader {
+    font-size: 32px;
+}
+h2.SubHeader {
+    font-size: 24px;
+}
+h3.SubHeader {
+    font-size: 18px;
+}
+h4.SubHeader {
+    font-size: 14px;
+}

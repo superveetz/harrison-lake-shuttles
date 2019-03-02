@@ -1,0 +1,45 @@
+
+.PricingTable .card {
+	border-radius: 1rem;
+	transition: all 0.2s;
+	box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  }
+  
+.PricingTable hr {
+	margin: 1.5rem 0;
+}
+
+.PricingTable .card-title {
+	margin: 0.5rem 0;
+	font-size: 0.9rem;
+	letter-spacing: .1rem;
+	font-weight: bold;
+}
+
+.PricingTable .card-price {
+	font-size: 3rem;
+	margin: 0;
+}
+
+.PricingTable .card-price .period {
+	font-size: 0.8rem;
+}
+
+.PricingTable ul li {
+	margin-bottom: 1rem;
+}
+
+.PricingTable .text-muted {
+	opacity: 0.7;
+}
+  
+	
+/* Hover Effects on Card */
+
+/* @media (min-width: 992px) {
+	.PricingTable .card:hover {
+	margin-top: -.25rem;
+	margin-bottom: .25rem;
+	box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+	}
+} */

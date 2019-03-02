@@ -1,0 +1,68 @@
+.Footer {
+  margin: 0px !important;
+  /* background-color: rgb(141, 201, 241); */
+  background-color: rgb(236, 236, 236) !important;
+  background-attachment: fixed;
+}
+
+.FooterCrown {
+  width: 100%;
+  height: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background-color: #305ea8 !important;
+  box-shadow: inset 0px 0px 4px black;
+}
+
+.SiteMap li {
+  border-bottom: 1px solid black;
+  transition: all 0.5s ease;
+  width: 75%;
+}
+
+.SiteMap li:first-child {
+  border-top: 1px solid black;
+}
+
+.SiteMap li:hover {
+  padding-left: 10px;
+}
+
+.SiteMap li:hover a {
+  color: rgb(211, 103, 3) !important;
+}
+
+.SiteMap li a {
+  text-decoration: none !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 18px;
+  transition: all 0.5s ease;
+  color: #343a40 !important;
+}
+
+.FooterBottom {
+  border-top: 1px solid black;
+  background-color: #3f723e;
+  color: #ccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.FooterBottom p {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+}
+.FooterBottom a {
+  color: #c8c8c8;
+}
+
+.FooterContactWrap {
+  font-size: 16px;
+  color: white;
+}
+
+.FooterContactWrap a {
+  color: #3f723e;
+}

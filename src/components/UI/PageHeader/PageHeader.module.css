@@ -1,0 +1,73 @@
+.PageHeader {
+	font-family: 'Raleway', sans-serif;
+	color: #222;
+	position: relative;
+	padding: 10px 0;
+	margin: 10px 0;
+}
+
+.InvertColors {
+	font-family: 'Raleway', sans-serif;
+	color: #fff;
+	position: relative;
+	padding: 10px 0;
+	margin: 10px 0;
+}
+
+.PageHeader::after,
+.InvertColors::after {
+	content: '';
+	position: absolute;
+	width: 50%;
+	max-width: 220px;
+	top: 90%;
+	left: 0px;
+	border-radius: 20%;
+	border-bottom: 4px solid rgb(6, 99, 3);
+}
+
+.InvertColors::after {
+	border-bottom: 4px solid rgb(63, 114, 62);
+}
+
+.InvertColors.Centered,
+.PageHeader.Centered {
+	text-align: center;
+}
+
+.InvertColors.Centered::after,
+.PageHeader.Centered::after {
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.InvertColors.RightAligned,
+.PageHeader.RightAligned {
+	text-align: right;
+}
+
+.InvertColors.RightAligned::after,
+.PageHeader.RightAligned::after {
+	text-align: right;
+	left: 50%;
+}
+
+h1.InvertColors,
+h1.PageHeader {
+	font-size: 32px;
+}
+h2.InvertColors,
+h2.PageHeader {
+	font-size: 24px;
+}
+
+h3.InvertColors,
+h3.PageHeader {
+	font-size: 18px;
+}
+
+h4.InvertColors,
+h4.PageHeader {
+	font-size: 14px;
+}

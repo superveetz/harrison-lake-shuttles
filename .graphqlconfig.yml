@@ -1,0 +1,16 @@
+projects:
+  harrisonlakeshuttles:
+    schemaPath: src\graphql\schema.json
+    includes:
+      - src\graphql\**\*.ts
+    excludes:
+      - amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src\API.ts
+        docsFilePath: src\graphql
+        graphQLApiId: l4z4xm7pdbfapaj4te26medgbm
+      endpoints:
+        prod: >-
+          https://bvladbrhkzcelbofo5e4tqg3ti.appsync-api.us-west-2.amazonaws.com/graphql

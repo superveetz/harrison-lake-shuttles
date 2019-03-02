@@ -1,0 +1,11 @@
+.SelectMenuItem {
+  max-width: 400px;
+  border-bottom: 2px dashed darkgray !important;
+  border-top: 2px dashed darkgray !important;
+  height: 100% !important;
+  padding-bottom: 20px !important;
+}
+
+.SelectMenuItem:last-child {
+  border-bottom: 2px dashed darkgray !important;
+}

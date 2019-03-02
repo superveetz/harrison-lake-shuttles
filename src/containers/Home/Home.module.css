@@ -1,0 +1,9 @@
+.Section {
+  height: 60vh;
+  max-height: 800px;
+}
+
+.Section.FlexCenter {
+  display: flex;
+  justify-content: center;
+}
