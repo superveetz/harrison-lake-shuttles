@@ -5,6 +5,8 @@
   z-index: 50;
   background-attachment: fixed;
   box-shadow: inset 0px 0px 10px black;
+  animation-duration: 500ms !important;
+  animation-fill-mode: both !important;
 }
 
 .HeaderNav .Nav ul li {

@@ -480,7 +480,7 @@ class ScheduleSave extends React.Component<ScheduleSaveProps, ScheduleSaveState>
                     <button
                       className="btn btn-link pull-left ml-2"
                       type="button"
-                      onClick={() => this.props.history.push("/admin/schedule")}
+                      onClick={() => this.props.history.goBack()}
                     >
                       <i className="fa fa-3x fa-chevron-circle-left text-secondary" />
                     </button>

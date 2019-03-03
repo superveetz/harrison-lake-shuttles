@@ -32,12 +32,9 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   }
 
   onRootScroll() {
-    console.log("this.rootElem:", this.rootElem);
     const scrollAmount = this.rootElem.scrollTop;
 
     if (scrollAmount > this.lastScrollAmount) {
-      console.log("scrolling down");
-
       // scrolling down
       if (!this.state.animationOccurring) {
         // doesn't have an animating class
@@ -56,7 +53,6 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
         }
       }
     } else {
-      console.log("scrolling up");
       // scrolling up
       if (!this.state.animationOccurring) {
         // doesn't have an animating class
@@ -106,12 +102,6 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
           }
         }
       }
-    }
-
-    // always show nav at top of screen
-    console.log("this.rootElem.scrollTop:", this.rootElem.scrollTop);
-    if (this.lastScrollAmount < 70) {
-      console.log("scroll near top");
     }
 
     // set last scroll amount
