@@ -191,75 +191,15 @@ ScheduleService = class ScheduleService {
     await AuthService.ensureAuthSession();
     // console.log("moment(date).format('YYYY-MM-DD'):", moment(date).format("YYYY-MM-DD"));
 
-    // search for a schedule
-    const res: any = await API.graphql(
-      graphqlOperation(
-        `query ListSchedules(
-          $filter: ModelScheduleFilterInput
-          $limit: Int
-          $nextToken: String
-        ) {
-          listSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
-            items {
-              id
-              date
-              departureTicket {
-                id
-                orderNum
-                departsLong
-                arrivesLong
-                departsLocName
-                departsLocStreet
-                departsLocCity
-                departsLocPostal
-                departsTime
-                departsDesc
-                arrivesLocName
-                arrivesLocStreet
-                arrivesLocCity
-                arrivesLocPostal
-                arrivesTime
-                arrivesDesc
-                transitDesc
-                restBreakLocations
-              }
-              tickets {
-                items {
-                  id
-                  requiresWheelchair
-                  ticketTypes {
-                    items {
-                      id
-                    }
-                  }
-                } 
-                nextToken
-              }
-              reservedSeats {
-                items {
-                  id
-                  requiresWheelchair
-                }
-                nextToken
-              }
-              closed
-            }
-            nextToken
-          }
-        }
-        `,
-        {
-          filter: {
-            date: {
-              eq: moment(date).format("YYYY-MM-DD"),
-            },
-          },
-        },
-      ),
-    );
+    // fetch all schedules for this date
+    const filteredSchedules: any = await this.fetchAllSchedules({
+      date: {
+        eq: moment(date).format("YYYY-MM-DD"),
+      },
+    });
 
     // filter the results by the selected departure ticket
-    const schedulesExist: any[] = res.data.listSchedules.items.filter(
+    const schedulesExist: any[] = filteredSchedules.filter(
       (schedule: any) => schedule.departureTicket.id === departureTicketId,
     );
 
@@ -382,7 +322,7 @@ ScheduleService = class ScheduleService {
     return scheduleCreated.data.createSchedule;
   }
 
-  static async fetchAllSchedules(): Promise<any> {
+  static async fetchAllSchedules(filter?: any): Promise<any> {
     // reset our loaded schedule data
     this.scheduleData = [];
 
@@ -390,13 +330,13 @@ ScheduleService = class ScheduleService {
     await AuthService.ensureAuthSession();
 
     // load all of the data
-    await this.loadAllScheduleDataRecursively();
+    await this.loadAllScheduleDataRecursively(filter);
 
     // return data
     return this.scheduleData;
   }
 
-  static async loadAllScheduleDataRecursively(): Promise<any> {
+  static async loadAllScheduleDataRecursively(filter?: any): Promise<any> {
     const res: any = await API.graphql(
       graphqlOperation(
         `query ListSchedules(
@@ -451,6 +391,7 @@ ScheduleService = class ScheduleService {
       }
       `,
         {
+          filter: filter ? filter : undefined,
           limit: 200,
           nextToken: this.nextToken ? this.nextToken : undefined,
         },
@@ -469,7 +410,7 @@ ScheduleService = class ScheduleService {
     } else {
       // concat data and carry on
       this.scheduleData = this.scheduleData.concat(res.data.listSchedules.items);
-      return await this.loadAllScheduleDataRecursively();
+      return await this.loadAllScheduleDataRecursively(filter);
     }
   }
 };

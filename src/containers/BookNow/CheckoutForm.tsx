@@ -161,82 +161,98 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       // get data ready for rendering
       this.initReviewOrderData();
       // validate selected order
-      this.validateOrder();
+      this.validateOrder()
+        .finally(() => {
+        });
     }
   }
 
-  private validateOrder(): void {
-    // validate selected order
-    const orderErrors: OrderErrors = this.validateFrontEndErrors();
-    // update state
-    const hasFrontEndErrors =
-      orderErrors.departureForm.length || orderErrors.returnForm.length || orderErrors.returnExtraForm.length;
+  private validateOrder(): Promise<boolean> {
+    return new Promise((resolve: any, reject: any) => {
+      // validate selected order
+      const orderErrors: OrderErrors = this.validateFrontEndErrors();
+      // update state
+      const hasFrontEndErrors =
+        orderErrors.departureForm.length || orderErrors.returnForm.length || orderErrors.returnExtraForm.length;
 
-    if (hasFrontEndErrors) {
-      // has front end errors
-      return this.setState({
-        validatingOrder: false,
-        validateOrderErrors: orderErrors,
-      });
-    }
+      if (hasFrontEndErrors) {
+        // has front end errors
+        this.setState({
+          validatingOrder: false,
+          validateOrderErrors: orderErrors,
+          validateOrderSuccess: false
+        });
+        return reject(false);
+      }
 
-    // validate order against schedule
-    Promise.all([
-      // validate departure ticket order
-      this.validateTicket(
+      // validate order against schedule
+      const promiseArray = [this.validateTicket(
         this.props.cachedState.departureForm.departureDate,
         this.props.cachedState.departureForm.ticketId,
         this.props.cachedState.departureForm.passengerTickets.length,
         this.props.cachedState.departureForm.requiresWheelchair
-      ),
-      this.validateTicket(
-        this.props.cachedState.returnForm.departureDate,
-        this.props.cachedState.returnForm.ticketId,
-        this.props.cachedState.returnForm.passengerTickets.length,
-        this.props.cachedState.returnForm.requiresWheelchair
-      ),
-      this.validateTicket(
-        this.props.cachedState.returnForm.extraDepartureDate,
-        this.props.cachedState.returnForm.extraTicketId,
-        this.props.cachedState.returnForm.extraPassengerTickets.length,
-        this.props.cachedState.returnForm.extraRequiresWheelchair
-      )
-    ])
-    .then(([depErrs, returnErrs, returnExtraErrs]) => {
-      // any errs
-      if (depErrs.length || returnErrs.length || returnExtraErrs.length) {
-        const orderErrs: OrderErrors = {
-          departureForm: depErrs,
-          returnForm: returnErrs,
-          returnExtraForm: returnExtraErrs
-        };
+      )];
 
-        this.setState({
-          validatingOrder: false,
-          validateOrderErrors: orderErrs
-        });
-      } else {
-        // all ok
-        this.setState({
-          validatingOrder: false,
-          validateOrderSuccess: true
-        });
+      if (this.props.cachedState.returnForm && this.props.cachedState.returnForm.ticketId) {
+        // add return form validation
+        promiseArray.push(this.validateTicket(
+          this.props.cachedState.returnForm.departureDate,
+          this.props.cachedState.returnForm.ticketId,
+          this.props.cachedState.returnForm.passengerTickets.length,
+          this.props.cachedState.returnForm.requiresWheelchair
+        ));
       }
-    })
+
+      if (this.props.cachedState.returnForm && this.props.cachedState.returnForm.extraTicketId) {
+        // add extra return form validation
+        promiseArray.push(this.validateTicket(
+          this.props.cachedState.returnForm.extraDepartureDate,
+          this.props.cachedState.returnForm.extraTicketId,
+          this.props.cachedState.returnForm.extraPassengerTickets.length,
+          this.props.cachedState.returnForm.extraRequiresWheelchair
+        ));
+      }
+
+      Promise.all(promiseArray)
+      .then(([depErrs, returnErrs, returnExtraErrs]) => {
+        // any errs
+        if (depErrs.length || (returnErrs && returnErrs.length) || (returnExtraErrs && returnExtraErrs.length)) {
+          const orderErrs: OrderErrors = {
+            departureForm: depErrs,
+            returnForm: returnErrs ? returnErrs : [],
+            returnExtraForm: returnExtraErrs ? returnExtraErrs : []
+          };
+
+          this.setState({
+            validatingOrder: false,
+            validateOrderErrors: orderErrs,
+            validateOrderSuccess: false
+          });
+          
+          return reject(false);
+        } else {
+          // all ok
+          this.setState({
+            validatingOrder: false,
+            validateOrderSuccess: true
+          });
+          return resolve(true);
+        }
+      });
+    });
+    
   }
 
   async validateTicket(departureDate: string, ticketId: string, seatsRequested: number = 0, requiresWheelchair: boolean): Promise<string[]> {
     const errors: string[] = [];
 
     if (!ticketId || !departureDate || !seatsRequested) return errors;
-    console.log("ticketId:", ticketId);
-    console.log("this.props.cachedState.departureForm.ticketId:", this.props.cachedState.departureForm.ticketId);
-    console.log("this.props.cachedState.returnForm.ticketId:", this.props.cachedState.returnForm.ticketId);
     
     // validate against schedule
     return await ScheduleService.findScheduleForRoute(departureDate, ticketId)
       .then((scheduleForRoute: any) => {
         console.log("scheduleForRoute:", scheduleForRoute);
+        
         const scheduleForRouteDateFormatted = moment(departureDate).format("MMM DD, YYYY");
         if (!scheduleForRoute) {
           // no route exists yet
@@ -246,7 +262,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         if (scheduleForRoute.closed) {
           // schedule is closed for the day
           errors.push(
-            `Unfortunately the bus is receiving maintenance on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
+            `Unfortunately the bus is receiving scheduled maintenance on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
           );
         }
 
@@ -613,64 +629,69 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   onStripeCheckout(token: any, formikBag: FormikProps<CheckoutFormValues>) {
-    console.log("token:", token);
     setTimeout(() => {
       scrollToTop();
     }, 150);
 
-    this.setState({
-      checkingOut: true,
-    });
-
-    // ensure authenticated session
-    Auth.currentAuthenticatedUser().catch((err: any) => {
-      Auth.signIn(credentials.guestUsername, credentials.guestPassword);
-    });
-
-    // process stripe charge
-    this.processStripeCharge(token, formikBag)
-      .then((res: any) => {
-        console.log("res:", res);
-
-        // create transaction and tickets
-        this.createTransactionAndTicketSales(formikBag)
+    this.validateOrder()
+      .then(() => {
+        this.setState({
+          checkingOut: true,
+        });
+    
+        // ensure authenticated session
+        Auth.currentAuthenticatedUser().catch((err: any) => {
+          Auth.signIn(credentials.guestUsername, credentials.guestPassword);
+        });
+    
+        // process stripe charge
+        this.processStripeCharge(token, formikBag)
           .then((res: any) => {
-            console.log("res:", res);
-            // set loading to false, show success page
-            console.log("checkout success");
-            this.setState({
-              checkingOut: false,
-              checkoutSuccess: true,
-              checkoutSuccessOrder: {
-                payeeName: formikBag.values.payeeName,
-                payeeEmail: formikBag.values.payeeEmail,
-                payeePhone: formikBag.values.payeePhone,
-                departure: {
-                  ...this.props.cachedState.departureForm,
-                },
-                return: {
-                  ...this.props.cachedState.returnForm,
-                },
-              },
-            });
-            // empty cache
-            localStorage.setItem("order", "");
+    
+            // create transaction and tickets
+            this.createTransactionAndTicketSales(formikBag)
+              .then((res: any) => {
+                // set loading to false, show success page
+                this.setState({
+                  checkingOut: false,
+                  checkoutSuccess: true,
+                  checkoutSuccessOrder: {
+                    payeeName: formikBag.values.payeeName,
+                    payeeEmail: formikBag.values.payeeEmail,
+                    payeePhone: formikBag.values.payeePhone,
+                    departure: {
+                      ...this.props.cachedState.departureForm,
+                    },
+                    return: {
+                      ...this.props.cachedState.returnForm,
+                    },
+                  },
+                });
+                // empty cache
+                localStorage.setItem("order", "");
+              })
+              .catch((err: any) => {
+                console.log("err:", err);
+                // error creating tickets
+                this.setState({
+                  checkingOut: false,
+                });
+              });
           })
           .catch((err: any) => {
-            console.log("err:", err);
-            // error creating tickets
+            // there was a problem processing the credit card
             this.setState({
               checkingOut: false,
             });
+            console.log("err:", err);
           });
       })
       .catch((err: any) => {
-        // there was a problem processing the credit card
-        this.setState({
-          checkingOut: false,
-        });
         console.log("err:", err);
+        
       });
+
+    
   }
 
   initReviewOrderData = () => {

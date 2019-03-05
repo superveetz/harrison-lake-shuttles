@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/auth/cognito37f988c1-cloudformation-template.yml",
 				"logicalId": "authcognito37f988c1"
 			},
-			"lastPushTimeStamp": "2019-03-03T07:06:43.857Z",
+			"lastPushTimeStamp": "2019-03-05T05:33:42.733Z",
 			"output": {
 				"AppClientSecret": "tf7458jok8m5t73704e0gci43sm93ggl51emof2ostgm15cfjj7",
 				"UserPoolId": "us-west-2_qoJRSynq8",
@@ -50,8 +50,8 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiharrisonlakeshuttles"
 			},
-			"lastPushTimeStamp": "2019-03-03T07:06:48.069Z",
-			"lastPushDirHash": "MW48R/kPVdJ2EKp2TrmBmfREhJU="
+			"lastPushTimeStamp": "2019-03-05T05:33:42.744Z",
+			"lastPushDirHash": "CRfw6qQo1u5i96BMv1wk+DRjzgE="
 		},
 		"stripe": {
 			"service": "API Gateway",
@@ -70,7 +70,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/stripe-cloudformation-template.json",
 				"logicalId": "apistripe"
 			},
-			"lastPushTimeStamp": "2019-03-03T07:06:43.873Z",
+			"lastPushTimeStamp": "2019-03-05T05:33:42.737Z",
 			"output": {
 				"ApiName": "stripe",
 				"RootUrl": "https://4013p6z3pd.execute-api.us-west-2.amazonaws.com/Prod"
@@ -91,7 +91,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/function/stripe-cloudformation-template.json",
 				"logicalId": "functionstripe"
 			},
-			"lastPushTimeStamp": "2019-03-03T07:06:48.069Z",
+			"lastPushTimeStamp": "2019-03-05T05:33:42.739Z",
 			"output": {
 				"Region": "us-west-2",
 				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:stripe",
@@ -108,7 +108,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/hosting/template.json",
 				"logicalId": "hostingS3AndCloudFront"
 			},
-			"lastPushTimeStamp": "2019-03-03T07:06:43.873Z",
+			"lastPushTimeStamp": "2019-03-05T05:33:42.741Z",
 			"output": {
 				"CloudFrontSecureURL": "https://dksc1v1uij8bd.cloudfront.net",
 				"S3BucketSecureURL": "https://harrisonlakeshuttles-20190301220810-hostingbucket.s3.amazonaws.com",

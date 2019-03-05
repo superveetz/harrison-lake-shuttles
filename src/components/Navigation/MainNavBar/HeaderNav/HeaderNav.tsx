@@ -35,6 +35,8 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
     const scrollAmount = this.rootElem.scrollTop;
 
     if (scrollAmount > this.lastScrollAmount) {
+      if (scrollAmount < 70) return;
+
       // scrolling down
       if (!this.state.animationOccurring) {
         // doesn't have an animating class

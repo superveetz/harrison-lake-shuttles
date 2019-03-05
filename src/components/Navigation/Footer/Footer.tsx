@@ -124,7 +124,7 @@ class Footer extends React.Component<FooterReduxProps, {}> {
           </p>
           <p className="text-center">
             <small>
-              <Link to="/terms-of-service">Terms of Service</Link> / <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/privacy-policy">Terms of Service / Privacy Policy</Link>
             </small>
           </p>
         </div>

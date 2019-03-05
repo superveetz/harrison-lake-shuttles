@@ -20,7 +20,6 @@ import Fares from "./containers/Fares/Fares";
 import MoreInfo from "./containers/MoreInfo/MoreInfo";
 import Contact from "./containers/Contact/Contact";
 import BookNow from "./containers/BookNow/BookNow";
-import TermsOfService from "./containers/TermsOfService/TermsOfService";
 import PrivacyPolicy from "./containers/PrivacyPolicy/PrivacyPolicy";
 import RouteNotFound404 from "./containers/NotFound404/NotFound404";
 import AuthRoute from "./containers/Auth/Auth";
@@ -118,7 +117,6 @@ class App extends React.Component<AppReduxProps, {}> {
         <Route path="/contact" component={Contact} />
         <Route path="/book-now" appData={this.props.appData} component={BookNow} />
         <Route path="/style-guide" component={StyleGuide} />
-        <Route path="/terms-of-service" component={TermsOfService} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/login" component={AuthRoute} />
         <Route path="/404" component={RouteNotFound404} />
