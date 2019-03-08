@@ -18,7 +18,9 @@ const awsmobile =  {
     ],
     "aws_content_delivery_bucket": "harrisonlakeshuttles-20190301220810-hostingbucket",
     "aws_content_delivery_bucket_region": "us-west-2",
-    "aws_content_delivery_url": "https://dksc1v1uij8bd.cloudfront.net"
+    "aws_content_delivery_url": "https://dksc1v1uij8bd.cloudfront.net",
+    "aws_mobile_analytics_app_id": "a7202b91281943d7aff7521f10520ffc",
+    "aws_mobile_analytics_app_region": "us-west-2"
 };
 
 

@@ -4,7 +4,7 @@ import { scrollToTop } from "../../shared/util";
 import { AppDataStore } from "../../store/reducers/app-data";
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import credentials from "../../credentials";
-
+import "./BookNow.css";
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
 import Spinner from "../../components/UI/Spinner/Spinner";
 

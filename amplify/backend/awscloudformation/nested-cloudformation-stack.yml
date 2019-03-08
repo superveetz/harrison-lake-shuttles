@@ -140,10 +140,10 @@
 							"Outputs.UserPoolId"
 						]
 					},
-					"schemaGraphql": "s3://harrisonlakeshuttles-20190114002647-deployment/amplify-appsync-files/schema.graphql.1551763864546",
+					"schemaGraphql": "s3://harrisonlakeshuttles-20190114002647-deployment/amplify-appsync-files/schema.graphql.1551945843699",
 					"ResolverBucket": "harrisonlakeshuttles-20190114002647-deployment",
 					"ResolverRootKey": "amplify-appsync-files",
-					"DeploymentTimestamp": "1551763864546"
+					"DeploymentTimestamp": "1551945843699"
 				}
 			}
 		},
@@ -179,6 +179,23 @@
 			"Properties": {
 				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/hosting/template.json",
 				"Parameters": {}
+			}
+		},
+		"analyticsharrisonlakeshuttles": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+				"Parameters": {
+					"appName": "harrisonlakeshuttles",
+					"roleName": "pinpointLambdaRole5a088b52",
+					"cloudWatchPolicyName": "cloudWatchPolicy5a088b52",
+					"pinpointPolicyName": "pinpointPolicy5a088b52",
+					"authPolicyName": "pinpoint_amplify_5a088b52",
+					"unauthPolicyName": "pinpoint_amplify_5a088b52",
+					"authRoleName": "harrisonlakeshuttles-20190114002647-authRole",
+					"unauthRoleName": "harrisonlakeshuttles-20190114002647-unauthRole",
+					"IAMPrefix": "577142657045"
+				}
 			}
 		}
 	},

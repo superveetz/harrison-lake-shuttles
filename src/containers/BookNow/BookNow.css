@@ -1,0 +1,6 @@
+@media (min-width: 480px) {
+  #menu-ticketId ul[class*="MuiList-root"],
+  #menu-extraTicketId ul[class*="MuiList-root"] {
+    padding-right: 0 !important;
+  }
+}

@@ -624,7 +624,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                       }}
                       name="ticketId"
                     >
-                      <MenuItem value="" className={[].join(" ")} disabled>
+                      <MenuItem value="" className={[classes.SelectMenuItem].join(" ")} disabled>
                         <div className="w-100">
                           <em className="mx-auto">Choose a departure ticket..</em>
                         </div>
