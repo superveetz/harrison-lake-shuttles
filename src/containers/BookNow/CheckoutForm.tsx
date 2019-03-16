@@ -4,7 +4,7 @@ import * as queries from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 
 import { scrollToTop } from "../../shared/util";
-import { Formik, Form, FormikProps, FieldArray } from "formik";
+import { Formik, FormikProps } from "formik";
 import { connect } from "react-redux";
 import {
   AppBar,
@@ -82,6 +82,8 @@ interface OrderErrors {
   returnExtraForm: string[];
 }
 
+const GST_TAX_AMOUNT: number = 0.05;
+
 // CheckoutForm Class
 class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormReduxProps, {}> {
   public state: CheckoutFormState = {
@@ -105,6 +107,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private departingChildTickets: PassengerTicket[] = [];
   private infantTicketType: any;
   private departingInfantTickets: PassengerTicket[] = [];
+  private taxSubTotal: number = 0;
   private subTotal: number = 0;
 
   private returnTicket1: any;
@@ -114,6 +117,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private returning1ChildTickets: PassengerTicket[] = [];
   private return1InfantTicketType: any;
   private returning1InfantTickets: PassengerTicket[] = [];
+  private returning1TaxSubTotal: number = 0;
   private return1SubTotal: number = 0;
 
   private returnTicket2: any;
@@ -123,6 +127,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private returning2ChildTickets: PassengerTicket[] = [];
   private return2InfantTicketType: any;
   private returning2InfantTickets: PassengerTicket[] = [];
+  private returning2TaxSubTotal: number = 0;
   private return2SubTotal: number = 0;
 
   constructor(props: CheckoutFormProps & CheckoutFormReduxProps) {
@@ -139,7 +144,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     this.validateFrontEndErrors = this.validateFrontEndErrors.bind(this);
     this.resendOrderConfirmationEmail = this.resendOrderConfirmationEmail.bind(this);
     this.onBack = this.onBack.bind(this);
-
+    
     // ref for the tabs on return page
     this.checkoutTabsRef = React.createRef();
   }
@@ -730,6 +735,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         (passTicket: PassengerTicket) => passTicket.type === this.infantTicketType.id,
       );
 
+
     // calc subtotal
     this.subTotal = 0;
     // # adults * priceAdult +
@@ -738,6 +744,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     this.subTotal += this.departingChildTickets ? this.departingChildTickets.length * this.childTicketType.price : 0;
     // # infant * priceInfant +
     this.subTotal += this.departingInfantTickets ? this.departingInfantTickets.length * this.infantTicketType.price : 0;
+
+    // calc tax on subtotal
+    this.taxSubTotal = this.subTotal * GST_TAX_AMOUNT;
+    // append tax to subtotal
+    this.subTotal += this.taxSubTotal;
 
     // Return ticket one
     if (this.props.cachedState.returnForm) {
@@ -796,6 +807,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         ? this.returning1InfantTickets.length * this.infantTicketType.price
         : 0;
 
+    // calc tax on subtotal
+    this.returning1TaxSubTotal = this.return1SubTotal * GST_TAX_AMOUNT;
+    // append tax to subtotal
+    this.return1SubTotal += this.returning1TaxSubTotal;
+
     // Return ticket two
     if (this.props.cachedState.returnForm) {
       this.returnTicket2 = this.props.ticketProducts.find(
@@ -850,6 +866,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       this.returning2InfantTickets && this.returning2InfantTickets.length
         ? this.returning2InfantTickets.length * this.return2InfantTicketType.price
         : 0;
+
+    // calc tax on subtotal
+    this.returning2TaxSubTotal = this.return2SubTotal * GST_TAX_AMOUNT;
+    // append tax to subtotal
+    this.return2SubTotal += this.returning2TaxSubTotal;
   };
 
   handleTabChange(e: any, value: number) {
@@ -907,7 +928,9 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     departingInfantTickets: any,
     infantTicketType: any,
     subTotal: number,
+    taxSubTotal: number
   ) {
+    
     return (
       <Paper className="bg-light py-4 my-4">
         <hr className="w-75 border-secondary" />
@@ -1011,6 +1034,23 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableRow>
               ) : null}
 
+              {/* Tax Row */}
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>Tax (GST): </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(taxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+
               {/* Subtotal Row */}
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
@@ -1031,51 +1071,60 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           </Table>
 
           <ul className="list-group list-group-flush">
-            {/* Pickup Location */}
-            {this.props.cachedState.departureForm.pickupLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Pickup Location: </strong> <br />
-                    <em className="ml-2">{this.props.cachedState.departureForm.pickupLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
-            {/* Dropoff Location */}
-            {this.props.cachedState.departureForm.dropoffLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Dropoff Location: </strong>
-                    <br />
-                    <em className="ml-2">{this.props.cachedState.departureForm.dropoffLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
             {/* Estimated Arrival Time */}
             <li className="list-group-item bg-transparent">
-              <h5 className="">
-                <small className="">
-                  <strong>Estimated Arrival Time: </strong>
-                  <em className="ml-2">{departTicket.arrivesTime}</em>
-                </small>
-              </h5>
+              <div className="row">
+                {/* Pickup Location */}
+                {this.props.cachedState.departureForm.pickupLocation ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Pickup Location: </strong> <br />
+                        <em className="ml-2">{this.props.cachedState.departureForm.pickupLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+              
+                <div className="col-md">
+                  <h5 className="">
+                    <small className="">
+                      <strong>Arriving at {departTicket.arrivesLocName}: </strong>
+                      <br />
+                      <em className="ml-2"><u>Estimated Arrival Time</u>: {departTicket.arrivesTime}</em>
+                      <br />
+                      <em className="ml-2">(varies depending on traffic)</em>
+                    </small>
+                  </h5>
+                </div>
+
+                {/* Dropoff Location */}
+                {this.props.cachedState.departureForm.dropoffLocation ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Dropoff Location: </strong>
+                        <br />
+                        <em className="ml-2">{this.props.cachedState.departureForm.dropoffLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+                {/* Requires Wheelchair */}
+                {this.props.cachedState.departureForm.requiresWheelchair ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Wheelchair Reserved: </strong>
+                        <em className="ml-2">
+                          <i className="text-success fa fa-check-square" />
+                        </em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+              </div>
             </li>
-            {/* Requires Wheelchair */}
-            {this.props.cachedState.departureForm.requiresWheelchair ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Wheelchair Reserved: </strong>
-                    <em className="ml-2">
-                      <i className="text-success fa fa-check-square" />
-                    </em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
           </ul>
         </div>
       </Paper>
@@ -1091,6 +1140,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     returning1InfantTickets: any,
     return1InfantTicketType: any,
     return1SubTotal: number,
+    return1TaxSubTotal: number
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1198,6 +1248,23 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableRow>
               ) : null}
 
+              {/* Tax Row */}
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>Tax (GST): </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(return1TaxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+
               {/* Subtotal Row */}
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
@@ -1218,51 +1285,62 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           </Table>
 
           <ul className="list-group list-group-flush">
-            {/* Selected Pickup */}
-            {this.props.cachedState.returnForm.pickupLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Pickup Location: </strong>{" "}
-                    <em className="ml-2">{this.props.cachedState.returnForm.pickupLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
-            {/* Selected Dropoff */}
-            {this.props.cachedState.returnForm.dropoffLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Dropoff Location: </strong>
-                    <br />
-                    <em className="ml-2">{this.props.cachedState.returnForm.dropoffLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
-            {/* Estimated Arrival Time */}
+            {/* Arrival Location */}
             <li className="list-group-item bg-transparent">
-              <h5 className="">
-                <small className="">
-                  <strong>Estimated Arrival Time: </strong>
-                  <em className="ml-2">{returnTicket1.arrivesTime}</em>
-                </small>
-              </h5>
+              <div className="row">
+                {/* Selected Pickup */}
+                {this.props.cachedState.returnForm.pickupLocation ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Pickup Location: </strong>
+                        <br />
+                        <em className="ml-2">{this.props.cachedState.returnForm.pickupLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+
+                <div className="col-md">
+                  <h5 className="">
+                    <small className="">
+                      <strong>Arriving at {returnTicket1.arrivesLocName}: </strong>
+                      <br />
+                      <em className="ml-2"><u>Estimated Arrival Time</u>: {returnTicket1.arrivesTime}</em>
+                      <br />
+                      <em className="ml-2">(varies depending on traffic)</em>
+                    </small>
+                  </h5>
+                </div>  
+
+                {/* Selected Dropoff */}
+                {this.props.cachedState.returnForm.dropoffLocation ? (
+                    <div className="col-md">
+                      <h5 className="">
+                        <small className="">
+                          <strong>Selected Dropoff Location: </strong>
+                          <br />
+                          <em className="ml-2">{this.props.cachedState.returnForm.dropoffLocation}</em>
+                        </small>
+                      </h5>
+                    </div>
+                ) : null}
+
+                {/* Requires Wheelchair */}
+                {this.props.cachedState.returnForm.requiresWheelchair ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Wheelchair Reserved: </strong>
+                        <em className="ml-2">
+                          <i className="text-success fa fa-check-square" />
+                        </em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+              </div>
             </li>
-            {/* Requires Wheelchair */}
-            {this.props.cachedState.returnForm.requiresWheelchair ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Wheelchair Reserved: </strong>
-                    <em className="ml-2">
-                      <i className="text-success fa fa-check-square" />
-                    </em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
           </ul>
         </div>
       </Paper>
@@ -1278,6 +1356,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     returning2InfantTickets: any,
     return2InfantTicketType: any,
     return2SubTotal: number,
+    return2TaxSubTotal: number
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1385,6 +1464,23 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableRow>
               ) : null}
 
+              {/* Tax Row */}
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>Tax (GST): </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(return2TaxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+
               {/* Subtotal Row */}
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
@@ -1405,52 +1501,60 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           </Table>
 
           <ul className="list-group list-group-flush">
-            {/* Selected Pickup */}
-            {this.props.cachedState.returnForm.extraPickupLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Pickup Location: </strong>{" "}
-                    <em className="ml-2">{this.props.cachedState.returnForm.extraPickupLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
-            {/* Selected Dropoff */}
-            {this.props.cachedState.returnForm.extraDropoffLocation ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Selected Dropoff Location: </strong>
-                    <br />
-                    <em className="ml-2">{this.props.cachedState.returnForm.extraDropoffLocation}</em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
-
             {/* Estimated Arrival Time */}
             <li className="list-group-item bg-transparent">
-              <h5 className="">
-                <small className="">
-                  <strong>Estimated Arrival Time: </strong>
-                  <em className="ml-2">{returnTicket2.arrivesTime}</em>
-                </small>
-              </h5>
+              <div className="row">
+                {/* Selected Pickup */}
+                {this.props.cachedState.returnForm.extraPickupLocation ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Pickup Location: </strong>
+                        <br />
+                        <em className="ml-2">{this.props.cachedState.returnForm.extraPickupLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+
+                <div className="col-md">
+                  <h5 className="">
+                    <small className="">
+                      <strong>Arriving at {returnTicket2.arrivesLocName}: </strong>
+                      <br />
+                      <em className="ml-2"><u>Estimated Arrival Time</u>: {returnTicket2.arrivesTime}</em>
+                      <br />
+                      <em className="ml-2">(varies depending on traffic)</em>
+                    </small>
+                  </h5>
+                </div>
+                {/* Selected Dropoff */}
+                {this.props.cachedState.returnForm.extraDropoffLocation ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Dropoff Location: </strong>
+                        <br />
+                        <em className="ml-2">{this.props.cachedState.returnForm.extraDropoffLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+                {/* Requires Wheelchair */}
+                {this.props.cachedState.returnForm.extraRequiresWheelchair ? (
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Wheelchair Reserved: </strong>
+                        <em className="ml-2">
+                          <i className="text-success fa fa-check-square" />
+                        </em>
+                      </small>
+                    </h5>
+                  </div>
+                ) : null}
+              </div>
             </li>
-            {/* Requires Wheelchair */}
-            {this.props.cachedState.returnForm.extraRequiresWheelchair ? (
-              <li className="list-group-item bg-transparent">
-                <h5 className="">
-                  <small className="">
-                    <strong>Wheelchair Reserved: </strong>
-                    <em className="ml-2">
-                      <i className="text-success fa fa-check-square" />
-                    </em>
-                  </small>
-                </h5>
-              </li>
-            ) : null}
           </ul>
         </div>
       </Paper>
@@ -1461,7 +1565,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     return (
       <React.Fragment>
         <h2>
-          <small>Payment Details:</small>
+          <small>Payment Details:<sup>*</sup></small>
         </h2>
         {/* <button type="button" onClick={() => this.testShit(formikBag)}>
           Test Shit
@@ -1616,6 +1720,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   this.departingInfantTickets,
                   this.infantTicketType,
                   this.subTotal,
+                  this.taxSubTotal
                 )
               : null}
 
@@ -1635,6 +1740,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning1InfantTickets,
                       this.return1InfantTicketType,
                       this.return1SubTotal,
+                      this.returning1TaxSubTotal
                     )
                   : null}
                 {/* Return Two */}
@@ -1648,6 +1754,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning2InfantTickets,
                       this.return2InfantTicketType,
                       this.return2SubTotal,
+                      this.returning2TaxSubTotal
                     )
                   : null}
               </React.Fragment>
@@ -1732,51 +1839,6 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     //     },
     //   }),
     // });
-  }
-
-  testShit(formikBag: FormikProps<CheckoutFormValues>) {
-    this.setState({
-      checkingOut: true,
-    });
-
-    this.createTransactionAndTicketSales(formikBag)
-      .then((res: any) => {
-        console.log("res:", res);
-      })
-      .catch((err: any) => {
-        console.log("err:", err);
-      });
-
-    // fetch("http://localhost:3001/resend-order-confirmation-email", {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     charge: {
-    //       currency: "CAD",
-    //       amount: this.getTotalAmountDue() * 100,
-    //       description: "Bus Ticket Booking",
-    //       payeeName: formikBag.values.payeeName,
-    //       payeePhone: formikBag.values.payeePhone,
-    //       payeeEmail: formikBag.values.payeeEmail,
-    //       departure: {
-    //         ...this.props.cachedState.departureForm,
-    //       },
-    //       return: {
-    //         ...this.props.cachedState.returnForm,
-    //       },
-    //       ticketProds: this.props.ticketProducts,
-    //     },
-    //   }),
-    // })
-    //   .then((res: any) => {
-    //     console.log("res:", res);
-    //   })
-    //   .catch((err: any) => {
-    //     console.log("err:", err);
-    //   });
   }
 
   render() {

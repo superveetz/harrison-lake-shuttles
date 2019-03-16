@@ -26,6 +26,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import SelectTicketCard from "../../components/UI/Cards/SelectTicketCard/SelectTicketCard";
 import Steps from "./UI/Steps/Steps";
 import { CachedState, IBookNowState, BookNowSteps, PassengerTicket, BookNowMethods } from "./BookNow";
+import ReturnForm from "./ReturnForm";
 
 export interface DepartureFormValues {
   ticketId: string;
@@ -41,22 +42,13 @@ interface DepartureFormProps {
   activeStep: BookNowSteps;
   cachedState: CachedState;
   ticketProducts: Array<any>;
+  pickupDropoffSuggestions: Array<any>;
   updateParentState: BookNowMethods["updateParentState"];
 }
 
 interface DepartureFormState {
   isSelectDepartureTicketOpen: boolean;
 }
-
-// dropoff suggestions
-const dropoffSuggestions = [
-  { label: "Harrison Hot Springs Resort & Spa" },
-  { label: "Harrison Beach Hotel (Rear parking lot)" },
-  { label: "Hot Spring Villa Hotel" },
-].map((suggestion) => ({
-  value: suggestion.label,
-  label: suggestion.label,
-}));
 
 // autocomplete functions
 
@@ -95,24 +87,6 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       {suggestion.label}
     </MenuItem>
   );
-}
-
-function getSuggestions(value: any) {
-  const inputValue = deburr(value.trim()).toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : dropoffSuggestions.filter((suggestion: any) => {
-        const keep = count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-
-        if (keep) {
-          count += 1;
-        }
-
-        return keep;
-      });
 }
 
 // DepartureForm Class
@@ -249,68 +223,34 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
       pickupOrDropoffLocation = (
         <div>
           <h2>
-            <small>Harrison Dropoff Location:</small>
+            <small>
+              Harrison Dropoff Location:<sup>*</sup>
+            </small>
           </h2>
           <div className="row mb-3">
             <div className="col-12">
-              {/* Harrison Dropoff */}
-              <Downshift
-                onChange={(e: any) => {
-                  this.onKeyboardChange(
-                    { target: { value: e } } as React.ChangeEvent<any>,
-                    formikBag,
-                    "dropoffLocation",
-                  );
-                }}
-                id="harrison-dropoff"
-              >
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getMenuProps,
-                  highlightedIndex,
-                  inputValue,
-                  isOpen,
-                  selectedItem,
-                }) => (
-                  <div className={classes.container}>
-                    {renderInput({
-                      fullWidth: true,
-                      classes,
-                      InputProps: getInputProps({
-                        value: formikBag.values.dropoffLocation,
-                        placeholder: "Which resort or hotel should we drop you off at?",
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                          console.log("e:", e);
-
-                          this.onKeyboardChange(e, formikBag, "dropoffLocation");
-                        },
-                      }),
-                    })}
-                    <div {...getMenuProps()}>
-                      {isOpen ? (
-                        <Paper className={classes.paper} square>
-                          {getSuggestions(inputValue).map((suggestion, index) =>
-                            renderSuggestion({
-                              suggestion,
-                              index,
-                              itemProps: getItemProps({ item: suggestion.label }),
-                              highlightedIndex,
-                              selectedItem,
-                            }),
-                          )}
-                        </Paper>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-              </Downshift>
+              <FormControl className="w-100">
+                <Select
+                  value={formikBag.values.dropoffLocation}
+                  onChange={(e: React.ChangeEvent<any>) => this.onKeyboardChange(e, formikBag, "dropoffLocation")}
+                  name="harrison-dropoff"
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled className="bg-light">
+                    <span className="text-secondary">Which resort or hotel should we drop you off at?</span>
+                  </MenuItem>
+                  {/* dropoff / pickup suggestions */}
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
+                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Our license allows us to drop you off or pick you up at resorts or hotels in Harrison Hot Springs
+                  only.
+                </FormHelperText>
+              </FormControl>
             </div>
           </div>
-          <FormHelperText className="mt-0 mb-4">
-            We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
-            selected departure date, you will be notified before checking out.
-          </FormHelperText>
         </div>
       );
     }
@@ -320,68 +260,34 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
       pickupOrDropoffLocation = (
         <div>
           <h2>
-            <small>Harrison Pickup Location:</small>
+            <small>
+              Harrison Pickup Location:<sup>*</sup>
+            </small>
           </h2>
           <div className="row mb-3">
             <div className="col-12">
-              {/* Harrison Pickup */}
-              <Downshift
-                onChange={(e: any) => {
-                  console.log("e:", e);
-
-                  this.onKeyboardChange(
-                    { target: { value: e } } as React.ChangeEvent<any>,
-                    formikBag,
-                    "pickupLocation",
-                  );
-                }}
-                id="harrison-pickup"
-              >
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getMenuProps,
-                  highlightedIndex,
-                  inputValue,
-                  isOpen,
-                  selectedItem,
-                }) => (
-                  <div className={classes.container}>
-                    {renderInput({
-                      fullWidth: true,
-                      classes,
-                      InputProps: getInputProps({
-                        value: formikBag.values.pickupLocation,
-                        placeholder: "Which resort or hotel should we pick you up from?",
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                          this.onKeyboardChange(e, formikBag, "pickupLocation");
-                        },
-                      }),
-                    })}
-                    <div {...getMenuProps()}>
-                      {isOpen ? (
-                        <Paper className={classes.paper} square>
-                          {getSuggestions(inputValue).map((suggestion, index) =>
-                            renderSuggestion({
-                              suggestion,
-                              index,
-                              itemProps: getItemProps({ item: suggestion.label }),
-                              highlightedIndex,
-                              selectedItem,
-                            }),
-                          )}
-                        </Paper>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-              </Downshift>
+              <FormControl className="w-100">
+                <Select
+                  value={formikBag.values.pickupLocation}
+                  onChange={(e: React.ChangeEvent<any>) => this.onKeyboardChange(e, formikBag, "pickupLocation")}
+                  name="harrison-pickup"
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled className="bg-light">
+                    <span className="text-secondary">Which resort or hotel should we pick you up from?</span>
+                  </MenuItem>
+                  {/* dropoff / pickup suggestions */}
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
+                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Our license allows us to drop you off or pick you up at resorts or hotels in Harrison Hot Springs
+                  only.
+                </FormHelperText>
+              </FormControl>
             </div>
           </div>
-          <FormHelperText className="mt-0 mb-4">
-            We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
-            selected departure date, you will be notified before checking out.
-          </FormHelperText>
         </div>
       );
     }
@@ -399,7 +305,9 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
         </div>
 
         <h2 className="mt-3">
-          <small>Traveller Information:</small>
+          <small>
+            Traveller Information:<sup>*</sup>
+          </small>
         </h2>
 
         <FieldArray
@@ -598,7 +506,9 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                 clicked={this.props.updateParentState}
               />
               <h2>
-                <small>Departure Ticket Details:</small>
+                <small>
+                  Departure Ticket Details:<sup>*</sup>
+                </small>
               </h2>
               <div className="row mb-3">
                 <div className="col-12">
@@ -621,13 +531,37 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                         // also reset the dropoff and pickup locations to ""
                         formikBag.setFieldValue("pickupLocation", "");
                         formikBag.setFieldValue("dropoffLocation", "");
+                        formikBag.setFieldValue("numberOfPassengers", 1);
+                        formikBag.setFieldValue("passengerTickets", [{ name: "", type: "" }]);
+
+                        // clear cache for return ticket
+                        this.props.updateParentState({
+                          activeStep: BookNowSteps.Departure,
+                          cachedState: {
+                            ...this.props.cachedState,
+                            returnForm: {
+                              ...this.props.cachedState.returnForm,
+                              ticketId: "",
+                              extraTicketId: "",
+                              pickupLocation: "",
+                              extraPickupLocation: "",
+                              dropoffLocation: "",
+                              extraDropoffLocation: "",
+                              numberOfPassengers: 1,
+                              passengerTickets: [{ name: "", type: "" }],
+                              extraNumberOfPassengers: 1,
+                              extraPassengerTickets: [{ name: "", type: "" }],
+                              requiresWheelchair: false,
+                              extraRequiresWheelchair: false,
+                              additionalReturnNeeded: false,
+                            },
+                          },
+                        });
                       }}
                       name="ticketId"
                     >
-                      <MenuItem value="" className={[classes.SelectMenuItem].join(" ")} disabled>
-                        <div className="w-100">
-                          <em className="mx-auto">Choose a departure ticket..</em>
-                        </div>
+                      <MenuItem value="" disabled>
+                        <span className="text-secondary">Choose a departure ticket..</span>
                       </MenuItem>
                       {menuItems}
                     </Select>

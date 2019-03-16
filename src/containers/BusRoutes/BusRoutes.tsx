@@ -26,40 +26,39 @@ class BusRoutes extends Component {
               trip with no stops, drop offs or pick ups once the bus leaves.
             </p>
 
-            <hr />
-
-            <div className="row mb-4">
-              <div className="col-12">
-                <div className="card border-secondary">
-                  <h5 className="card-header">Bridgeport Station to Harrison</h5>
-                  <div className="card-body">
-                    <p className="card-text text-dark">
-                      <strong>
-                        Departs 2:00 pm &nbsp;
-                        <i className="fa fa-fw fa-long-arrow-right" />
-                        &nbsp; Arrives 4:35 pm
-                      </strong>
-                    </p>
-                  </div>
-                </div>
-
-                <hr />
-              </div>
-              <div className="col-12">
-                <div className="card border-secondary">
-                  <h5 className="card-header">Harrison to Bridgeport Station</h5>
-                  <div className="card-body">
-                    <p className="card-text text-dark">
-                      <strong>
-                        Departs 11:00 am &nbsp;
-                        <i className="fa fa-fw fa-long-arrow-right" />
-                        &nbsp; Arrives 1:50 pm
-                      </strong>
-                    </p>
-                  </div>
+            <div className="col-12">
+              <div className="card border-secondary">
+                <h5 className="card-header">Harrison to Bridgeport&nbsp;Station</h5>
+                <div className="card-body">
+                  <p className="card-text text-dark">
+                    <strong>
+                      Departs 11:00 am &nbsp;
+                      <i className="fa fa-fw fa-long-arrow-right" />
+                      &nbsp; Arrives 1:50 pm
+                    </strong>
+                  </p>
                 </div>
               </div>
             </div>
+            {/* end col */}
+
+            <hr />
+
+            <div className="col-12">
+              <div className="card border-secondary">
+                <h5 className="card-header">Bridgeport&nbsp;Station to Harrison</h5>
+                <div className="card-body">
+                  <p className="card-text text-dark">
+                    <strong>
+                      Departs 2:00 pm &nbsp;
+                      <i className="fa fa-fw fa-long-arrow-right" />
+                      &nbsp; Arrives 4:35 pm
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* end col */}
           </div>
         </div>
       </div>

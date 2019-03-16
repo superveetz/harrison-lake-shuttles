@@ -55,6 +55,7 @@ interface ReturnFormProps {
   activeStep: BookNowSteps;
   cachedState: CachedState;
   ticketProducts: Array<any>;
+  pickupDropoffSuggestions: Array<any>;
   updateParentState: BookNowMethods["updateParentState"];
 }
 
@@ -321,66 +322,35 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
       return (
         <div className={animateOnFirstSelect}>
           <h2>
-            <small>Harrison Dropoff Location:</small>
+            <small>
+              Harrison Dropoff Location:<sup>*</sup>
+            </small>
           </h2>
           <div className="row mb-3">
             <div className="col-12">
               {/* Harrison Dropoff */}
-              <Downshift
-                onChange={(e: any) => {
-                  this.onKeyboardChange(
-                    { target: { value: e } } as React.ChangeEvent<any>,
-                    formikBag,
-                    formikDropoffLocation,
-                  );
-                }}
-                id={`harrison-${formikDropoffLocation}`}
-              >
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getMenuProps,
-                  highlightedIndex,
-                  inputValue,
-                  isOpen,
-                  selectedItem,
-                }) => (
-                  <div className={classes.container}>
-                    {renderInput({
-                      fullWidth: true,
-                      classes,
-                      InputProps: getInputProps({
-                        value: formikBag.values[formikDropoffLocation],
-                        placeholder: "Which resort or hotel should we drop you off at?",
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                          this.onKeyboardChange(e, formikBag, formikDropoffLocation);
-                        },
-                      }),
-                    })}
-                    <div {...getMenuProps()}>
-                      {isOpen ? (
-                        <Paper className={classes.paper} square>
-                          {getSuggestions(inputValue).map((suggestion, index) =>
-                            renderSuggestion({
-                              suggestion,
-                              index,
-                              itemProps: getItemProps({ item: suggestion.label }),
-                              highlightedIndex,
-                              selectedItem,
-                            }),
-                          )}
-                        </Paper>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-              </Downshift>
+              <FormControl className="w-100">
+                <Select
+                  value={formikBag.values[formikDropoffLocation]}
+                  onChange={(e: React.ChangeEvent<any>) => this.onKeyboardChange(e, formikBag, formikDropoffLocation)}
+                  name={`harrison-${formikDropoffLocation}`}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled className="bg-light">
+                    <span className="text-secondary">Which resort or hotel should we drop you off at?</span>
+                  </MenuItem>
+                  {/* dropoff / pickup suggestions */}
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
+                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Our license allows us to drop you off or pick you up at resorts or hotels in Harrison Hot Springs
+                  only.
+                </FormHelperText>
+              </FormControl>
             </div>
           </div>
-          <FormHelperText className="mt-0 mb-4">
-            We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
-            selected departure date, you will be notified before checking out.
-          </FormHelperText>
         </div>
       );
     }
@@ -390,66 +360,35 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
       return (
         <div>
           <h2>
-            <small>Harrison Pickup Location:</small>
+            <small>
+              Harrison Pickup Location:<sup>*</sup>
+            </small>
           </h2>
           <div className="row mb-3">
             <div className="col-12">
               {/* Harrison Pickup */}
-              <Downshift
-                onChange={(e: any) => {
-                  this.onKeyboardChange(
-                    { target: { value: e } } as React.ChangeEvent<any>,
-                    formikBag,
-                    formikPickupLocation,
-                  );
-                }}
-                id={`harrison-${formikPickupLocation}`}
-              >
-                {({
-                  getInputProps,
-                  getItemProps,
-                  getMenuProps,
-                  highlightedIndex,
-                  inputValue,
-                  isOpen,
-                  selectedItem,
-                }) => (
-                  <div className={classes.container}>
-                    {renderInput({
-                      fullWidth: true,
-                      classes,
-                      InputProps: getInputProps({
-                        value: formikBag.values[formikPickupLocation],
-                        placeholder: "Which resort or hotel should we pick you up from?",
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                          this.onKeyboardChange(e, formikBag, formikPickupLocation);
-                        },
-                      }),
-                    })}
-                    <div {...getMenuProps()}>
-                      {isOpen ? (
-                        <Paper className={classes.paper} square>
-                          {getSuggestions(inputValue).map((suggestion, index) =>
-                            renderSuggestion({
-                              suggestion,
-                              index,
-                              itemProps: getItemProps({ item: suggestion.label }),
-                              highlightedIndex,
-                              selectedItem,
-                            }),
-                          )}
-                        </Paper>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-              </Downshift>
+              <FormControl className="w-100">
+                <Select
+                  value={formikBag.values[formikPickupLocation]}
+                  onChange={(e: React.ChangeEvent<any>) => this.onKeyboardChange(e, formikBag, formikPickupLocation)}
+                  name={`harrison-${formikPickupLocation}`}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled className="bg-light">
+                    <span className="text-secondary">Which resort or hotel should we pick you up from?</span>
+                  </MenuItem>
+                  {/* dropoff / pickup suggestions */}
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
+                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Our license allows us to drop you off or pick you up at resorts or hotels in Harrison Hot Springs
+                  only.
+                </FormHelperText>
+              </FormControl>
             </div>
           </div>
-          <FormHelperText className="mt-0 mb-4">
-            We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
-            selected departure date, you will be notified before checking out.
-          </FormHelperText>
         </div>
       );
     } else {
@@ -466,7 +405,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
     return (
       <React.Fragment>
         <h2>
-          <small>Return Ticket {ticketNum} Details:</small>
+          <small>
+            Return Ticket {ticketNum} Details:<sup>*</sup>
+          </small>
         </h2>
         <div className="row mb-3">
           <div className="col-12">
@@ -491,7 +432,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               >
                 <MenuItem value="" className={[].join(" ")} disabled>
                   <div className="w-100">
-                    <em className="mx-auto">Choose a departure ticket..</em>
+                    <em className="mx-auto">Choose a return ticket..</em>
                   </div>
                 </MenuItem>
                 {this.renderTicketMenuOptions(formikBag)}
@@ -570,7 +511,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             </div>
 
             <h2 className="mt-3">
-              <small>Traveller Information:</small>
+              <small>
+                Traveller Information:<sup>*</sup>
+              </small>
             </h2>
 
             <FieldArray
@@ -685,7 +628,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
     return (
       <React.Fragment>
         <h2>
-          <small>Return Ticket {ticketNum} Details:</small>
+          <small>
+            Return Ticket {ticketNum} Details:<sup>*</sup>
+          </small>
         </h2>
         <div className="row mb-3">
           <div className="col-12">
@@ -710,7 +655,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               >
                 <MenuItem value="" className={[].join(" ")} disabled>
                   <div className="w-100">
-                    <em className="mx-auto">Choose a departure ticket..</em>
+                    <em className="mx-auto">Choose a return ticket..</em>
                   </div>
                 </MenuItem>
                 {this.renderTicketMenuOptions(formikBag)}
@@ -789,7 +734,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             </div>
 
             <h2 className="mt-3">
-              <small>Traveller Information:</small>
+              <small>
+                Traveller Information:<sup>*</sup>
+              </small>
             </h2>
 
             <FieldArray

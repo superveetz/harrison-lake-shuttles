@@ -45,6 +45,19 @@ export interface BookNowProps {
   appData: AppDataStore;
 }
 
+// dropoff suggestions
+const dropoffSuggestions = [
+  { label: "Harrison Hot Springs Resort & Spa" },
+  { label: "Harrison Beach Hotel (Rear parking lot)" },
+  { label: "Hot Lake Hotel" },
+  { label: "Hot Spring Villa Hotel" },
+  { label: "Spa Motel" },
+  { label: "City Centre" },
+].map((suggestion) => ({
+  value: suggestion.label,
+  label: suggestion.label,
+}));
+
 class BookNow extends React.Component<BookNowProps, IBookNowState> implements BookNowMethods {
   constructor(props: any) {
     super(props);
@@ -190,6 +203,7 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
       case BookNowSteps.Departure:
         pageContent = (
           <DepartureForm
+            pickupDropoffSuggestions={dropoffSuggestions}
             ticketProducts={this.state.ticketProducts}
             activeStep={this.state.activeStep}
             cachedState={this.state.cachedState}
@@ -201,6 +215,7 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
       case BookNowSteps.Return:
         pageContent = (
           <ReturnForm
+            pickupDropoffSuggestions={dropoffSuggestions}
             ticketProducts={this.state.ticketProducts}
             activeStep={this.state.activeStep}
             cachedState={this.state.cachedState}

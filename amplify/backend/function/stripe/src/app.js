@@ -36,6 +36,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+const GST_TAX_AMOUNT = 0.05;
+
 function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTickets, ticketId, depDate, reqWheelchair) {
   let ticketTables = "";
   const selectedDepartureTicket = ticketProds.find((ticketProd) => ticketProd.id === ticketId);
@@ -108,16 +110,24 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
 
     // close table
     if (passTicketIndex === passTickets.length - 1) {
-      const departureTravellerSubTotalFormatted = new Intl.NumberFormat("en-CDN", {
-        style: "currency",
-        currency: "USD",
-        currencyDisplay: "symbol",
-      }).format(departureTravellerSubTotal);
+      // calc tax and apply
+      const departureTravellerTaxSubTotal = GST_TAX_AMOUNT * departureTravellerSubTotal;
+      // apply tax to subtotal
+      departureTravellerSubTotal += departureTravellerTaxSubTotal;
+
       // sum of tickets
       departureTravellerTable += `
       <tr>
-        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Subtotal (taxes included):</td>
-        <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>${departureTravellerSubTotalFormatted}</b></td>
+        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Tax (GST):</td>
+        <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerTaxSubTotal.toFixed(
+          2,
+        )}</b></td>
+      </tr>
+      <tr>
+        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Subtotal:</td>
+        <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerSubTotal.toFixed(
+          2,
+        )}</b></td>
       </tr>
     `;
       departureTravellerTable += "</table>";
