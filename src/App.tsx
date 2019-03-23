@@ -124,7 +124,7 @@ class App extends React.Component<AppReduxProps, {}> {
       </Switch>
     );
 
-    if (this.props.authLoading) routes = <Spinner />;
+    if (this.props.history.location.pathname.includes("/admin") && this.props.authLoading) routes = <Spinner />;
 
     return <Layout>{routes}</Layout>;
   }

@@ -140,10 +140,10 @@
 							"Outputs.UserPoolId"
 						]
 					},
-					"schemaGraphql": "s3://harrisonlakeshuttles-20190114002647-deployment/amplify-appsync-files/schema.graphql.1553058101471",
+					"schemaGraphql": "s3://harrisonlakeshuttles-20190114002647-deployment/amplify-appsync-files/schema.graphql.1553318150946",
 					"ResolverBucket": "harrisonlakeshuttles-20190114002647-deployment",
 					"ResolverRootKey": "amplify-appsync-files",
-					"DeploymentTimestamp": "1553058101471"
+					"DeploymentTimestamp": "1553318150946"
 				}
 			}
 		},
