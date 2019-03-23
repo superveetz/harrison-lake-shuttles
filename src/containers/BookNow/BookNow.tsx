@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as queries from "../../graphql/queries";
+import { Link } from "react-router-dom";
 import { scrollToTop } from "../../shared/util";
 import { AppDataStore } from "../../store/reducers/app-data";
 import { API, graphqlOperation, Auth } from "aws-amplify";

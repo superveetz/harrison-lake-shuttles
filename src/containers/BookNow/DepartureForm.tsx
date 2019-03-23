@@ -1,8 +1,8 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { scrollToTop } from "../../shared/util";
-import { Formik, Field, Form, FormikProps, FieldArray } from "formik";
+import { Formik, Form, FormikProps, FieldArray } from "formik";
 import { DatePicker } from "material-ui-pickers";
-import ReactSelect from "react-select";
 import {
   MenuItem,
   FormControl,
@@ -15,10 +15,7 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 
-import deburr from "lodash/deburr";
-import Downshift from "downshift";
 import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
 
 const classes: any = require("./BookNow.module.css");
 import Button from "../../components/UI/Button/Button";
@@ -631,6 +628,10 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
 
               {/* rendering the rest of the form upon selecting a ticket type */}
               {this.renderDepartureFormDetails(formikBag)}
+
+              <div className="alert alert-info mt-5">
+                We strongly recommend reading our <Link to="more-info">policies</Link> before booking.
+              </div>
             </Form>
           )}
         />

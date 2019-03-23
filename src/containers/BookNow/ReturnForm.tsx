@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { scrollToTop } from "../../shared/util";
 import { Formik, Form, FormikProps, FieldArray } from "formik";
 import { DatePicker } from "material-ui-pickers";
@@ -341,7 +342,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                   </MenuItem>
                   {/* dropoff / pickup suggestions */}
                   {this.props.pickupDropoffSuggestions.map((suggestion: any, index: number) => (
-                    <MenuItem key={index} value={suggestion.value}>{suggestion.label}</MenuItem>
+                    <MenuItem key={index} value={suggestion.value}>
+                      {suggestion.label}
+                    </MenuItem>
                   ))}
                 </Select>
                 <FormHelperText>
@@ -379,7 +382,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                   </MenuItem>
                   {/* dropoff / pickup suggestions */}
                   {this.props.pickupDropoffSuggestions.map((suggestion: any, index: number) => (
-                    <MenuItem key={index} value={suggestion.value}>{suggestion.label}</MenuItem>
+                    <MenuItem key={index} value={suggestion.value}>
+                      {suggestion.label}
+                    </MenuItem>
                   ))}
                 </Select>
                 <FormHelperText>
@@ -1138,6 +1143,10 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                     >
                       Review Order &amp; Checkout
                     </Button>
+                  </div>
+
+                  <div className="alert alert-info mt-5">
+                    We strongly recommend reading our <Link to="more-info">policies</Link> before booking.
                   </div>
                 </Form>
               </React.Fragment>

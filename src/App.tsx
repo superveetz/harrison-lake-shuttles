@@ -99,6 +99,9 @@ class App extends React.Component<AppReduxProps, {}> {
   render() {
     // determine if this user is an authenticated admin
     const currentUserIsAuthAdmin = this.isCurrentUserAuthAdmin();
+    const pathRequiresAuth =
+      this.props.history.location.pathname.includes("/admin") ||
+      this.props.history.location.pathname.includes("/book-now");
 
     let routes = (
       <Switch>
@@ -118,13 +121,11 @@ class App extends React.Component<AppReduxProps, {}> {
         {/* Authenticated Admin Routes */}
         {currentUserIsAuthAdmin ? <Route path="/admin" component={Admin} /> : null}
 
-        {this.props.history.location.pathname.includes("/admin") && !this.props.authLoading ? (
-          <Redirect to="/404" />
-        ) : null}
+        {pathRequiresAuth && !this.props.authLoading ? <Redirect to="/404" /> : null}
       </Switch>
     );
 
-    if (this.props.history.location.pathname.includes("/admin") && this.props.authLoading) routes = <Spinner />;
+    if (pathRequiresAuth && this.props.authLoading) routes = <Spinner />;
 
     return <Layout>{routes}</Layout>;
   }
