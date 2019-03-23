@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as actions from "./store/actions";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect, RouteComponentProps } from "react-router-dom";
 import { Auth, graphqlOperation, API } from "aws-amplify";
 import { Dispatch, Action } from "redux";
 import { AppDataStore } from "./store/reducers/app-data";
@@ -27,7 +27,9 @@ import Admin from "./containers/Admin/Admin";
 
 import Spinner from "./components/UI/Spinner/Spinner";
 
-interface AppReduxProps {
+interface AppProps extends RouteComponentProps {}
+
+interface AppReduxProps extends AppProps {
   appData: AppDataStore;
   currentUser: any;
   authLoading: boolean;
@@ -46,17 +48,9 @@ class App extends React.Component<AppReduxProps, {}> {
 
     // bind funcs
     this.isCurrentUserAuthAdmin = this.isCurrentUserAuthAdmin.bind(this);
-    this.componentDidUpdate = this.componentDidUpdate.bind(this);
   }
 
   componentDidMount() {}
-
-  componentDidUpdate(prevProps: AppReduxProps) {
-    // if (prevProps.currentUser !== this.props.currentUser) {
-    //   console.log("forced update");
-    //   this.forceUpdate();
-    // }
-  }
 
   async componentWillMount() {
     // ensure authenticated session
@@ -124,7 +118,9 @@ class App extends React.Component<AppReduxProps, {}> {
         {/* Authenticated Admin Routes */}
         {currentUserIsAuthAdmin ? <Route path="/admin" component={Admin} /> : null}
 
-        {!this.props.authLoading ? <Redirect to="/404" /> : null}
+        {this.props.history.location.pathname.includes("/admin") && !this.props.authLoading ? (
+          <Redirect to="/404" />
+        ) : null}
       </Switch>
     );
 

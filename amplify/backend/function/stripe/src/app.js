@@ -91,11 +91,6 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
     }
 
     departureTravellerSubTotal += selectedTicketType && selectedTicketType.price;
-    const selectedTicketTypePrice = new Intl.NumberFormat("en-CDN", {
-      style: "currency",
-      currency: "USD",
-      currencyDisplay: "symbol",
-    }).format(selectedTicketType && selectedTicketType.price);
 
     departureTravellerTable += `
     <tr>
@@ -104,7 +99,8 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
       }</b></td>
       <td style='background: #FAFAFA; border: 1px solid #CCC; padding-top: 10px; padding-bottom: 10px; text-align: center;'><b>${selectedTicketType &&
         selectedTicketType.age}</b></td>
-      <td style='background: #FAFAFA; border: 1px solid #CCC; padding-top: 10px; padding-bottom: 10px; text-align: center;'><b>${selectedTicketTypePrice}</b></td>
+      <td style='background: #FAFAFA; border: 1px solid #CCC; padding-top: 10px; padding-bottom: 10px; text-align: center;'><b>$${selectedTicketType &&
+        selectedTicketType.price.toFixed(2)}</b></td>
     </tr>
   `;
 
@@ -240,7 +236,7 @@ function buildEmailConfirmationEmail(req) {
     "<p>If you have any questions about your order, contact us at <a href='mailto:info@harrisonlakeshuttles.com'>info@harrisonlakeshuttles.com</a>.</p>";
 
   receiptHtml +=
-    "<p><b>Harrison Lake Shuttles</b> <br /> 270 Esplanade Ave,<br /> Harrison Hot Springs, BC <br /> V0M1K0</p>";
+    "<p><b>Harrison Lake Shuttles</b> <br /> 270 Esplanade Ave,<br /> Harrison Hot Springs, BC <br /> V0M 1K0</p>";
 
   const formatHtml = `
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -338,7 +334,7 @@ const processTransaction = function(req, res, next) {
   stripe.charges
     .create({
       source: req.body.stripeToken.id,
-      amount: req.body.charge.amount,
+      amount: Math.round(req.body.charge.amount),
       currency: "CAD",
       description: req.body.charge.description,
     })

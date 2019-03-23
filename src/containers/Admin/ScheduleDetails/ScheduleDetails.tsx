@@ -51,19 +51,28 @@ class ScheduleDetails extends React.Component<ScheduleDetailsProps, ScheduleDeta
 
         {this.state.scheduleLoaded && this.state.schedule ? (
           <div>
-            <h2>
-              <small>General Information </small>
-            </h2>
-
-            {this.state.schedule.closed ? (
-              <h2>
-                <span className="badge badge-warning">Route Closed</span>
+            <div className="float-left">
+              <h2 className="">
+                <small>General Information </small>
               </h2>
-            ) : null}
+
+              {this.state.schedule.closed ? (
+                <h2>
+                  <span className="badge badge-warning">Route Closed</span>
+                </h2>
+              ) : null}
+            </div>
+
+            <div className="text-right d-print-none">
+              <Button size="md" kind="button" theme="secondary" click={() => window.print()}>
+                Print Schedule
+              </Button>
+            </div>
 
             <div
               style={{
                 overflowX: "scroll",
+                clear: "both",
               }}
             >
               <Table>
@@ -144,6 +153,12 @@ class ScheduleDetails extends React.Component<ScheduleDetailsProps, ScheduleDeta
                             <ul className="list-inline">
                               <li className="list-inline-item">
                                 <strong>{ticket.transaction.payeePhone}</strong>
+                              </li>
+                            </ul>
+                            <ul className="list-inline">
+                              <li className="list-inline-item">
+                                <strong>Total Paid:</strong> &nbsp;
+                                <span>{`$${ticket.transaction.totalPaid.toFixed(2)}`}</span>
                               </li>
                             </ul>
                           </TableCell>

@@ -21,7 +21,7 @@ class Home extends React.Component<{}, {}> {
         text: "Safe & Reliable Transport",
       },
       {
-        text: "Flexible Pick Up & Dropoff Locations",
+        text: "Top Notch Service",
       },
       {
         text: "Bookings Confirmed Instantly",
@@ -48,7 +48,7 @@ class Home extends React.Component<{}, {}> {
         <section className={[classes.Section, classes.FlexCenter].join(" ")}>
           <div className="align-self-center">
             <PageHeader elem="h2" classes="my-3" centered>
-              Our Mission to You
+              Why People Choose Us
             </PageHeader>
 
             <CheckList centered items={items} />

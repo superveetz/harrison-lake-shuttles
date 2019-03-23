@@ -10,8 +10,8 @@ class Fares extends Component {
         <PageHeader>Bus Fares</PageHeader>
 
         <p className="lead">
-          All fares listed below are for round-trip tickets only. Upon booking your ticket, you will have the
-          opportunity to select a departure date and any return date you wish.
+          Fares are for one direction and do not include 5% service tax. Before you choose your ticket, we strongly
+          recommend reading our "More Info" section to view all policies and regulations.
         </p>
 
         <PricingTable />

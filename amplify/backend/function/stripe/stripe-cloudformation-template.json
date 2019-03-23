@@ -17,7 +17,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "harrisonlakeshuttles-20190114002647-deployment",
-					"S3Key": "amplify-builds/stripe-1551596664-latest-build.zip"
+					"S3Key": "amplify-builds/stripe-1553057160-latest-build.zip"
 				}
 			}
 		},

@@ -22,8 +22,8 @@ class BusRoutes extends Component {
             <PageHeader elem="h2">Bus Schedule</PageHeader>
 
             <p className="lead">
-              The bus makes two trips, everyday and make sure you goto the bath room first because this is a straight
-              trip with no stops, drop offs or pick ups once the bus leaves.
+              The bus travels every day from Harrison Hot Springs to Bridgeport Station in Richmond and back. Please be
+              advised that we are unable to pick-up or drop-off along the route.
             </p>
 
             <div className="col-12">

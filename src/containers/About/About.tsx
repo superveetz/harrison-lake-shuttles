@@ -14,7 +14,7 @@ class About extends React.Component<{}, {}> {
   render() {
     return (
       <div className="container pb-5 pt-lg-3">
-        <PageHeader>About Harrison Lake Shuttles</PageHeader>
+        <PageHeader>Our Current Route</PageHeader>
 
         <div className="row">
           <div className="col">
@@ -22,12 +22,12 @@ class About extends React.Component<{}, {}> {
           </div>
 
           <div className="col-lg-4">
-            <PageHeader>Our Mission</PageHeader>
+            <PageHeader>About Harrison Lake Shuttles</PageHeader>
 
             <p className="lead">
-              To provide an affordable and comfortable journey between Vancouver and Harrison Hot Springs, everyday. At
-              Starline, we understand that the worst part of getting out of the city is the commute. Getting stuck in
-              weekend traffic with hardly any leg room is no way to travel. That's why we stive to provide ...
+              Harrison Lake Shuttles is locally owned and operated by residents of the village. We are very passionate
+              about our little slice of paradise out here in the Fraser Valley. We are happy to provide a bus service so
+              travellers from near and far can easily access Harrison Hot Springs.
             </p>
 
             <hr />

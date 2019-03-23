@@ -340,8 +340,8 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                     <span className="text-secondary">Which resort or hotel should we drop you off at?</span>
                   </MenuItem>
                   {/* dropoff / pickup suggestions */}
-                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
-                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any, index: number) => (
+                    <MenuItem key={index} value={suggestion.value}>{suggestion.label}</MenuItem>
                   ))}
                 </Select>
                 <FormHelperText>
@@ -378,8 +378,8 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                     <span className="text-secondary">Which resort or hotel should we pick you up from?</span>
                   </MenuItem>
                   {/* dropoff / pickup suggestions */}
-                  {this.props.pickupDropoffSuggestions.map((suggestion: any) => (
-                    <MenuItem value={suggestion.value}>{suggestion.label}</MenuItem>
+                  {this.props.pickupDropoffSuggestions.map((suggestion: any, index: number) => (
+                    <MenuItem key={index} value={suggestion.value}>{suggestion.label}</MenuItem>
                   ))}
                 </Select>
                 <FormHelperText>

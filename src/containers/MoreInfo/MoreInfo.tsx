@@ -16,46 +16,97 @@ class MoreInfo extends Component {
         <PageHeader>General Information</PageHeader>
 
         <div className="row">
-          <div className="col-sm-6">
-            <div className="card bg-primary text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
-              <div className="card-body">
-                <h3 className="card-title">Who We Are</h3>
-                <p className="lead card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6">
-            <div className="card bg-danger text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
-              <div className="card-body">
-                <h3 className="card-title">How We Work</h3>
-                <p className="lead card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6">
+          <div className="col-md-6">
             <div className="card bg-success text-white mb-3">
               <img alt="Card image cap" className="card-img-top" src={testImg} />
               <div className="card-body">
-                <h3 className="card-title">What To Expect</h3>
+                <h3 className="card-title">Trip Information:</h3>
                 <p className="lead card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
+                  <ul className="list-group bg-transparent border-0 list-group-flush">
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; The travel time in each direction is about 2 hours and 30 minutes.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Halfway through the trip, we will take a 15 minute rest stop.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Travel, pick-up, and drop-off times may vary depending on road conditions or other
+                      unforeseeable occurances.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; The driver cannot pick you up or drop off off anywhere other than the terminus stop.
+                    </li>
+                  </ul>
                 </p>
               </div>
             </div>
           </div>
-          <div className="col-sm-6">
+          <div className="col-md-6">
+            <div className="card bg-primary text-white mb-3">
+              <img alt="Card image cap" className="card-img-top" src={testImg} />
+              <div className="card-body">
+                <h3 className="card-title">Before You Book:</h3>
+                <p className="lead card-text">
+                  <ul className="list-group bg-transparent border-0 list-group-flush">
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Passengers are encouraged to arrive at their stop 15 minutes early.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Please have your I.D. and booking confirmation ready for the driver before boarding.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; If you are not at your stop at the determined time, the driver will attempt to call your
+                      provided telephone number twice. If the call is not answered, the driver will be forced to leave.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; No refund will be issued if you miss your bus.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card bg-danger text-white mb-3">
+              <img alt="Card image cap" className="card-img-top" src={testImg} />
+              <div className="card-body">
+                <h3 className="card-title">Bus Rules &amp; Regulations:</h3>
+                <p className="lead card-text">
+                  <ul className="list-group bg-transparent border-0 list-group-flush">
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; SAFETY FIRST. If any unsafe acts observed during the trip will not be tolerated.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; No smoking cigarettes, vaporizers, or otherwise.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Alcohol is not to be consumed prior to boarding or while on the bus.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Swearing or violent acts will not be tolerated.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
             <div className="card bg-secondary text-white mb-3">
               <img alt="Card image cap" className="card-img-top" src={testImg} />
               <div className="card-body">
-                <h3 className="card-title">Baggage Policies</h3>
+                <h3 className="card-title">Baggage Policies:</h3>
                 <p className="lead card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's content.
+                  <ul className="list-group bg-transparent border-0 list-group-flush">
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Passengers will be allowed ONE large suitcase. The bus can only hold a certain amount.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; One carry-on bag is permitted, either on your lap or under the seat infront of you.
+                    </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Pets are NOT allowed at this time.
+                    </li>
+                  </ul>
                 </p>
               </div>
             </div>

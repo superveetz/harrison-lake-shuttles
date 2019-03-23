@@ -58,6 +58,7 @@ interface CheckoutFormProps {
 interface CheckoutFormState {
   activeTab: CheckoutFormTabs;
   checkingOut: boolean;
+  checkoutFail: boolean;
   checkoutSuccess: boolean;
   validatingOrder: boolean;
   validateOrderSuccess: boolean;
@@ -89,6 +90,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   public state: CheckoutFormState = {
     activeTab: 0,
     checkingOut: false,
+    checkoutFail: false,
     checkoutSuccess: false,
     validatingOrder: true,
     validateOrderSuccess: false,
@@ -454,7 +456,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       },
     });
 
-    // return fetch("http://localhost:3001/process-transaction", {
+    // return fetch("http://localhost:3000/process-transaction", {
     //   headers: {
     //     Accept: "application/json",
     //     "Content-Type": "application/json",
@@ -687,13 +689,13 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
             // there was a problem processing the credit card
             this.setState({
               checkingOut: false,
+              checkoutFail: true,
             });
             console.log("err:", err);
           });
       })
       .catch((err: any) => {
         console.log("err:", err);
-        
       });
 
     
@@ -1567,16 +1569,14 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         <h2>
           <small>Payment Details:<sup>*</sup></small>
         </h2>
-        {/* <button type="button" onClick={() => this.testShit(formikBag)}>
-          Test Shit
-        </button> */}
+
         {/* Total Amount Due */}
         <h5 className="text-right">
           <span className="pb-2 border-secondary border-bottom">
             <strong>
               <small>Total Amount Due: </small>
             </strong>
-            <span className="ml-2 mb-2">
+            <span className="ml-2 mb-2" id="total-price">
               {new Intl.NumberFormat("en-CDN", {
                 style: "currency",
                 currency: "USD",
@@ -1585,6 +1585,17 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
             </span>
           </span>
         </h5>
+
+        {this.state.checkoutFail ? (
+          <div className="alert alert-danger">
+            <h5 className="alert-title">Problem Processing Transaction</h5>
+            <p>
+              It appears there was a problem processing a transaction with the provided card. If this is a prepaid card, then we likely do not 
+              accept this type of credit card. If this is not a prepaid card, then there may have been insufficient funds to complete the transaction. 
+              Either way, your card should not have been charged.
+            </p>
+          </div>
+        ) : null}
 
         <div className="row">
           <div className="col">
@@ -1701,6 +1712,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   renderReviewOrderTab(): JSX.Element {
+    console.log("this.childTicketType:", this.childTicketType);
+    
     return (
       <React.Fragment>
         {this.departTicket ? (
@@ -1867,6 +1880,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       </p>
                       <div className="text-center">
                         <Button
+                            classes="mt-2"
                             kind="link"
                             to="/more-info"
                             theme="primary"
@@ -1874,6 +1888,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                           Review Travel Policies
                         </Button>
                         <Button
+                          classes="mt-2"
                           btnType="button"
                           theme="secondary"
                           click={this.resendOrderConfirmationEmail}
