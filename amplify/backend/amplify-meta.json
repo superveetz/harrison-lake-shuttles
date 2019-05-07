@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/auth/cognito37f988c1-cloudformation-template.yml",
 				"logicalId": "authcognito37f988c1"
 			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.740Z",
+			"lastPushTimeStamp": "2019-05-04T18:44:53.688Z",
 			"output": {
 				"AppClientSecret": "tf7458jok8m5t73704e0gci43sm93ggl51emof2ostgm15cfjj7",
 				"UserPoolId": "us-west-2_qoJRSynq8",
@@ -34,25 +34,6 @@
 		}
 	},
 	"api": {
-		"harrisonlakeshuttles": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "AMAZON_COGNITO_USER_POOLS",
-				"GraphQLAPIIdOutput": "l4z4xm7pdbfapaj4te26medgbm",
-				"GraphQLAPIEndpointOutput": "https://bvladbrhkzcelbofo5e4tqg3ti.appsync-api.us-west-2.amazonaws.com/graphql",
-				"GraphQLAPIKeyOutput": "da2-3ggwnhxtpjh4xkuvzhc3ba4ay4",
-				"AuthCognitoUserPoolIdOutput": "us-west-2_qoJRSynq8",
-				"AuthCognitoUserPoolNativeClientId": "See UserPool: us-west-2_qoJRSynq8",
-				"AuthCognitoUserPoolJSClientId": "See UserPool: us-west-2_qoJRSynq8"
-			},
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-				"logicalId": "apiharrisonlakeshuttles"
-			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.758Z",
-			"lastPushDirHash": "Yhbf2g0ygPooM1Q1PPRVjp5cfSI="
-		},
 		"stripe": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
@@ -70,12 +51,31 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/stripe-cloudformation-template.json",
 				"logicalId": "apistripe"
 			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.746Z",
+			"lastPushTimeStamp": "2019-05-04T18:44:53.703Z",
 			"output": {
 				"ApiName": "stripe",
 				"RootUrl": "https://4013p6z3pd.execute-api.us-west-2.amazonaws.com/Prod"
 			},
 			"lastPushDirHash": "lxql+GCvUOmW0Dr26Tt67ydY25Y="
+		},
+		"harrisonlakeshuttlesapi2": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "AMAZON_COGNITO_USER_POOLS",
+				"GraphQLAPIIdOutput": "7cjm6oqec5bxvcewby6udlub4q",
+				"GraphQLAPIEndpointOutput": "https://ypbajfuuwrfedi2tk4xcum5usy.appsync-api.us-west-2.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-s7lji4guvvbarjlpenq5l5vp34",
+				"AuthCognitoUserPoolIdOutput": "us-west-2_qoJRSynq8",
+				"AuthCognitoUserPoolNativeClientId": "See UserPool: us-west-2_qoJRSynq8",
+				"AuthCognitoUserPoolJSClientId": "See UserPool: us-west-2_qoJRSynq8"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apiharrisonlakeshuttlesapi2"
+			},
+			"lastPushTimeStamp": "2019-05-04T18:44:53.703Z",
+			"lastPushDirHash": "BS8ylTdOqUgGa1CRwCuKX0iJvwk="
 		}
 	},
 	"function": {
@@ -85,19 +85,19 @@
 			"build": true,
 			"dependsOn": [],
 			"lastBuildTimeStamp": "2019-02-10T16:00:42.367Z",
-			"lastPackageTimeStamp": "2019-03-20T04:46:07.503Z",
-			"distZipFilename": "stripe-1553057160-latest-build.zip",
+			"lastPackageTimeStamp": "2019-05-04T18:43:43.333Z",
+			"distZipFilename": "stripe-1556995414-latest-build.zip",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/function/stripe-cloudformation-template.json",
 				"logicalId": "functionstripe"
 			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.749Z",
+			"lastPushTimeStamp": "2019-05-04T18:44:53.703Z",
 			"output": {
 				"Region": "us-west-2",
 				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:stripe",
 				"Name": "stripe"
 			},
-			"lastPushDirHash": "e6ZlC3gS2YRwX/9D1n5UBtJpC3w="
+			"lastPushDirHash": "BXXBugjYIRcmOJGqDLnQJchvAhg="
 		}
 	},
 	"hosting": {
@@ -108,7 +108,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/hosting/template.json",
 				"logicalId": "hostingS3AndCloudFront"
 			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.751Z",
+			"lastPushTimeStamp": "2019-05-04T18:44:53.703Z",
 			"output": {
 				"CloudFrontSecureURL": "https://dksc1v1uij8bd.cloudfront.net",
 				"S3BucketSecureURL": "https://harrisonlakeshuttles-20190301220810-hostingbucket.s3.amazonaws.com",
@@ -122,21 +122,5 @@
 		}
 	},
 	"storage": {},
-	"analytics": {
-		"harrisonlakeshuttles": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
-				"logicalId": "analyticsharrisonlakeshuttles"
-			},
-			"lastPushTimeStamp": "2019-03-23T05:28:19.754Z",
-			"output": {
-				"appName": "harrisonlakeshuttles",
-				"Region": "us-west-2",
-				"Id": "a7202b91281943d7aff7521f10520ffc"
-			},
-			"lastPushDirHash": "pl9GA/9Sk/ysjrrtkYPsOpC2mK0="
-		}
-	}
+	"analytics": {}
 }

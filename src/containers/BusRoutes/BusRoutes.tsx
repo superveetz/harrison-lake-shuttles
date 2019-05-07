@@ -12,15 +12,9 @@ class BusRoutes extends Component {
   render() {
     return (
       <div className="container pb-5 pt-lg-3">
-        <PageHeader>Bus Routes</PageHeader>
+        <PageHeader elem="h2">Bus Schedule</PageHeader>
         <div className="row">
-          <div className="col-lg-8 col-12">
-            <GoogleMap />
-          </div>
-
           <div className="col-lg-4 col-12">
-            <PageHeader elem="h2">Bus Schedule</PageHeader>
-
             <p className="lead">
               The bus travels every day from Harrison Hot Springs to Bridgeport Station in Richmond and back. Please be
               advised that we are unable to pick-up or drop-off along the route.
@@ -59,6 +53,12 @@ class BusRoutes extends Component {
               </div>
             </div>
             {/* end col */}
+          </div>
+          <div className="col-lg-8 col-12">
+            {/* <PageHeader>Bus Routes</PageHeader> */}
+            <div className="mt-4 mt-lg-0">
+              <GoogleMap />
+            </div>
           </div>
         </div>
       </div>

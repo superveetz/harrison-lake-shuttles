@@ -35,7 +35,6 @@ export interface CachedState {
   lastActiveStep: BookNowSteps;
   departureForm: DepartureFormValues;
   returnForm: ReturnFormValues;
-  // checkoutForm: CheckoutFormValues;
 }
 
 export interface BookNowMethods {
@@ -50,7 +49,7 @@ export interface BookNowProps {
 const dropoffSuggestions = [
   { label: "Harrison Hot Springs Resort & Spa" },
   { label: "Harrison Beach Hotel (Rear parking lot)" },
-  { label: "Hot Lake Hotel" },
+  { label: "Harrison Lake Hotel" },
   { label: "Hot Spring Villa Hotel" },
   { label: "Spa Motel" },
   { label: "City Centre" },

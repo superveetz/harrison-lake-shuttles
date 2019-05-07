@@ -52,7 +52,6 @@ class MainNavBar extends React.Component<any, any> {
 
   mobileNavMenuToggleHandler = () => {
     if (this.state.mobileNavMenu.animating) return;
-    console.log("movile toggle nav clicked");
 
     this.setState((prevState: any) => {
       return {

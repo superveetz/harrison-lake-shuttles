@@ -1,5 +1,5 @@
 projects:
-  harrisonlakeshuttles:
+  harrisonlakeshuttlesapi2:
     schemaPath: src\graphql\schema.json
     includes:
       - src\graphql\**\*.ts
@@ -10,7 +10,7 @@ projects:
         codeGenTarget: typescript
         generatedFileName: src\API.ts
         docsFilePath: src\graphql
-        graphQLApiId: l4z4xm7pdbfapaj4te26medgbm
+        graphQLApiId: 7cjm6oqec5bxvcewby6udlub4q
       endpoints:
         prod: >-
-          https://bvladbrhkzcelbofo5e4tqg3ti.appsync-api.us-west-2.amazonaws.com/graphql
+          https://ypbajfuuwrfedi2tk4xcum5usy.appsync-api.us-west-2.amazonaws.com/graphql

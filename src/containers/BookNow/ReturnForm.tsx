@@ -202,7 +202,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
     formikBag: FormikProps<ReturnFormValues>,
     keyName: string,
   ) {
-    formikBag.setFieldValue(keyName, (e as any)._d.toString());
+    formikBag.setFieldValue(keyName, (e as any)._d.toISOString());
   }
 
   onKeyboardChange(
@@ -455,6 +455,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               className="w-100"
               autoOk={true}
               initialFocusedDate={new Date()}
+              minDate={new Date()}
               format="MMMM DD, YYYY"
               label="Return Date"
               placeholder="Test"
@@ -539,8 +540,6 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                                 type="text"
                                 value={passTicket.name}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                  console.log("e:", e);
-
                                   arrayHelpers.replace(passTicketIndex, {
                                     ...passTicket,
                                     name: e.target.value,
@@ -586,7 +585,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             {/* end FieldArray */}
 
             {/* Requires Wheelchair */}
-            <FormGroup row>
+            {/* <FormGroup row>
               <FormControlLabel
                 control={
                   <Switch
@@ -615,9 +614,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             <FormHelperText className="mt-0">
               We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
               selected departure date, you will be notified before checking out.
-            </FormHelperText>
+            </FormHelperText> */}
 
-            <hr className="w-75 mx-auto border-secondary" />
+            {/* <hr className="w-75 mx-auto border-secondary" /> */}
           </div>
         ) : null}
       </React.Fragment>
@@ -677,6 +676,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             <DatePicker
               className="w-100"
               autoOk={true}
+              minDate={new Date()}
               initialFocusedDate={new Date()}
               format="MMMM DD, YYYY"
               label="Return Date"
@@ -806,7 +806,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             {/* end FieldArray */}
 
             {/* Requires Wheelchair */}
-            <FormGroup row>
+            {/* <FormGroup row>
               <FormControlLabel
                 control={
                   <Switch
@@ -836,9 +836,9 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             <FormHelperText className="mt-0">
               We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
               selected departure date, you will be notified before checking out.
-            </FormHelperText>
+            </FormHelperText> */}
 
-            <hr className="w-75 mx-auto border-secondary" />
+            {/* <hr className="w-75 mx-auto border-secondary" /> */}
           </div>
         ) : null}
       </React.Fragment>
@@ -910,7 +910,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
                 this.props.cachedState.returnForm.departureDate) ||
-              new Date().toString(),
+              new Date().toISOString(),
             numberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
@@ -943,7 +943,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
                 this.props.cachedState.returnForm.extraDepartureDate) ||
-              new Date().toString(),
+              new Date().toISOString(),
             extraNumberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&

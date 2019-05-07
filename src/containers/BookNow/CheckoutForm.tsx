@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import * as queries from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 
+import { Link } from "react-router-dom";
 import { scrollToTop } from "../../shared/util";
 import { Formik, FormikProps } from "formik";
 import { connect } from "react-redux";
@@ -17,6 +18,8 @@ import {
   Typography,
   Icon,
   FormHelperText,
+  Switch,
+  FormControlLabel,
 } from "@material-ui/core";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import credentials from "../../credentials";
@@ -46,6 +49,7 @@ export interface CheckoutFormValues {
   payeeName: string;
   payeeEmail: string;
   payeePhone: string;
+  reviewedPolicies: boolean;
 }
 
 interface CheckoutFormProps {
@@ -84,6 +88,7 @@ interface OrderErrors {
 }
 
 const GST_TAX_AMOUNT: number = 0.05;
+const PST_TAX_AMOUNT: number = 0.07;
 
 // CheckoutForm Class
 class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormReduxProps, {}> {
@@ -110,6 +115,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private infantTicketType: any;
   private departingInfantTickets: PassengerTicket[] = [];
   private taxSubTotal: number = 0;
+  private taxPstSubTotal: number = 0;
   private subTotal: number = 0;
 
   private returnTicket1: any;
@@ -120,6 +126,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private return1InfantTicketType: any;
   private returning1InfantTickets: PassengerTicket[] = [];
   private returning1TaxSubTotal: number = 0;
+  private returning1TaxPSTSubTotal: number = 0;
   private return1SubTotal: number = 0;
 
   private returnTicket2: any;
@@ -130,6 +137,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   private return2InfantTicketType: any;
   private returning2InfantTickets: PassengerTicket[] = [];
   private returning2TaxSubTotal: number = 0;
+  private returning2TaxPSTSubTotal: number = 0;
   private return2SubTotal: number = 0;
 
   constructor(props: CheckoutFormProps & CheckoutFormReduxProps) {
@@ -146,7 +154,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     this.validateFrontEndErrors = this.validateFrontEndErrors.bind(this);
     this.resendOrderConfirmationEmail = this.resendOrderConfirmationEmail.bind(this);
     this.onBack = this.onBack.bind(this);
-    
+
     // ref for the tabs on return page
     this.checkoutTabsRef = React.createRef();
   }
@@ -168,9 +176,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       // get data ready for rendering
       this.initReviewOrderData();
       // validate selected order
-      this.validateOrder()
-        .finally(() => {
-        });
+      this.validateOrder().finally(() => {});
     }
   }
 
@@ -187,118 +193,126 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         this.setState({
           validatingOrder: false,
           validateOrderErrors: orderErrors,
-          validateOrderSuccess: false
+          validateOrderSuccess: false,
         });
         return reject(false);
       }
 
       // validate order against schedule
-      const promiseArray = [this.validateTicket(
-        this.props.cachedState.departureForm.departureDate,
-        this.props.cachedState.departureForm.ticketId,
-        this.props.cachedState.departureForm.passengerTickets.length,
-        this.props.cachedState.departureForm.requiresWheelchair
-      )];
+      const promiseArray = [
+        this.validateTicket(
+          this.props.cachedState.departureForm.departureDate,
+          this.props.cachedState.departureForm.ticketId,
+          this.props.cachedState.departureForm.passengerTickets.length,
+          this.props.cachedState.departureForm.requiresWheelchair,
+        ),
+      ];
 
       if (this.props.cachedState.returnForm && this.props.cachedState.returnForm.ticketId) {
         // add return form validation
-        promiseArray.push(this.validateTicket(
-          this.props.cachedState.returnForm.departureDate,
-          this.props.cachedState.returnForm.ticketId,
-          this.props.cachedState.returnForm.passengerTickets.length,
-          this.props.cachedState.returnForm.requiresWheelchair
-        ));
+        promiseArray.push(
+          this.validateTicket(
+            this.props.cachedState.returnForm.departureDate,
+            this.props.cachedState.returnForm.ticketId,
+            this.props.cachedState.returnForm.passengerTickets.length,
+            this.props.cachedState.returnForm.requiresWheelchair,
+          ),
+        );
       }
 
       if (this.props.cachedState.returnForm && this.props.cachedState.returnForm.extraTicketId) {
         // add extra return form validation
-        promiseArray.push(this.validateTicket(
-          this.props.cachedState.returnForm.extraDepartureDate,
-          this.props.cachedState.returnForm.extraTicketId,
-          this.props.cachedState.returnForm.extraPassengerTickets.length,
-          this.props.cachedState.returnForm.extraRequiresWheelchair
-        ));
+        promiseArray.push(
+          this.validateTicket(
+            this.props.cachedState.returnForm.extraDepartureDate,
+            this.props.cachedState.returnForm.extraTicketId,
+            this.props.cachedState.returnForm.extraPassengerTickets.length,
+            this.props.cachedState.returnForm.extraRequiresWheelchair,
+          ),
+        );
       }
 
-      Promise.all(promiseArray)
-      .then(([depErrs, returnErrs, returnExtraErrs]) => {
+      Promise.all(promiseArray).then(([depErrs, returnErrs, returnExtraErrs]) => {
         // any errs
         if (depErrs.length || (returnErrs && returnErrs.length) || (returnExtraErrs && returnExtraErrs.length)) {
           const orderErrs: OrderErrors = {
             departureForm: depErrs,
             returnForm: returnErrs ? returnErrs : [],
-            returnExtraForm: returnExtraErrs ? returnExtraErrs : []
+            returnExtraForm: returnExtraErrs ? returnExtraErrs : [],
           };
 
           this.setState({
             validatingOrder: false,
             validateOrderErrors: orderErrs,
-            validateOrderSuccess: false
+            validateOrderSuccess: false,
           });
-          
+
           return reject(false);
         } else {
           // all ok
           this.setState({
             validatingOrder: false,
-            validateOrderSuccess: true
+            validateOrderSuccess: true,
           });
           return resolve(true);
         }
       });
     });
-    
   }
 
-  async validateTicket(departureDate: string, ticketId: string, seatsRequested: number = 0, requiresWheelchair: boolean): Promise<string[]> {
+  async validateTicket(
+    departureDate: string,
+    ticketId: string,
+    seatsRequested: number = 0,
+    requiresWheelchair: boolean,
+  ): Promise<string[]> {
     const errors: string[] = [];
 
     if (!ticketId || !departureDate || !seatsRequested) return errors;
-    
+
     // validate against schedule
-    return await ScheduleService.findScheduleForRoute(departureDate, ticketId)
-      .then((scheduleForRoute: any) => {
-        console.log("scheduleForRoute:", scheduleForRoute);
-        
-        const scheduleForRouteDateFormatted = moment(departureDate).format("MMM DD, YYYY");
-        if (!scheduleForRoute) {
-          // no route exists yet
-          return errors;
-        }
+    return await ScheduleService.findScheduleForRoute(departureDate, ticketId).then((scheduleForRoute: any) => {
+      // console.log("scheduleForRoute:", scheduleForRoute);
 
-        if (scheduleForRoute.closed) {
-          // schedule is closed for the day
-          errors.push(
-            `Unfortunately the bus is receiving scheduled maintenance on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
-          );
-        }
-
-        // create some useful variables that we will need to finish our validation
-        const totalTicketTally: number = ScheduleService.tallyTotalScheduleTravellers(
-          scheduleForRoute.tickets.items,
-          scheduleForRoute.reservedSeats.items,
-        );
-        const doesScheduleReqWheelchair: boolean = ScheduleService.doesScheduleReqWheelchair(scheduleForRoute);
-
-        // does this order ask for a wheelchair and does this schedule already req wheelchair?
-        if (requiresWheelchair && doesScheduleReqWheelchair) {
-          errors.push(
-            `Unfortunately the wheelchair seat has already been reserved on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
-          );
-        }
-
-        // does the number of current tally tickets plus
-        // the number of tickets that we are aboutt to add greater than the number of seats on the bus?
-        const seatsOnBus = 16;
-        if (totalTicketTally + seatsRequested > seatsOnBus) {
-          errors.push(
-            `Unfortunately on ${scheduleForRouteDateFormatted}, there are ${seatsOnBus -
-              totalTicketTally} seats left on the bus and you requested ${seatsRequested}. Please try a diffferent departure date.`,
-          );
-        }
-
+      const scheduleForRouteDateFormatted = moment(departureDate).format("MMM DD, YYYY");
+      if (!scheduleForRoute) {
+        // no route exists yet
         return errors;
-      });
+      }
+
+      if (scheduleForRoute.closed) {
+        // schedule is closed for the day
+        errors.push(
+          `Unfortunately the bus is receiving scheduled maintenance on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
+        );
+      }
+
+      // create some useful variables that we will need to finish our validation
+      const totalTicketTally: number = ScheduleService.tallyTotalScheduleTravellers(
+        scheduleForRoute.tickets.items,
+        scheduleForRoute.reservedSeats.items,
+      );
+      const doesScheduleReqWheelchair: boolean = ScheduleService.doesScheduleReqWheelchair(scheduleForRoute);
+
+      // does this order ask for a wheelchair and does this schedule already req wheelchair?
+      if (requiresWheelchair && doesScheduleReqWheelchair) {
+        errors.push(
+          `Unfortunately the wheelchair seat has already been reserved on ${scheduleForRouteDateFormatted}. Please try a different departure date.`,
+        );
+      }
+
+      // does the number of current tally tickets plus
+      // the number of tickets that we are aboutt to add greater than the number of seats on the bus?
+      const seatsOnBus = 16;
+      if (totalTicketTally + seatsRequested > seatsOnBus) {
+        errors.push(
+          `Unfortunately on ${scheduleForRouteDateFormatted}, there are ${seatsOnBus -
+            totalTicketTally} seats left on the bus and you requested ${seatsRequested}. Please try a diffferent departure date.`,
+        );
+      }
+
+      return errors;
+    });
   }
 
   private validateFrontEndErrors(): OrderErrors {
@@ -419,16 +433,19 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
 
     // ensure you can not select both return and extraReturn and select wheel chair required for the same date
     if (
-      this.props.cachedState.returnForm && 
-      this.props.cachedState.returnForm.ticketId && 
-      this.props.cachedState.returnForm.extraTicketId && 
-      this.props.cachedState.returnForm.requiresWheelchair && 
-      this.props.cachedState.returnForm.extraRequiresWheelchair && 
+      this.props.cachedState.returnForm &&
+      this.props.cachedState.returnForm.ticketId &&
+      this.props.cachedState.returnForm.extraTicketId &&
+      this.props.cachedState.returnForm.requiresWheelchair &&
+      this.props.cachedState.returnForm.extraRequiresWheelchair &&
       this.props.cachedState.returnForm.departureDate &&
       this.props.cachedState.returnForm.extraDepartureDate &&
-      moment(this.props.cachedState.returnForm.departureDate).format('YYYY-MM-DD') === moment(this.props.cachedState.returnForm.extraDepartureDate).format('YYYY-MM-DD')
+      moment(this.props.cachedState.returnForm.departureDate).format("YYYY-MM-DD") ===
+        moment(this.props.cachedState.returnForm.extraDepartureDate).format("YYYY-MM-DD")
     ) {
-      errors.returnExtraForm.push("Whoops, it appears you've tried to reserve a wheelchair more than once for the same date and route. We only have one wheelchair seat on the bus.")
+      errors.returnExtraForm.push(
+        "Whoops, it appears you've tried to reserve a wheelchair more than once for the same date and route. We only have one wheelchair seat on the bus.",
+      );
     }
 
     return errors;
@@ -440,8 +457,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         stripeToken: token,
         charge: {
           currency: "CAD",
-          amount: this.getTotalAmountDue() * 100,
-          description: "Bus Ticket Booking",
+          // if you change amount, make sure you change it everywhere
+          amount: 100,// this.getTotalAmountDue() * 100, 
           payeeName: formikBag.values.payeeName,
           payeePhone: formikBag.values.payeePhone,
           payeeEmail: formikBag.values.payeeEmail,
@@ -645,16 +662,15 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         this.setState({
           checkingOut: true,
         });
-    
+
         // ensure authenticated session
         Auth.currentAuthenticatedUser().catch((err: any) => {
           Auth.signIn(credentials.guestUsername, credentials.guestPassword);
         });
-    
+
         // process stripe charge
         this.processStripeCharge(token, formikBag)
           .then((res: any) => {
-    
             // create transaction and tickets
             this.createTransactionAndTicketSales(formikBag)
               .then((res: any) => {
@@ -697,8 +713,6 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       .catch((err: any) => {
         console.log("err:", err);
       });
-
-    
   }
 
   initReviewOrderData = () => {
@@ -737,7 +751,6 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         (passTicket: PassengerTicket) => passTicket.type === this.infantTicketType.id,
       );
 
-
     // calc subtotal
     this.subTotal = 0;
     // # adults * priceAdult +
@@ -749,8 +762,10 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
 
     // calc tax on subtotal
     this.taxSubTotal = this.subTotal * GST_TAX_AMOUNT;
+    this.taxPstSubTotal = this.subTotal * PST_TAX_AMOUNT;
     // append tax to subtotal
     this.subTotal += this.taxSubTotal;
+    this.subTotal += this.taxPstSubTotal;
 
     // Return ticket one
     if (this.props.cachedState.returnForm) {
@@ -811,8 +826,10 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
 
     // calc tax on subtotal
     this.returning1TaxSubTotal = this.return1SubTotal * GST_TAX_AMOUNT;
+    this.returning1TaxPSTSubTotal = this.return1SubTotal * PST_TAX_AMOUNT;
     // append tax to subtotal
     this.return1SubTotal += this.returning1TaxSubTotal;
+    this.return1SubTotal += this.returning1TaxPSTSubTotal;
 
     // Return ticket two
     if (this.props.cachedState.returnForm) {
@@ -871,8 +888,10 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
 
     // calc tax on subtotal
     this.returning2TaxSubTotal = this.return2SubTotal * GST_TAX_AMOUNT;
+    this.returning2TaxPSTSubTotal = this.return2SubTotal * PST_TAX_AMOUNT;
     // append tax to subtotal
     this.return2SubTotal += this.returning2TaxSubTotal;
+    this.return2SubTotal += this.returning2TaxPSTSubTotal;
   };
 
   handleTabChange(e: any, value: number) {
@@ -902,9 +921,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   // submit departure form
-  onCheckoutFormSubmit(values: CheckoutFormValues) {
-    console.log("checkout submit values:", values);
-
+  onCheckoutFormSubmit(_values: CheckoutFormValues) {
     // const cachedUpdate = {
     //   lastActiveStep: BookNowSteps.Return,
     //   returnForm: {
@@ -930,9 +947,9 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     departingInfantTickets: any,
     infantTicketType: any,
     subTotal: number,
-    taxSubTotal: number
+    taxSubTotal: number,
+    taxPSTSubTotal: number
   ) {
-    
     return (
       <Paper className="bg-light py-4 my-4">
         <hr className="w-75 border-secondary" />
@@ -1040,7 +1057,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
-                  <strong>Tax (GST): </strong>
+                  <strong>GST: </strong>
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
@@ -1049,6 +1066,22 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       currency: "USD",
                       currencyDisplay: "symbol",
                     }).format(taxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>PST: </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(taxPSTSubTotal)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1087,13 +1120,15 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                     </h5>
                   </div>
                 ) : null}
-              
+
                 <div className="col-md">
                   <h5 className="">
                     <small className="">
                       <strong>Arriving at {departTicket.arrivesLocName}: </strong>
                       <br />
-                      <em className="ml-2"><u>Estimated Arrival Time</u>: {departTicket.arrivesTime}</em>
+                      <em className="ml-2">
+                        <u>Estimated Arrival Time</u>: {departTicket.arrivesTime}
+                      </em>
                       <br />
                       <em className="ml-2">(varies depending on traffic)</em>
                     </small>
@@ -1142,7 +1177,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     returning1InfantTickets: any,
     return1InfantTicketType: any,
     return1SubTotal: number,
-    return1TaxSubTotal: number
+    return1TaxSubTotal: number,
+    return1TaxPSTSubTotal: number
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1254,7 +1290,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
-                  <strong>Tax (GST): </strong>
+                  <strong>GST: </strong>
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
@@ -1263,6 +1299,22 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       currency: "USD",
                       currencyDisplay: "symbol",
                     }).format(return1TaxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+              
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>PST: </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(return1TaxPSTSubTotal)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1308,24 +1360,26 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                     <small className="">
                       <strong>Arriving at {returnTicket1.arrivesLocName}: </strong>
                       <br />
-                      <em className="ml-2"><u>Estimated Arrival Time</u>: {returnTicket1.arrivesTime}</em>
+                      <em className="ml-2">
+                        <u>Estimated Arrival Time</u>: {returnTicket1.arrivesTime}
+                      </em>
                       <br />
                       <em className="ml-2">(varies depending on traffic)</em>
                     </small>
                   </h5>
-                </div>  
+                </div>
 
                 {/* Selected Dropoff */}
                 {this.props.cachedState.returnForm.dropoffLocation ? (
-                    <div className="col-md">
-                      <h5 className="">
-                        <small className="">
-                          <strong>Selected Dropoff Location: </strong>
-                          <br />
-                          <em className="ml-2">{this.props.cachedState.returnForm.dropoffLocation}</em>
-                        </small>
-                      </h5>
-                    </div>
+                  <div className="col-md">
+                    <h5 className="">
+                      <small className="">
+                        <strong>Selected Dropoff Location: </strong>
+                        <br />
+                        <em className="ml-2">{this.props.cachedState.returnForm.dropoffLocation}</em>
+                      </small>
+                    </h5>
+                  </div>
                 ) : null}
 
                 {/* Requires Wheelchair */}
@@ -1358,7 +1412,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     returning2InfantTickets: any,
     return2InfantTicketType: any,
     return2SubTotal: number,
-    return2TaxSubTotal: number
+    return2TaxSubTotal: number,
+    return2TaxPSTSubTotal: number
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1470,7 +1525,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
-                  <strong>Tax (GST): </strong>
+                  <strong>GST: </strong>
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
@@ -1479,6 +1534,22 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       currency: "USD",
                       currencyDisplay: "symbol",
                     }).format(return2TaxSubTotal)}
+                  </strong>
+                </TableCell>
+              </TableRow>
+              
+              <TableRow>
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
+                <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
+                  <strong>PST: </strong>
+                </TableCell>
+                <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
+                  <strong>
+                    {new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(return2TaxPSTSubTotal)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1524,7 +1595,9 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                     <small className="">
                       <strong>Arriving at {returnTicket2.arrivesLocName}: </strong>
                       <br />
-                      <em className="ml-2"><u>Estimated Arrival Time</u>: {returnTicket2.arrivesTime}</em>
+                      <em className="ml-2">
+                        <u>Estimated Arrival Time</u>: {returnTicket2.arrivesTime}
+                      </em>
                       <br />
                       <em className="ml-2">(varies depending on traffic)</em>
                     </small>
@@ -1567,7 +1640,9 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     return (
       <React.Fragment>
         <h2>
-          <small>Payment Details:<sup>*</sup></small>
+          <small>
+            Payment Details:<sup>*</sup>
+          </small>
         </h2>
 
         {/* Total Amount Due */}
@@ -1590,9 +1665,9 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           <div className="alert alert-danger">
             <h5 className="alert-title">Problem Processing Transaction</h5>
             <p>
-              It appears there was a problem processing a transaction with the provided card. If this is a prepaid card, then we likely do not 
-              accept this type of credit card. If this is not a prepaid card, then there may have been insufficient funds to complete the transaction. 
-              Either way, your card should not have been charged.
+              It appears there was a problem processing a transaction with the provided card. If this is a prepaid card,
+              then we likely do not accept this type of credit card. If this is not a prepaid card, then there may have
+              been insufficient funds to complete the transaction. Either way, your card should not have been charged.
             </p>
           </div>
         ) : null}
@@ -1678,6 +1753,34 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           </div>
         </div>
 
+        <div className="row">
+          <div className="col">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={formikBag.values.reviewedPolicies}
+                  onChange={(e: React.ChangeEvent<any>) => {
+                    // update noReturnNeeded
+                    this.onKeyboardChange(
+                      { target: { value: e.target.checked } } as any,
+                      formikBag,
+                      "reviewedPolicies",
+                    );
+                  }}
+                  value={true}
+                  color="primary"
+                />
+              }
+              label={
+                <span className="text-dark">
+                  I confirm that I have read, understand and agree, to the rules and travel polices described in the{" "}
+                  <Link to="/more-info">More Info</Link> section.
+                </span>
+              }
+            />
+          </div>
+        </div>
+
         {/* Credit Card Element */}
         <div className="row my-4">
           <div className="col justify-content-center d-flex">
@@ -1685,8 +1788,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
               {this.props.appData ? (
                 <StripeCheckout
                   currency="CAD"
-                  stripeKey="pk_test_96M7DAWZBxn5eZDIn2dNtUEe"
-                  amount={this.getTotalAmountDue() * 100}
+                  // test key: pk_test_96M7DAWZBxn5eZDIn2dNtUEe
+                  // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
+                  stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
+                  // if you change amount, make sure you change it everywhere
+                  amount={100} // this.getTotalAmountDue() * 100 
                   name={this.props.appData.app.name}
                   locale="auto"
                   email={formikBag.values.payeeEmail}
@@ -1712,8 +1818,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   renderReviewOrderTab(): JSX.Element {
-    console.log("this.childTicketType:", this.childTicketType);
-    
+    // console.log("this.childTicketType:", this.childTicketType);
+
     return (
       <React.Fragment>
         {this.departTicket ? (
@@ -1733,7 +1839,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   this.departingInfantTickets,
                   this.infantTicketType,
                   this.subTotal,
-                  this.taxSubTotal
+                  this.taxSubTotal,
+                  this.taxPstSubTotal
                 )
               : null}
 
@@ -1753,7 +1860,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning1InfantTickets,
                       this.return1InfantTicketType,
                       this.return1SubTotal,
-                      this.returning1TaxSubTotal
+                      this.returning1TaxSubTotal,
+                      this.returning1TaxPSTSubTotal
                     )
                   : null}
                 {/* Return Two */}
@@ -1767,7 +1875,8 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning2InfantTickets,
                       this.return2InfantTicketType,
                       this.return2SubTotal,
-                      this.returning2TaxSubTotal
+                      this.returning2TaxSubTotal,
+                      this.returning2TaxPSTSubTotal
                     )
                   : null}
               </React.Fragment>
@@ -1818,7 +1927,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       },
     })
       .then((res: any) => {
-        console.log("res:", res);
+        // console.log("res:", res);
         this.setState({
           resendingConfirmationEmail: false,
           resendConfirmationSuccess: true,
@@ -1879,12 +1988,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                         email within a few minutes, you can resend the email using the following link.
                       </p>
                       <div className="text-center">
-                        <Button
-                            classes="mt-2"
-                            kind="link"
-                            to="/more-info"
-                            theme="primary"
-                          >
+                        <Button classes="mt-2" kind="link" to="/more-info" theme="primary">
                           Review Travel Policies
                         </Button>
                         <Button
@@ -1908,6 +2012,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                         payeeName: "",
                         payeeEmail: "",
                         payeePhone: "",
+                        reviewedPolicies: false,
                       }}
                       onSubmit={(values: CheckoutFormValues) => this.onCheckoutFormSubmit(values)}
                       validationSchema={Yup.object().shape({
@@ -1922,6 +2027,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                           .test("payeePhoneIsOnlyNumbers", "Please provide a valid 10 digit phone number", (value) =>
                             new RegExp(/^\d{10}$/g).test(value),
                           ),
+                        reviewedPolicies: Yup.boolean().test(
+                          "reviewedPoliciesIsTrue",
+                          "testing!",
+                          (value) => value === true,
+                        ),
                       })}
                       render={(formikBag: FormikProps<CheckoutFormValues>) => {
                         return (

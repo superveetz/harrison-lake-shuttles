@@ -2,7 +2,7 @@ import * as React from "react";
 import { scrollToTop } from "../../shared/util";
 
 const classes: any = require("./Home.module.css");
-import imgSlide4 from "../../assets/img/slide-4.jpg";
+import imgSlide4 from "../../assets/img/harrison-milky-way.jpg";
 
 import Slider from "../../components/UI/Slider/Slider";
 import Button from "../../components/UI/Button/Button";
@@ -56,11 +56,11 @@ class Home extends React.Component<{}, {}> {
         </section>
 
         <section style={section3Styles} className={[classes.Section, classes.Section3, classes.FlexCenter].join(" ")}>
-          <Button classes="align-self-center" kind="link" size="btn-lg" to="/book-now" theme="secondary" xl>
+          <Button classes="align-self-center" kind="link" size="btn-lg" to="/book-now" theme="secondary">
             Book Now
           </Button>
 
-          <Button classes="align-self-center" kind="link" size="btn-lg" to="/contact" theme="primary" xl>
+          <Button classes="align-self-center" kind="link" size="btn-lg" to="/contact" theme="primary">
             Contact Us
           </Button>
         </section>

@@ -1,9 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
-import GoogleMap from "../../components/UI/GoogleMap/GoogleMap";
 import { AppDataStore } from "../../store/reducers/app-data";
 import { scrollToTop } from "../../shared/util";
+
+import ContactUsImg from "../../assets/img/contact-us-img.jpg";
 
 interface ContactProps {
   appData: AppDataStore;
@@ -20,7 +21,7 @@ class Contact extends React.Component<ContactProps, {}> {
 
         <div className="row">
           <div className="col">
-            <GoogleMap view="marker" />
+            <img className="img-fluid" src={ContactUsImg} alt="Contact Us Image" />
           </div>
 
           <div className="col-lg-6">
@@ -33,7 +34,8 @@ class Contact extends React.Component<ContactProps, {}> {
 
             <ul className="lead list-group">
               <li className="list-group-item">
-                <i className="fa fa-fw fa-envelope" /> &nbsp;
+                <i className="fa fa-fw fa-envelope" />
+                &nbsp;
                 <strong>
                   {this.props.appData.app.infoEmail ? (
                     <a href={this.props.appData.app.infoEmail} className="">

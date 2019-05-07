@@ -10,15 +10,15 @@ require("dotenv").config();
 
 var AWS = require("aws-sdk");
 const awsConfig = {
-  accessKeyId: "AKIAJTPTKWOQQX57B57A",
-  secretAccessKey: "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",
+  accessKeyId: "AKIAYMYDCCAKW6Y2FEMI",
+  secretAccessKey: "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",
   region: "us-west-2",
   fromSiteEmail: "info@harrisonlakeshuttles.com",
 };
 
 var ses = new AWS.SES(awsConfig);
 
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+var stripe = require("stripe")(process.env.STRIPE_LIVE_SECRET_KEY);
 
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -37,6 +37,7 @@ app.use(function(req, res, next) {
 });
 
 const GST_TAX_AMOUNT = 0.05;
+const PST_TAX_AMOUNT = 0.07;
 
 function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTickets, ticketId, depDate, reqWheelchair) {
   let ticketTables = "";
@@ -104,18 +105,26 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
     </tr>
   `;
 
-    // close table
+    // show taxes and close table
     if (passTicketIndex === passTickets.length - 1) {
       // calc tax and apply
       const departureTravellerTaxSubTotal = GST_TAX_AMOUNT * departureTravellerSubTotal;
+      const departureTravellerTaxPSTSubTotal = PST_TAX_AMOUNT * departureTravellerSubTotal;
       // apply tax to subtotal
       departureTravellerSubTotal += departureTravellerTaxSubTotal;
+      departureTravellerSubTotal += departureTravellerTaxPSTSubTotal;
 
       // sum of tickets
       departureTravellerTable += `
       <tr>
         <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Tax (GST):</td>
         <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerTaxSubTotal.toFixed(
+          2,
+        )}</b></td>
+      </tr>
+      <tr>
+        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Tax (PST):</td>
+        <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerTaxPSTSubTotal.toFixed(
           2,
         )}</b></td>
       </tr>
@@ -178,7 +187,15 @@ function buildEmailConfirmationEmail(req) {
     req.body.charge.payeeName +
     ",</h2>";
   receiptHtml +=
-    "<p style='text-align: left;'>Thank you for booking with Harrison Lake Shuttles! This emails confirms that your order has been received and your trip is booked. Please find your ticket information below, you may be required to show this email to your bus driver in order to board the bus.</p></div>";
+    "<p style='text-align: left;'>Thank you for booking with Harrison Lake Shuttles! This emails confirms that your transaction processed successfully and your trip is booked. Please find your ticket information below, you may be required to show this email to your bus driver in order to board the bus.</p>";
+
+  receiptHtml +=
+    "<p style='text-align: left;'>Please be sure to read and understand our policies in our <a href='https://harrisonlakeshuttles.com/more-info'>More Info</a> page.</p>";
+
+  receiptHtml +=
+    "<p style='text-align: left;'><u>REFUND POLICY</u>: IF you wish to cancel your ride you <em>MUST DO SO WITHIN 48 HOURS OF YOUR PICK-UP TIME</em>. Refunds will be issued in full as long as you cancel within the time frame. If you have any questions or concerns, please send us an email at <a href='mailto:info@harrisonlakeshuttles.com'>info@harrisonlakeshuttles.com</a>.</p>";
+
+  receiptHtml += "</div>";
 
   receiptHtml +=
     "<div style='margin-top: 15px; margin-bottom: 15px;'><hr style='width: 100%; margin: auto; border: 1px dashed #4a4a4a;' /></div>";
@@ -336,7 +353,7 @@ const processTransaction = function(req, res, next) {
       source: req.body.stripeToken.id,
       amount: Math.round(req.body.charge.amount),
       currency: "CAD",
-      description: req.body.charge.description,
+      description: "Harrison Lake Shuttles",
     })
     .then((charge) => {
       console.log("stripe checkout success", charge);
@@ -374,7 +391,7 @@ app.post("/resend-order-confirmation-email", sendOrderConfirmationEmail, functio
 });
 
 app.listen(3000, function() {
-  console.log("App started");
+  console.log("App started on port", 3000);
 });
 
 // Export the app object. When executing the application local this does nothing. However,

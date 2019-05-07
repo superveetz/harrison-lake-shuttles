@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { scrollToTop } from "../../shared/util";
 
-import testImg from "../../assets/slide-5.jpg";
+import imgTripInfo from "../../assets/img/booking.png";
+import imgBaggage from "../../assets/img/baggage.jpg";
+import imgBusSafety from "../../assets/img/bus-safety.png";
+import imgBus from "../../assets/img/slide-4.jpg";
 
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
 
 class MoreInfo extends Component {
+  private imgHeight: number = 435;
+
   componentDidMount() {
     scrollToTop();
   }
@@ -17,11 +22,16 @@ class MoreInfo extends Component {
 
         <div className="row">
           <div className="col-md-6">
-            <div className="card bg-success text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
+            <div className="card bg-primary text-white mb-3">
+              <img
+                alt="Card image cap"
+                style={{ height: `${this.imgHeight}px` }}
+                className="card-img-top"
+                src={imgBus}
+              />
               <div className="card-body">
                 <h3 className="card-title">Trip Information:</h3>
-                <p className="lead card-text">
+                <div className="lead card-text">
                   <ul className="list-group bg-transparent border-0 list-group-flush">
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; The travel time in each direction is about 2 hours and 30 minutes.
@@ -37,16 +47,21 @@ class MoreInfo extends Component {
                       &bull; The driver cannot pick you up or drop off off anywhere other than the terminus stop.
                     </li>
                   </ul>
-                </p>
+                </div>
               </div>
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card bg-primary text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
+            <div className="card bg-success text-white mb-3">
+              <img
+                alt="Card image cap"
+                style={{ height: `${this.imgHeight}px` }}
+                className="card-img-top"
+                src={imgTripInfo}
+              />
               <div className="card-body">
                 <h3 className="card-title">Before You Book:</h3>
-                <p className="lead card-text">
+                <div className="lead card-text">
                   <ul className="list-group bg-transparent border-0 list-group-flush">
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; Passengers are encouraged to arrive at their stop 15 minutes early.
@@ -62,19 +77,24 @@ class MoreInfo extends Component {
                       &bull; No refund will be issued if you miss your bus.
                     </li>
                   </ul>
-                </p>
+                </div>
               </div>
             </div>
           </div>
           <div className="col-md-6">
             <div className="card bg-danger text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
+              <img
+                alt="Card image cap"
+                style={{ height: `${this.imgHeight}px` }}
+                className="card-img-top"
+                src={imgBusSafety}
+              />
               <div className="card-body">
                 <h3 className="card-title">Bus Rules &amp; Regulations:</h3>
-                <p className="lead card-text">
+                <div className="lead card-text">
                   <ul className="list-group bg-transparent border-0 list-group-flush">
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
-                      &bull; SAFETY FIRST. If any unsafe acts observed during the trip will not be tolerated.
+                      &bull; SAFETY FIRST. Any unsafe acts observed during the trip will not be tolerated.
                     </li>
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; No smoking cigarettes, vaporizers, or otherwise.
@@ -86,16 +106,21 @@ class MoreInfo extends Component {
                       &bull; Swearing or violent acts will not be tolerated.
                     </li>
                   </ul>
-                </p>
+                </div>
               </div>
             </div>
           </div>
           <div className="col-md-6">
             <div className="card bg-secondary text-white mb-3">
-              <img alt="Card image cap" className="card-img-top" src={testImg} />
+              <img
+                alt="Card image cap"
+                style={{ height: `${this.imgHeight}px` }}
+                className="card-img-top"
+                src={imgBaggage}
+              />
               <div className="card-body">
                 <h3 className="card-title">Baggage Policies:</h3>
-                <p className="lead card-text">
+                <div className="lead card-text">
                   <ul className="list-group bg-transparent border-0 list-group-flush">
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; Passengers will be allowed ONE large suitcase. The bus can only hold a certain amount.
@@ -107,7 +132,7 @@ class MoreInfo extends Component {
                       &bull; Pets are NOT allowed at this time.
                     </li>
                   </ul>
-                </p>
+                </div>
               </div>
             </div>
           </div>

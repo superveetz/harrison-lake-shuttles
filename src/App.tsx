@@ -101,8 +101,8 @@ class App extends React.Component<AppReduxProps, {}> {
     const currentUserIsAuthAdmin = this.isCurrentUserAuthAdmin();
     const pathRequiresAuth =
       this.props.history.location.pathname.includes("/admin") ||
-      this.props.history.location.pathname.includes("/book-now");
-
+      this.props.history.location.pathname.includes("/book-now") ||
+      this.props.history.location.pathname.includes("/login");
     let routes = (
       <Switch>
         {/* Static Pages */}

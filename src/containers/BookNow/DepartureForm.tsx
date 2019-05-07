@@ -22,7 +22,7 @@ import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import SelectTicketCard from "../../components/UI/Cards/SelectTicketCard/SelectTicketCard";
 import Steps from "./UI/Steps/Steps";
-import { CachedState, IBookNowState, BookNowSteps, PassengerTicket, BookNowMethods } from "./BookNow";
+import { CachedState, BookNowSteps, PassengerTicket, BookNowMethods } from "./BookNow";
 import ReturnForm from "./ReturnForm";
 
 export interface DepartureFormValues {
@@ -45,45 +45,6 @@ interface DepartureFormProps {
 
 interface DepartureFormState {
   isSelectDepartureTicketOpen: boolean;
-}
-
-// autocomplete functions
-
-function renderInput(inputProps: any) {
-  const { InputProps, classes, ref, ...other } = inputProps;
-
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        classes: {
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        },
-        ...InputProps,
-      }}
-      {...other}
-    />
-  );
-}
-
-function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }: any) {
-  const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || "").indexOf(suggestion.label) > -1;
-
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-      }}
-    >
-      {suggestion.label}
-    </MenuItem>
-  );
 }
 
 // DepartureForm Class
@@ -122,7 +83,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
   }
 
   onChangeDepartureDate(e: React.ChangeEvent<DepartureFormValues>, formikBag: FormikProps<DepartureFormValues>) {
-    formikBag.setFieldValue("departureDate", (e as any)._d.toString());
+    formikBag.setFieldValue("departureDate", (e as any)._d.toISOString());
   }
 
   onKeyboardChange(
@@ -130,8 +91,6 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
     formikBag: FormikProps<DepartureFormValues>,
     fieldName: keyof DepartureFormValues,
   ): void {
-    console.log("e.target.value:", e.target.value);
-
     formikBag.setFieldValue(fieldName, (e.target as HTMLSelectElement).value);
   }
 
@@ -373,7 +332,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
         {/* end FieldArray */}
 
         {/* Requires Wheelchair */}
-        <FormGroup row>
+        {/* <FormGroup row>
           <FormHelperText className="mt-4">
             We have space for exactly one wheelchair. If someone else has already reserved the wheelchair on the
             selected departure date, you will be notified before checking out.
@@ -401,7 +360,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
               )
             }
           />
-        </FormGroup>
+        </FormGroup> */}
 
         <div className="row mt-4">
           <Button
@@ -466,7 +425,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&
                 this.props.cachedState.departureForm.departureDate) ||
-              new Date().toString(),
+              new Date().toISOString(),
             numberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&

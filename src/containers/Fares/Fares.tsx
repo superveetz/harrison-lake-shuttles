@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
 import PricingTable from "../../components/UI/PricingTable/PricingTable";
 
@@ -11,7 +11,7 @@ class Fares extends Component {
 
         <p className="lead">
           Fares are for one direction and do not include 5% service tax. Before you choose your ticket, we strongly
-          recommend reading our "More Info" section to view all policies and regulations.
+          recommend reading our <Link to="/more-info">More Info</Link> section to view all policies and regulations.
         </p>
 
         <PricingTable />
