@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
@@ -5,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify from "aws-amplify";
 
 // vendor css :todo - put this in css import
 import "font-awesome/css/font-awesome.min.css";
