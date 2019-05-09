@@ -13,7 +13,7 @@ interface HeaderNavState {
 
 class HeaderNav extends React.Component<any, HeaderNavState> {
   private headerRef: React.RefObject<HTMLDivElement> = React.createRef();
-  private rootElem: any = document.querySelector("#root");
+  private rootElem = document.querySelector("#root");
   private lastScrollAmount = 70;
   private animationTimeout = 500;
   private animationTimeoutRef: any;
@@ -24,15 +24,19 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   };
 
   componentDidMount() {
-    (this.rootElem as any).addEventListener("scroll", this.onRootScroll.bind(this));
+    if (this.rootElem) {
+      this.rootElem.addEventListener("scroll", this.onRootScroll.bind(this));
+    }
   }
 
   componentWillUnmount() {
-    (this.rootElem as any).removeEventListener("scroll", this.onRootScroll.bind(this));
+    if (this.rootElem) {
+      this.rootElem.removeEventListener("scroll", this.onRootScroll.bind(this));
+    }
   }
 
   onRootScroll() {
-    const scrollAmount = this.rootElem.scrollTop;
+    const scrollAmount = this.rootElem ? this.rootElem.scrollTop : 0;
 
     if (scrollAmount > this.lastScrollAmount) {
       if (scrollAmount < 70) return;
@@ -107,7 +111,7 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
     }
 
     // set last scroll amount
-    this.lastScrollAmount = this.rootElem.scrollTop;
+    this.lastScrollAmount = scrollAmount;
   }
 
   render() {

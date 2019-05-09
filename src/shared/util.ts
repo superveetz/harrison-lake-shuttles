@@ -42,5 +42,8 @@ export const arrayOfObjToRows = (arrayOfObj: object[]) => {
 };
 
 export const scrollToTop = () => {
-  (document.querySelector("#root") as any).scrollTo(0, 0);
+  const rootElem = document.querySelector("#root");
+  if (rootElem) {
+    rootElem.scrollTop = 0;
+  }
 };
