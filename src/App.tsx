@@ -121,7 +121,7 @@ class App extends React.Component<AppReduxProps, {}> {
         {/* Authenticated Admin Routes */}
         {currentUserIsAuthAdmin ? <Route path="/admin" component={Admin} /> : null}
 
-        {pathRequiresAuth && !this.props.authLoading ? <Redirect to="/404" /> : null}
+        {(pathRequiresAuth && !this.props.authLoading) || !pathRequiresAuth ? <Redirect to="/404" /> : null}
       </Switch>
     );
 

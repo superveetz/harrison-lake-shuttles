@@ -38,7 +38,7 @@ class Contact extends React.Component<ContactProps, {}> {
                 &nbsp;
                 <strong>
                   {this.props.appData.app.infoEmail ? (
-                    <a href={this.props.appData.app.infoEmail} className="">
+                    <a href={`mailto:${this.props.appData.app.infoEmail}`} className="">
                       {this.props.appData.app.infoEmail}
                     </a>
                   ) : null}
