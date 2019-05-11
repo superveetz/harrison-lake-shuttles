@@ -76,6 +76,10 @@ class MoreInfo extends Component {
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; No refund will be issued if you miss your bus.
                     </li>
+                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
+                      &bull; Trips must be cancelled within 48 hours prior to your reservation in order to receive a
+                      full refund.
+                    </li>
                   </ul>
                 </div>
               </div>

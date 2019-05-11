@@ -458,7 +458,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         charge: {
           currency: "CAD",
           // if you change amount, make sure you change it everywhere
-          amount: 100,// this.getTotalAmountDue() * 100, 
+          amount: this.getTotalAmountDue() * 100,
           payeeName: formikBag.values.payeeName,
           payeePhone: formikBag.values.payeePhone,
           payeeEmail: formikBag.values.payeeEmail,
@@ -948,7 +948,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     infantTicketType: any,
     subTotal: number,
     taxSubTotal: number,
-    taxPSTSubTotal: number
+    taxPSTSubTotal: number,
   ) {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1178,7 +1178,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     return1InfantTicketType: any,
     return1SubTotal: number,
     return1TaxSubTotal: number,
-    return1TaxPSTSubTotal: number
+    return1TaxPSTSubTotal: number,
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1302,7 +1302,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </strong>
                 </TableCell>
               </TableRow>
-              
+
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
@@ -1413,7 +1413,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     return2InfantTicketType: any,
     return2SubTotal: number,
     return2TaxSubTotal: number,
-    return2TaxPSTSubTotal: number
+    return2TaxPSTSubTotal: number,
   ): JSX.Element {
     return (
       <Paper className="bg-light py-4 my-4">
@@ -1537,7 +1537,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </strong>
                 </TableCell>
               </TableRow>
-              
+
               <TableRow>
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "10%" }} />
                 <TableCell component="td" scope="row" align="left" padding="none" style={{ width: "55%" }}>
@@ -1792,7 +1792,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
                   stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
                   // if you change amount, make sure you change it everywhere
-                  amount={100} // this.getTotalAmountDue() * 100 
+                  amount={this.getTotalAmountDue() * 100}
                   name={this.props.appData.app.name}
                   locale="auto"
                   email={formikBag.values.payeeEmail}
@@ -1840,7 +1840,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   this.infantTicketType,
                   this.subTotal,
                   this.taxSubTotal,
-                  this.taxPstSubTotal
+                  this.taxPstSubTotal,
                 )
               : null}
 
@@ -1861,7 +1861,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.return1InfantTicketType,
                       this.return1SubTotal,
                       this.returning1TaxSubTotal,
-                      this.returning1TaxPSTSubTotal
+                      this.returning1TaxPSTSubTotal,
                     )
                   : null}
                 {/* Return Two */}
@@ -1876,7 +1876,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.return2InfantTicketType,
                       this.return2SubTotal,
                       this.returning2TaxSubTotal,
-                      this.returning2TaxPSTSubTotal
+                      this.returning2TaxPSTSubTotal,
                     )
                   : null}
               </React.Fragment>

@@ -42,11 +42,11 @@
 }
 
 .FooterBottom {
+  background-color: rgb(38, 102, 22) !important;
   border-top: 1px solid black;
-  background-color: #3f723e;
   color: #ccc;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .FooterBottom p {
@@ -65,4 +65,19 @@
 
 .FooterContactWrap a {
   color: #3f723e;
+}
+
+.FooterVeryBottom {
+  background-color: #3f723e;
+  text-align: center;
+  border-top: 1px solid black;
+  color: #c8c8c8;
+  padding: 6px 0;
+  font-size: 12px;
+  font-size: "Raleway";
+}
+
+.FooterVeryBottom a {
+  color: #c8c8c8;
+  font-weight: none;
 }

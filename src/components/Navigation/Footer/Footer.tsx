@@ -128,6 +128,12 @@ class Footer extends React.Component<FooterReduxProps, {}> {
             </small>
           </p>
         </div>
+        <div className={classes.FooterVeryBottom}>
+          Built &amp; powered by{" "}
+          <a href="https://alexdivito.ca" target="_blank">
+            ADV Software Solutions <i className="fa fa-external-link" />
+          </a>
+        </div>
       </footer>
     );
   }

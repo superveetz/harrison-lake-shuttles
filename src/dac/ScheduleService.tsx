@@ -30,11 +30,11 @@ ScheduleService = class ScheduleService {
   static tallyTotalScheduleTravellers(scheduleTickets: any[] = [], reservedSeats: any[] = []): number {
     let totalTravellers: number = 0;
 
-    scheduleTickets.forEach((ticket: any) => {
-      totalTravellers += ticket.ticketTypes.items.length;
-    });
+    // tally tickets
+    if (scheduleTickets && scheduleTickets.length) totalTravellers += scheduleTickets.length;
 
-    totalTravellers += reservedSeats.length;
+    // tally reserved seats
+    if (reservedSeats && reservedSeats.length) totalTravellers += reservedSeats.length;
 
     return totalTravellers;
   }

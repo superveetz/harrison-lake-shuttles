@@ -63,7 +63,7 @@ class ScheduleDetails extends React.Component<ScheduleDetailsProps, ScheduleDeta
               ) : null}
             </div>
 
-            <div className="text-right d-print-none">
+            <div className="text-sm-right d-print-none">
               <Button size="md" kind="button" theme="secondary" click={() => window.print()}>
                 Print Schedule
               </Button>
@@ -101,37 +101,45 @@ class ScheduleDetails extends React.Component<ScheduleDetailsProps, ScheduleDeta
 
             <hr className="w-100 border border-light" />
 
-            <div className="row mb-3">
-              <div className="col-12">
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    Tickets Sold + Seats Reserved: &nbsp;
-                    <strong>
-                      {ScheduleService.tallyTotalScheduleTravellers(
-                        this.state.schedule.tickets.items,
-                        this.state.schedule.reservedSeats.items,
-                      )}
-                    </strong>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <h2>
+            <h2 className="float-left">
               <small>Ticket Information</small>
             </h2>
+
+            <div className="text-sm-right" style={{ margin: "10px 0 0 0" }}>
+              <span
+                className="border border-secondary"
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  fontSize: "18px",
+                  padding: "5px",
+                  borderRadius: "3px",
+                }}
+              >
+                Tickets Sold + Seats Reserved:&nbsp;
+                <strong className="badge badge-warning text-dark">
+                  {ScheduleService.tallyTotalScheduleTravellers(
+                    this.state.schedule.tickets.items,
+                    this.state.schedule.reservedSeats.items,
+                  )}
+                </strong>
+              </span>
+            </div>
+
             {this.state.schedule.tickets.items.length ? (
               <div
                 style={{
                   overflowX: "scroll",
+                  clear: "both",
                 }}
               >
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Group Information</TableCell>
+                      <TableCell>Payee Information</TableCell>
                       <TableCell>Travellers Name</TableCell>
                       <TableCell>Ticket Type</TableCell>
+                      <TableCell>Pickup&nbsp;/&nbsp;Dropoff</TableCell>
                       <TableCell>Requires Wheelchair</TableCell>
                     </TableRow>
                   </TableHead>
@@ -186,6 +194,15 @@ class ScheduleDetails extends React.Component<ScheduleDetailsProps, ScheduleDeta
                                   </React.Fragment>
                                 );
                               })}
+                            </ul>
+                          </TableCell>
+                          <TableCell>
+                            <ul className="list-inline">
+                              <li className="list-inline-item">
+                                <strong>
+                                  {ticket.departsPickupLoc ? ticket.departsPickupLoc : ticket.arrivesDropoffLoc}
+                                </strong>
+                              </li>
                             </ul>
                           </TableCell>
                           <TableCell align="center" padding="none">
