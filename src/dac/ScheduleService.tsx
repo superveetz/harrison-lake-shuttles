@@ -31,7 +31,13 @@ ScheduleService = class ScheduleService {
     let totalTravellers: number = 0;
 
     // tally tickets
-    if (scheduleTickets && scheduleTickets.length) totalTravellers += scheduleTickets.length;
+    if (scheduleTickets && scheduleTickets.length) {
+      scheduleTickets.forEach((scheduleTicket: any) => {
+        if (scheduleTicket.ticketTypes && scheduleTicket.ticketTypes.items && scheduleTicket.ticketTypes.items.length) {
+          totalTravellers += scheduleTicket.ticketTypes.items.length;
+        }
+      });
+    }
 
     // tally reserved seats
     if (reservedSeats && reservedSeats.length) totalTravellers += reservedSeats.length;
