@@ -117,13 +117,13 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
       // sum of tickets
       departureTravellerTable += `
       <tr>
-        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Tax (GST):</td>
+        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>GST:</td>
         <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerTaxSubTotal.toFixed(
           2,
         )}</b></td>
       </tr>
       <tr>
-        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Tax (PST):</td>
+        <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>PST:</td>
         <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>$${departureTravellerTaxPSTSubTotal.toFixed(
           2,
         )}</b></td>
