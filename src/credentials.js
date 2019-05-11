@@ -1,6 +1,6 @@
 const credentials = {
   guestUsername: "Guest",
-  guestPassword: "Oasis@321",
+  guestPassword: "$uperDankSecurePassword",
 };
 
 export default credentials;
