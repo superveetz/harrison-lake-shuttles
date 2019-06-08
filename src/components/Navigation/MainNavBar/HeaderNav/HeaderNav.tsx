@@ -16,12 +16,27 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   private rootElem = document.querySelector("#root");
   private lastScrollAmount = 70;
   private animationTimeout = 500;
-  private animationTimeoutRef: any;
+  private willAnimateDown: boolean = true;
+  private willAnimateUp: boolean = false;
+  private scrollUpAnimationRef: number = 0;
+  private scrollDownAnimationRef: number = 0;
+  private animationOccurring: boolean = false;
 
   public state: HeaderNavState = {
     animateClass: "slideInDown",
     animationOccurring: false,
   };
+
+  constructor(props: any) {
+    super(props);
+
+    this.handleScrollDown = this.handleScrollDown.bind(this);
+    this.handleScrollUp = this.handleScrollUp.bind(this);
+    this.initDelayedScrollDownAnimation = this.initDelayedScrollDownAnimation.bind(this);
+    this.initScrollDownAnimation = this.initScrollDownAnimation.bind(this);
+    this.initDelayedScrollUpAnimation = this.initDelayedScrollUpAnimation.bind(this);
+    this.initScrollUpAnimation = this.initScrollUpAnimation.bind(this);
+  }
 
   componentDidMount() {
     if (this.rootElem) {
@@ -35,82 +50,97 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
     }
   }
 
+  handleScrollDown(scrollAmount: number): void {
+    if (this.scrollUpAnimationRef) clearTimeout(this.scrollUpAnimationRef);
+    this.willAnimateDown = false;
+
+    // if the nav is already hidden, return
+    if (this.state.animateClass === "slideOutUp" || this.willAnimateUp) return;
+
+    // if an animation is already occuring, set a timeout and apply then hide animation after
+    if (this.animationOccurring) {
+      this.willAnimateUp = true;
+      return this.initDelayedScrollDownAnimation();
+    } else {
+      // no animation occuring, so free to start animation right away
+      this.willAnimateUp = true;
+      return this.initScrollDownAnimation();
+    }
+  }
+
+  initScrollDownAnimation(): void {
+    this.animationOccurring = true;
+    this.setState(
+      {
+        animateClass: "slideOutUp",
+      },
+      () => {
+        // flag animationOccuring false after another animationTimeout
+        setTimeout(() => {
+          this.willAnimateUp = false;
+          this.animationOccurring = false;
+        }, this.animationTimeout);
+      },
+    );
+  }
+
+  initDelayedScrollDownAnimation(): void {
+    this.scrollDownAnimationRef = window.setTimeout(() => {
+      this.initScrollDownAnimation();
+    }, this.animationTimeout); // wait atleast the length of the animation before proccing
+  }
+
+  handleScrollUp(scrollAmount: number): void {
+    if (this.scrollDownAnimationRef) clearTimeout(this.scrollDownAnimationRef);
+    this.willAnimateUp = false;
+
+    // if the nav is already hidden, return
+    if (this.state.animateClass === "slideInDown" || this.willAnimateDown) return;
+
+    // if an animation is already occuring, set a timeout and apply then hide animation after
+    if (this.animationOccurring) {
+      this.willAnimateDown = true;
+      return this.initDelayedScrollUpAnimation();
+    } else {
+      // no animation occuring, so free to start animation right away
+      this.willAnimateDown = true;
+      this.initScrollUpAnimation();
+    }
+  }
+
+  initDelayedScrollUpAnimation(): void {
+    this.scrollUpAnimationRef = window.setTimeout(() => {
+      this.initScrollUpAnimation();
+    }, this.animationTimeout); // wait atleast the length of the animation before proccing
+  }
+
+  initScrollUpAnimation(): void {
+    this.animationOccurring = true;
+    this.setState(
+      {
+        animateClass: "slideInDown",
+      },
+      () => {
+        // flag animationOccuring false after another animationTimeout
+        setTimeout(() => {
+          this.animationOccurring = false;
+          this.willAnimateDown = false;
+        }, this.animationTimeout);
+      },
+    );
+  }
+
   onRootScroll() {
     const scrollAmount = this.rootElem ? this.rootElem.scrollTop : 0;
 
     if (scrollAmount > this.lastScrollAmount) {
-      if (scrollAmount < 70) return;
-
       // scrolling down
-      if (!this.state.animationOccurring) {
-        // doesn't have an animating class
-        if (this.state.animateClass !== "slideOutUp") {
-          this.setState({
-            animateClass: "slideOutUp",
-            animationOccurring: true,
-          });
-
-          // after a little while, set the animation occurring to false
-          this.animationTimeoutRef = setTimeout(() => {
-            this.setState({
-              animationOccurring: false,
-            });
-          }, this.animationTimeout);
-        }
-      }
+      this.handleScrollDown(scrollAmount);
     } else {
       // scrolling up
-      if (!this.state.animationOccurring) {
-        // doesn't have an animating class
-        if (this.state.animateClass !== "slideInDown") {
-          this.setState({
-            animateClass: "slideInDown",
-            animationOccurring: true,
-          });
-
-          // after a little while, set the animation occuring to false
-          this.animationTimeoutRef = setTimeout(() => {
-            this.setState({
-              animationOccurring: false,
-            });
-          }, this.animationTimeout);
-        }
-      } else if (scrollAmount < 70) {
-        // at top of the screen
-        if (!this.state.animationOccurring) {
-          if (this.state.animateClass !== "slideInDown") {
-            this.setState({
-              animateClass: "slideInDown",
-              animationOccurring: true,
-            });
-
-            this.animationTimeoutRef = setTimeout(() => {
-              this.setState({
-                animationOccurring: false,
-              });
-            }, this.animationTimeout);
-          }
-        } else {
-          if (this.state.animateClass !== "slideInDown") {
-            if (this.animationTimeoutRef) clearTimeout(this.animationTimeoutRef);
-            setTimeout(() => {
-              this.setState({
-                animateClass: "slideInDown",
-                animationOccurring: true,
-              });
-            }, this.animationTimeout);
-
-            this.animationTimeoutRef = setTimeout(() => {
-              this.setState({
-                animationOccurring: false,
-              });
-            }, this.animationTimeout);
-          }
-        }
-      }
+      this.handleScrollUp(scrollAmount);
     }
 
-    // set last scroll amount
     this.lastScrollAmount = scrollAmount;
   }
 

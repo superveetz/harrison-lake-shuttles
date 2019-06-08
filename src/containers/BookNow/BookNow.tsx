@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as queries from "../../graphql/queries";
-import { Link } from "react-router-dom";
+import BusImg from "../../assets/img/harrison-lake-shuttle.jpg";
 import { scrollToTop } from "../../shared/util";
 import { AppDataStore } from "../../store/reducers/app-data";
 import { API, graphqlOperation, Auth } from "aws-amplify";
@@ -84,6 +84,8 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
     // bind methods
     this.fetchTicketProducts = this.fetchTicketProducts.bind(this);
     this.updateParentState = this.updateParentState.bind(this);
+    this.renderDesktopView = this.renderDesktopView.bind(this);
+    this.renderMobileView = this.renderMobileView.bind(this);
   }
 
   async componentWillMount() {
@@ -242,6 +244,100 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
     return pageContent;
   }
 
+  renderDesktopView(): JSX.Element | null {
+    return (
+      <div className="row d-none d-md-block d-lg-block d-xl-block">
+        <div className="col-12">
+          {/* Desktop View */}
+          <div className="">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-5">
+                  <h5 className="" style={{ fontWeight: "bold", color: "#4a4a4a" }}>
+                    Richmond to Harrison Hot Springs &amp; Special Event Service
+                  </h5>
+
+                  <p className="card-text">
+                    <span
+                      style={{ fontSize: "18px", fontStyle: "italic", textDecoration: "underline", color: "#4a4a4a" }}
+                    >
+                      10am-10pm 7 days a week
+                    </span>
+                  </p>
+                  <hr />
+                  <p className="card-text">
+                    <span style={{ fontSize: "17px", fontFamily: "Open Sans", color: "#4a4a4a" }}>
+                      For a free estimate, please call:
+                    </span>{" "}
+                    <br />
+                    <a style={{ fontWeight: "bold" }} href="tel:6132583580">
+                      +1 (613) 258-3580
+                    </a>{" "}
+                    <br />
+                  </p>
+                  <hr />
+                  <p className="card-text">
+                    <span style={{ fontSize: "17px", fontFamily: "Open Sans", color: "#4a4a4a" }}>or email us at</span>{" "}
+                    <br />{" "}
+                    <a style={{ fontWeight: "bold" }} href="mailto:info@harrisonlakeshuttles.com">
+                      info@harrisonlakeshuttles.com
+                    </a>
+                  </p>
+                </div>
+                <div className="col-7 text-center">
+                  <img className="img-fluid rounded" style={{ maxHeight: "340px" }} src={BusImg} alt="Bus Image" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderMobileView(): JSX.Element | null {
+    return (
+      <div className="row d-md-none">
+        <div className="col">
+          {/* Desktop View */}
+          <div className="card card-default mx-2">
+            <img className="img-fluid card-img-top" src={BusImg} alt="Bus Image" />
+            <div className="card-body">
+              <h5 className="" style={{ fontWeight: "bold", color: "#4a4a4a" }}>
+                Richmond to Harrison Hot Springs &amp; Special Event Service
+              </h5>
+
+              <p className="card-text">
+                <span style={{ fontSize: "18px", fontStyle: "italic", textDecoration: "underline", color: "#4a4a4a" }}>
+                  10am-10pm 7 days a week
+                </span>
+              </p>
+              <hr />
+              <p className="card-text">
+                <span style={{ fontSize: "17px", fontFamily: "Open Sans", color: "#4a4a4a" }}>
+                  For a free estimate, please call:
+                </span>{" "}
+                <br />
+                <a style={{ fontWeight: "bold" }} href="tel:6132583580">
+                  +1 (613) 258-3580
+                </a>{" "}
+                <br />
+              </p>
+              <hr />
+              <p className="card-text">
+                <span style={{ fontSize: "17px", fontFamily: "Open Sans", color: "#4a4a4a" }}>or email us at</span>{" "}
+                <br />{" "}
+                <a style={{ fontWeight: "bold" }} href="mailto:info@harrisonlakeshuttles.com">
+                  info@harrisonlakeshuttles.com
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const pageContent = this.getPageContent(this.state.activeStep);
 
@@ -249,7 +345,8 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
       <div className="container pb-5 pt-lg-3">
         <PageHeader>Bus Ticket Bookings</PageHeader>
 
-        {pageContent}
+        {this.renderDesktopView()}
+        {this.renderMobileView()}
       </div>
     );
   }

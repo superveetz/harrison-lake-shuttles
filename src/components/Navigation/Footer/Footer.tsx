@@ -44,11 +44,11 @@ class Footer extends React.Component<FooterReduxProps, {}> {
                     <i className="fa fa-caret-right" /> Bus Routes
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="btn-block btn-link lead m-0" to="/fares">
                     <i className="fa fa-caret-right" /> Fares
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link className="btn-block btn-link lead m-0" to="/more-info">
                     <i className="fa fa-caret-right" /> More Info
@@ -128,12 +128,12 @@ class Footer extends React.Component<FooterReduxProps, {}> {
             </small>
           </p>
         </div>
-        {/* <div className={classes.FooterVeryBottom}>
+        <div className={classes.FooterVeryBottom}>
           Built &amp; powered by{" "}
-          <a href="https://alexdivito.ca" target="_blank">
+          <a href="https://advsoftware.solutions" target="_blank">
             ADV Software Solutions <i className="fa fa-external-link" />
           </a>
-        </div> */}
+        </div>
       </footer>
     );
   }

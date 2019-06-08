@@ -34,10 +34,8 @@ class MoreInfo extends Component {
                 <div className="lead card-text">
                   <ul className="list-group bg-transparent border-0 list-group-flush">
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
-                      &bull; The travel time in each direction is about 2 hours and 30 minutes.
-                    </li>
-                    <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
-                      &bull; Halfway through the trip, we will take a 15 minute rest stop.
+                      &bull; All bookings must be made in advance. You will be emailed a confirmation and a receipt once
+                      your payment is processed.
                     </li>
                     <li className="list-group-item pb-1 pt-1 px-0 bg-transparent border-0">
                       &bull; Travel, pick-up, and drop-off times may vary depending on road conditions or other

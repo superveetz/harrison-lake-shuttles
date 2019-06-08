@@ -109,7 +109,7 @@ class App extends React.Component<AppReduxProps, {}> {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/bus-routes" component={BusRoutes} />
-        <Route path="/fares" component={Fares} />
+        {/* <Route path="/fares" component={Fares} /> */}
         <Route path="/more-info" component={MoreInfo} />
         <Route path="/contact" component={Contact} />
         <Route path="/book-now" appData={this.props.appData} component={BookNow} />

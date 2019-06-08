@@ -12,54 +12,17 @@ class BusRoutes extends Component {
   render() {
     return (
       <div className="container pb-5 pt-lg-3">
-        <PageHeader elem="h2">Bus Schedule</PageHeader>
+        <PageHeader elem="h2">Bus Route</PageHeader>
         <div className="row">
-          <div className="col-lg-4 col-12">
+          <div className="col-12">
             <p className="lead">
-              The bus travels every day from Harrison Hot Springs to Bridgeport Station in Richmond and back. Please be
-              advised that we are unable to pick-up or drop-off along the route.
+              The bus travels between Richmond and Harrison Hot Springs along the following route. Please note that the
+              bus cannot provide service elsewhere other than the route displayed.
             </p>
 
-            <div className="col-12">
-              <div className="card border-secondary">
-                <h5 className="card-header">Harrison to Bridgeport&nbsp;Station</h5>
-                <div className="card-body">
-                  <p className="card-text text-dark">
-                    <strong>
-                      Departs 11:00 am &nbsp;
-                      <i className="fa fa-fw fa-long-arrow-right" />
-                      &nbsp; Arrives 1:50 pm
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* end col */}
-
-            <hr />
-
-            <div className="col-12">
-              <div className="card border-secondary">
-                <h5 className="card-header">Bridgeport&nbsp;Station to Harrison</h5>
-                <div className="card-body">
-                  <p className="card-text text-dark">
-                    <strong>
-                      Departs 2:00 pm &nbsp;
-                      <i className="fa fa-fw fa-long-arrow-right" />
-                      &nbsp; Arrives 4:35 pm
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* end col */}
+            <GoogleMap />
           </div>
-          <div className="col-lg-8 col-12">
-            {/* <PageHeader>Bus Routes</PageHeader> */}
-            <div className="mt-4 mt-lg-0">
-              <GoogleMap />
-            </div>
-          </div>
+          {/* end col */}
         </div>
       </div>
     );

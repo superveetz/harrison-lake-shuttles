@@ -1,113 +1,113 @@
 .MobileNavMenu {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    animation-delay: 500ms;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  animation-delay: 500ms;
 }
 
 .MobileNavMenu ul {
-    text-align: center;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  text-align: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .MobileNavMenu ul li {
-    font-family: "Patua One", cursive;
-    font-size: 32px;
-    letter-spacing: 1.4px;
-    height: 14.285%;
-    display: block;
-    background-color: rgba(12, 12, 12, 0.95);
-    animation-duration: 200ms;
-    animation-timing-function: ease-in-out;
-    border-bottom: 1px solid black;
+  font-family: "Patua One", cursive;
+  font-size: 32px;
+  letter-spacing: 1.4px;
+  height: 16.665%; /* 100 / 6 */
+  display: block;
+  background-color: rgba(12, 12, 12, 0.95);
+  animation-duration: 200ms;
+  animation-timing-function: ease-in-out;
+  border-bottom: 1px solid black;
 }
 
 @media (max-width: 320px) {
-    .MobileNavMenu ul li {
-        font-size: 26px;
-    }
+  .MobileNavMenu ul li {
+    font-size: 26px;
+  }
 }
 
 .Open:nth-child(1) {
-    animation-delay: 0ms;
+  animation-delay: 0ms;
 }
 .Open:nth-child(2) {
-    animation-delay: 50ms;
+  animation-delay: 50ms;
 }
 .Open:nth-child(3) {
-    animation-delay: 100ms;
+  animation-delay: 100ms;
 }
 .Open:nth-child(4) {
-    animation-delay: 150ms;
+  animation-delay: 150ms;
 }
 .Open:nth-child(5) {
-    animation-delay: 200ms;
+  animation-delay: 200ms;
 }
 .Open:nth-child(6) {
-    animation-delay: 250ms;
+  animation-delay: 250ms;
 }
 .Open:nth-child(7) {
-    animation-delay: 300ms;
+  animation-delay: 300ms;
 }
 
 .Close:nth-child(1) {
-    animation-delay: 300ms;
+  animation-delay: 300ms;
 }
 .Close:nth-child(2) {
-    animation-delay: 250ms;
+  animation-delay: 250ms;
 }
 .Close:nth-child(3) {
-    animation-delay: 200ms;
+  animation-delay: 200ms;
 }
 .Close:nth-child(4) {
-    animation-delay: 150ms;
+  animation-delay: 150ms;
 }
 .Close:nth-child(5) {
-    animation-delay: 100ms;
+  animation-delay: 100ms;
 }
 .Close:nth-child(6) {
-    animation-delay: 50ms;
+  animation-delay: 50ms;
 }
 .Close:nth-child(7) {
-    animation-delay: 0ms;
+  animation-delay: 0ms;
 }
 
 .MobileNavMenu ul li button {
-    background-color: transparent;
-    border: none;
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    line-height: 100%;
-    color: white;
-    text-shadow: 1px 1px #000;
-    box-shadow: inset 0px 0px 10px #111;
-    cursor: pointer;
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+  color: white;
+  text-shadow: 1px 1px #000;
+  box-shadow: inset 0px 0px 10px #111;
+  cursor: pointer;
 }
 
 .MobileNavMenu ul li button:hover,
 .MobileNavMenu ul li button:active,
 .MobileNavMenu ul li button.active {
-    text-decoration: none;
-    color: rgb(196, 207, 34) !important;
-    background-color: rgba(30, 144, 255, 0.9);
+  text-decoration: none;
+  color: rgb(196, 207, 34) !important;
+  background-color: rgba(30, 144, 255, 0.9);
 }
 
 .MobileNavMenu ul li:hover {
-    background-color: rgba(30, 144, 255, 0.9);
+  background-color: rgba(30, 144, 255, 0.9);
 }
 
 .MobileNavMenu ul li button span {
-    position: absolute;
-    top: 50%;
-    width: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  transform: translate(-50%, -50%);
 }
