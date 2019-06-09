@@ -50,9 +50,7 @@ class App extends React.Component<AppReduxProps, {}> {
     this.isCurrentUserAuthAdmin = this.isCurrentUserAuthAdmin.bind(this);
   }
 
-  componentDidMount() {}
-
-  async componentWillMount() {
+  async componentDidMount() {
     // ensure authenticated session
     try {
       this.props.onAuthStart();
@@ -68,6 +66,8 @@ class App extends React.Component<AppReduxProps, {}> {
     try {
       this.props.onGetAppDataStart();
       const res: any = await API.graphql(graphqlOperation(queries.listApps));
+      console.log("res:", res);
+
       const appData = res.data.listApps.items[0];
       this.props.onGetAppDataSuccess(appData);
     } catch (err) {

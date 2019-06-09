@@ -45,10 +45,24 @@
     "userpoolClientLambdaPolicy": "cognito37f988c1_userpoolclient_lambda_iam_policy",
     "userpoolClientSetAttributes": false,
     "useDefault": "manual",
-    "unAuthRoleName": "harrisonlakeshuttles-20190114002647-unauthRole",
-    "authRoleName": "harrisonlakeshuttles-20190114002647-authRole",
-    "unAuthRoleArn": "arn:aws:iam::577142657045:role/harrisonlakeshuttles-20190114002647-unauthRole",
-    "authRoleArn": "arn:aws:iam::577142657045:role/harrisonlakeshuttles-20190114002647-authRole",
+    "unAuthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unAuthRoleArn": {
+        "Fn::GetAtt": [
+            "UnauthRole",
+            "Arn"
+        ]
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
     "resourceName": "cognito37f988c1",
     "authSelections": "identityPoolAndUserPool"
 }

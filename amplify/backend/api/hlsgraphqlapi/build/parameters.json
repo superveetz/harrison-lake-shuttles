@@ -1,0 +1,12 @@
+{
+    "AppSyncApiName": "hlsgraphqlapi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito37f988c1",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "harrisonlakeshuttles-20190114002647-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/855315c19c1e2052a2e833b64fabfadda92435ed"
+}

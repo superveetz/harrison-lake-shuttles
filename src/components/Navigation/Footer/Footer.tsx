@@ -14,6 +14,14 @@ interface FooterReduxProps {
 
 class Footer extends React.Component<FooterReduxProps, {}> {
   render(): JSX.Element {
+    const appName = this.props.appData.app ? this.props.appData.app.name : "";
+    const companyStreetAddress = this.props.appData.app ? this.props.appData.app.companyStreetAddress : "";
+    const companyCity = this.props.appData.app ? this.props.appData.app.companyCity : "";
+    const companyProvState = this.props.appData.app ? this.props.appData.app.companyProvState : "";
+    const companyPostalZip = this.props.appData.app ? this.props.appData.app.companyPostalZip : "";
+    const infoEmail = this.props.appData.app ? this.props.appData.app.infoEmail : "";
+    const startYear = this.props.appData.app ? this.props.appData.app.companyStartYear : "";
+
     return (
       <footer className={["mt-2", "d-print-none", classes.Footer].join(" ")}>
         <div className={classes.FooterCrown} />
@@ -21,7 +29,7 @@ class Footer extends React.Component<FooterReduxProps, {}> {
           <div className="row">
             <div className="col-lg-3">
               <PageHeader classes="text-dark" invertColors elem="h2">
-                <strong>{this.props.appData.app.name}</strong>
+                <strong>{appName}</strong>
               </PageHeader>
               <ul className={["list-unstyled", classes.SiteMap].join(" ")}>
                 <li>
@@ -72,35 +80,35 @@ class Footer extends React.Component<FooterReduxProps, {}> {
 
               <address className="d-lg-none text-dark" style={{ fontSize: "18px" }}>
                 <strong className="mb-1">
-                  <u>{this.props.appData.app.name}</u>
+                  <u>{appName}</u>
                 </strong>{" "}
                 <br />
-                {this.props.appData.app.companyStreetAddress},
+                {companyStreetAddress},
                 <br />
-                {this.props.appData.app.companyCity}, {this.props.appData.app.companyProvState},
+                {companyCity}, {companyProvState},
                 <br />
-                {this.props.appData.app.companyPostalZip}
+                {companyPostalZip}
                 <br />
                 <br />
-                <a style={{ fontWeight: "bold" }} href={`mailto:${this.props.appData.app.infoEmail}`}>
-                  {this.props.appData.app.infoEmail}
+                <a style={{ fontWeight: "bold" }} href={`mailto:${infoEmail}`}>
+                  {infoEmail}
                 </a>
               </address>
 
               <address className="d-none d-lg-block text-right text-dark" style={{ fontSize: "18px" }}>
                 <strong className="mb-1">
-                  <u>{this.props.appData.app.name}</u>
+                  <u>{appName}</u>
                 </strong>{" "}
                 <br />
-                {this.props.appData.app.companyStreetAddress},
+                {companyStreetAddress},
                 <br />
-                {this.props.appData.app.companyCity}, {this.props.appData.app.companyProvState},
+                {companyCity}, {companyProvState},
                 <br />
-                {this.props.appData.app.companyPostalZip}
+                {companyPostalZip}
                 <br />
                 <br />
-                <a style={{ fontWeight: "bold" }} href={`mailto:${this.props.appData.app.infoEmail}`}>
-                  {this.props.appData.app.infoEmail}
+                <a style={{ fontWeight: "bold" }} href={`mailto:${infoEmail}`}>
+                  {infoEmail}
                 </a>
               </address>
             </div>
@@ -119,8 +127,7 @@ class Footer extends React.Component<FooterReduxProps, {}> {
         </div>
         <div className={classes.FooterBottom}>
           <p className="m-0  text-center text-light">
-            Copyright &copy; {this.props.appData.app.name} {this.props.appData.app.companyStartYear} -{" "}
-            {new Date().getFullYear()}
+            Copyright &copy; {appName} {startYear} - {new Date().getFullYear()}
           </p>
           <p className="text-center">
             <small>

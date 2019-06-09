@@ -18,10 +18,9 @@
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/backend/amplify-meta.json
-amplify/team-provider-info.json
 aws-exports.js
 awsconfiguration.json
-amplify/backend/function/stripe/dist/*
+node_modules
 
 # misc
 .DS_Store

@@ -13,7 +13,7 @@ const awsmobile = {
       region: "us-west-2",
     },
   ],
-  aws_appsync_graphqlEndpoint: "https://ypbajfuuwrfedi2tk4xcum5usy.appsync-api.us-west-2.amazonaws.com/graphql",
+  aws_appsync_graphqlEndpoint: "https://git5ageybze33ly2vl272xhtba.appsync-api.us-west-2.amazonaws.com/graphql",
   aws_appsync_region: "us-west-2",
   aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
   aws_content_delivery_bucket: "harrisonlakeshuttles-20190301220810-hostingbucket",

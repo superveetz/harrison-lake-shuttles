@@ -1,16 +1,12 @@
 projects:
-  harrisonlakeshuttlesapi2:
+  hlsgraphqlapi:
     schemaPath: src\graphql\schema.json
     includes:
       - src\graphql\**\*.ts
     excludes:
-      - amplify/**
+      - ./amplify/**
     extensions:
       amplify:
         codeGenTarget: typescript
         generatedFileName: src\API.ts
         docsFilePath: src\graphql
-        graphQLApiId: 7cjm6oqec5bxvcewby6udlub4q
-      endpoints:
-        prod: >-
-          https://ypbajfuuwrfedi2tk4xcum5usy.appsync-api.us-west-2.amazonaws.com/graphql

@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "hlsgraphqlapi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito37f988c1",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
