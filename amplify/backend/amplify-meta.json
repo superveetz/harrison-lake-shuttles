@@ -1,35 +1,39 @@
 {
 	"providers": {
 		"awscloudformation": {
-			"AuthRoleName": "hls-fixed-1-prod-20190731195900-authRole",
-			"UnauthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-prod-20190731195900-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-prod-20190731195900-authRole",
+			"AuthRoleName": "hls-fixed-1-dev-20190729171914-authRole",
+			"UnauthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-dev-20190729171914-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-dev-20190729171914-authRole",
 			"Region": "us-west-2",
-			"DeploymentBucketName": "hls-fixed-1-prod-20190731195900-deployment",
-			"UnauthRoleName": "hls-fixed-1-prod-20190731195900-unauthRole",
-			"StackName": "hls-fixed-1-prod-20190731195900",
-			"StackId": "arn:aws:cloudformation:us-west-2:577142657045:stack/hls-fixed-1-prod-20190731195900/51874b70-b408-11e9-8c01-02c8553b4c1a"
+			"DeploymentBucketName": "hls-fixed-1-dev-20190729171914-deployment",
+			"UnauthRoleName": "hls-fixed-1-dev-20190729171914-unauthRole",
+			"StackName": "hls-fixed-1-dev-20190729171914",
+			"StackId": "arn:aws:cloudformation:us-west-2:577142657045:stack/hls-fixed-1-dev-20190729171914/aa917f10-b25f-11e9-b29d-067bdfc711c4"
+		},
+		"categories": {
+			"auth": {
+				"hlsfixed10f159df0": {}
+			}
 		}
 	},
 	"auth": {
 		"hlsfixed10f159df0": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
-				"logicalId": "authhlsfixed10f159df0"
-			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
 			"output": {
-				"AppClientSecret": "10822i3q9rjomuf0gn4qrbtegstv746iq180rkphbnnh1ttq106u",
-				"UserPoolId": "us-west-2_dqpE0GZfY",
-				"AppClientIDWeb": "pdva4a35nk1dfgcbhm6v2411k",
-				"AppClientID": "4mk7t105h4k6d822n4pp4nv8d3",
-				"IdentityPoolId": "us-west-2:891c3d56-1b92-4e80-b3cb-7c86cafb3e2d",
-				"IdentityPoolName": "hlsfixed10f159df0_identitypool_0f159df0__prod",
+				"AppClientSecret": "1t9jsd6sl1v9km3bhd8sfbe2cngt6g1p36nqoeu80h8288drtho6",
+				"UserPoolId": "us-west-2_9q7lRTMoj",
+				"AppClientIDWeb": "5amiaekmarltpcaha881t9s53n",
+				"AppClientID": "ektu1qrfn5dqfq35b3jemuov0",
+				"IdentityPoolId": "us-west-2:e24bdfaf-f1b0-4bf3-82ad-fb33e206f550",
+				"IdentityPoolName": "hlsfixed10f159df0_identitypool_0f159df0__dev",
 				"UserPoolName": "hlsfixed10f159df0_userpool_0f159df0"
 			},
-			"lastPushDirHash": "Gh/6dkKjskDk+ZtIsBVdpgSWC4o="
+			"lastPushTimeStamp": "2019-08-01T07:04:02.833Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
+				"logicalId": "authhlsfixed10f159df0"
+			}
 		}
 	},
 	"api": {
@@ -38,15 +42,14 @@
 			"providerPlugin": "awscloudformation",
 			"output": {
 				"securityType": "AMAZON_COGNITO_USER_POOLS",
-				"GraphQLAPIIdOutput": "qlaffonye5fppji5pif7yw4k5m",
-				"GraphQLAPIEndpointOutput": "https://e3bjienwl5gebceqnuo2xbdkam.appsync-api.us-west-2.amazonaws.com/graphql"
+				"GraphQLAPIIdOutput": "it3rzvn3vrdrrf3bqp436r73r4",
+				"GraphQLAPIEndpointOutput": "https://mvvoculilzbw7ciwz7xuoneu7q.appsync-api.us-west-2.amazonaws.com/graphql"
 			},
+			"lastPushTimeStamp": "2019-08-01T07:04:02.839Z",
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiapigraphql"
-			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
-			"lastPushDirHash": "AN2uihEqUzWeLxGxZEAjARbFdkI="
+			}
 		},
 		"hlsapireststripe": {
 			"service": "API Gateway",
@@ -61,16 +64,15 @@
 					]
 				}
 			],
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
-				"logicalId": "apihlsapireststripe"
-			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
 			"output": {
 				"ApiName": "hlsapireststripe",
-				"RootUrl": "https://pq5bmwvccl.execute-api.us-west-2.amazonaws.com/prod"
+				"RootUrl": "https://8sq6ye8g18.execute-api.us-west-2.amazonaws.com/dev"
 			},
-			"lastPushDirHash": "EvPnLlw9CsFvwxNlos2+72gF7B0="
+			"lastPushTimeStamp": "2019-08-01T07:04:02.842Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
+				"logicalId": "apihlsapireststripe"
+			}
 		}
 	},
 	"function": {
@@ -78,20 +80,20 @@
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true,
-			"lastBuildTimeStamp": "2019-08-01T03:00:52.220Z",
-			"lastPackageTimeStamp": "2019-08-01T03:00:55.086Z",
-			"distZipFilename": "hlsfunctionstripe-1564628452-latest-build.zip",
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
-				"logicalId": "functionhlsfunctionstripe"
-			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
 			"output": {
 				"Region": "us-west-2",
-				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:hlsfunctionstripe-prod",
-				"Name": "hlsfunctionstripe-prod"
+				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:hlsfunctionstripe-dev",
+				"Name": "hlsfunctionstripe-dev"
 			},
-			"lastPushDirHash": "G6X7utFDjbBysnQx1FdY6UEn3K4="
+			"lastPushTimeStamp": "2019-08-01T07:04:02.848Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
+				"logicalId": "functionhlsfunctionstripe"
+			},
+			"lastBuildTimeStamp": "2019-08-01T07:01:25.176Z",
+			"lastPackageTimeStamp": "2019-08-01T07:01:27.952Z",
+			"distZipFilename": "hlsfunctionstripe-1564642885-latest-build.zip",
+			"lastPushDirHash": "uHZKFU3d7gZ/DubzGVdYVy+o7cA="
 		}
 	}
 }

@@ -2,18 +2,18 @@
 
 const awsmobile = {
     "aws_project_region": "us-west-2",
-    "aws_cognito_identity_pool_id": "us-west-2:891c3d56-1b92-4e80-b3cb-7c86cafb3e2d",
+    "aws_cognito_identity_pool_id": "us-west-2:e24bdfaf-f1b0-4bf3-82ad-fb33e206f550",
     "aws_cognito_region": "us-west-2",
-    "aws_user_pools_id": "us-west-2_dqpE0GZfY",
-    "aws_user_pools_web_client_id": "pdva4a35nk1dfgcbhm6v2411k",
+    "aws_user_pools_id": "us-west-2_9q7lRTMoj",
+    "aws_user_pools_web_client_id": "5amiaekmarltpcaha881t9s53n",
     "oauth": {},
-    "aws_appsync_graphqlEndpoint": "https://e3bjienwl5gebceqnuo2xbdkam.appsync-api.us-west-2.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://mvvoculilzbw7ciwz7xuoneu7q.appsync-api.us-west-2.amazonaws.com/graphql",
     "aws_appsync_region": "us-west-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_cloud_logic_custom": [
         {
             "name": "hlsapireststripe",
-            "endpoint": "https://pq5bmwvccl.execute-api.us-west-2.amazonaws.com/prod",
+            "endpoint": "https://8sq6ye8g18.execute-api.us-west-2.amazonaws.com/dev",
             "region": "us-west-2"
         }
     ]
