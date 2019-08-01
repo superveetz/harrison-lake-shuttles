@@ -62,8 +62,8 @@
 				"Runtime": "nodejs8.10",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "hls-fixed-1-dev-20190729171914-deployment",
-					"S3Key": "amplify-builds/hlsfunctionstripe-1564627163-latest-build.zip"
+					"S3Bucket": "hls-fixed-1-prod-20190731195900-deployment",
+					"S3Key": "amplify-builds/hlsfunctionstripe-1564628452-latest-build.zip"
 				}
 			}
 		},

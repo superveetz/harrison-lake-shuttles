@@ -3,5 +3,10 @@
         "configLevel": "project",
         "useProfile": true,
         "profileName": "amplify-profile"
+    },
+    "prod": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "amplify-profile"
     }
 }

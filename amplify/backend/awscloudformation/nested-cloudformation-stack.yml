@@ -81,7 +81,7 @@
 		"authhlsfixed10f159df0": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "hlsfixed10f159df0_identitypool_0f159df0",
 					"allowUnauthenticatedIdentities": true,
@@ -139,14 +139,14 @@
 						]
 					},
 					"useDefault": "default",
-					"env": "dev"
+					"env": "prod"
 				}
 			}
 		},
 		"apiapigraphql": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"Parameters": {
 					"AppSyncApiName": "apigraphql",
 					"DynamoDBBillingMode": "PAY_PER_REQUEST",
@@ -156,16 +156,16 @@
 							"Outputs.UserPoolId"
 						]
 					},
-					"S3DeploymentBucket": "hls-fixed-1-dev-20190729171914-deployment",
+					"S3DeploymentBucket": "hls-fixed-1-prod-20190731195900-deployment",
 					"S3DeploymentRootKey": "amplify-appsync-files/f88c225016b2c024db9bc3b9285070b5b130ff4b",
-					"env": "dev"
+					"env": "prod"
 				}
 			}
 		},
 		"apihlsapireststripe": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
 				"Parameters": {
 					"authRoleName": {
 						"Ref": "AuthRoleName"
@@ -185,16 +185,16 @@
 							"Outputs.Arn"
 						]
 					},
-					"env": "dev"
+					"env": "prod"
 				}
 			}
 		},
 		"functionhlsfunctionstripe": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
 				"Parameters": {
-					"env": "dev"
+					"env": "prod"
 				}
 			}
 		}

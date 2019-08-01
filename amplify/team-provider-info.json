@@ -15,5 +15,22 @@
                 "hlsfixed10f159df0": {}
             }
         }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "hls-fixed-1-prod-20190731195900-authRole",
+            "UnauthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-prod-20190731195900-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::577142657045:role/hls-fixed-1-prod-20190731195900-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "hls-fixed-1-prod-20190731195900-deployment",
+            "UnauthRoleName": "hls-fixed-1-prod-20190731195900-unauthRole",
+            "StackName": "hls-fixed-1-prod-20190731195900",
+            "StackId": "arn:aws:cloudformation:us-west-2:577142657045:stack/hls-fixed-1-prod-20190731195900/51874b70-b408-11e9-8c01-02c8553b4c1a"
+        },
+        "categories": {
+            "auth": {
+                "hlsfixed10f159df0": {}
+            }
+        }
     }
 }
