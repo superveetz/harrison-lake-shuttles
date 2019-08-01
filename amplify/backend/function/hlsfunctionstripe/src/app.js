@@ -18,8 +18,8 @@ const awsConfig = {
 
 var ses = new AWS.SES(awsConfig);
 
-// var stripe = require("stripe")(process.env.STRIPE_LIVE_SECRET_KEY); // production
-var stripe = require("stripe")(process.env.STRIPE_TESTING_SECRET_KEY); // testing with cc 42424242..
+var stripe = require("stripe")(process.env.STRIPE_LIVE_SECRET_KEY); // production
+// var stripe = require("stripe")(process.env.STRIPE_TESTING_SECRET_KEY); // testing with cc 42424242..
 
 var express = require("express");
 var bodyParser = require("body-parser");

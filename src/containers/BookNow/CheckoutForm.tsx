@@ -1791,7 +1791,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   currency="CAD"
                   // test key: pk_test_96M7DAWZBxn5eZDIn2dNtUEe
                   // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
-                  stripeKey="pk_test_96M7DAWZBxn5eZDIn2dNtUEe"
+                  stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
                   // if you change amount, make sure you change it everywhere
                   amount={this.getTotalAmountDue() * 100}
                   name={this.props.appData.app.name}
