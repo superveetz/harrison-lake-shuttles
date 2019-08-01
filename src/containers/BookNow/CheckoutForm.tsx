@@ -452,37 +452,12 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   private processStripeCharge(token: any, formikBag: FormikProps<CheckoutFormValues>): Promise<any> {
-    return API.post("stripe", "/process-transaction", {
-      body: {
-        stripeToken: token,
-        charge: {
-          currency: "CAD",
-          // if you change amount, make sure you change it everywhere
-          amount: this.getTotalAmountDue() * 100,
-          payeeName: formikBag.values.payeeName,
-          payeePhone: formikBag.values.payeePhone,
-          payeeEmail: formikBag.values.payeeEmail,
-          departure: {
-            ...this.props.cachedState.departureForm,
-          },
-          return: {
-            ...this.props.cachedState.returnForm,
-          },
-          ticketProds: this.props.ticketProducts,
-        },
-      },
-    });
-
-    // return fetch("http://localhost:3000/process-transaction", {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "POST",
-    //   body: JSON.stringify({
+    // return API.post("hlsapireststripe", "/process-transaction", {
+    //   body: {
     //     stripeToken: token,
     //     charge: {
     //       currency: "CAD",
+    //       // if you change amount, make sure you change it everywhere
     //       amount: this.getTotalAmountDue() * 100,
     //       description: "Bus Ticket Booking",
     //       payeeName: formikBag.values.payeeName,
@@ -496,8 +471,34 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     //       },
     //       ticketProds: this.props.ticketProducts,
     //     },
-    //   }),
+    //   },
     // });
+
+    return fetch("http://localhost:3000/process-transaction", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        stripeToken: token,
+        charge: {
+          currency: "CAD",
+          amount: this.getTotalAmountDue() * 100,
+          description: "Bus Ticket Booking",
+          payeeName: formikBag.values.payeeName,
+          payeePhone: formikBag.values.payeePhone,
+          payeeEmail: formikBag.values.payeeEmail,
+          departure: {
+            ...this.props.cachedState.departureForm,
+          },
+          return: {
+            ...this.props.cachedState.returnForm,
+          },
+          ticketProds: this.props.ticketProducts,
+        },
+      }),
+    });
   }
 
   async createTicketSaleAndTicketTypes(
@@ -1790,7 +1791,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   currency="CAD"
                   // test key: pk_test_96M7DAWZBxn5eZDIn2dNtUEe
                   // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
-                  stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
+                  stripeKey="pk_test_96M7DAWZBxn5eZDIn2dNtUEe"
                   // if you change amount, make sure you change it everywhere
                   amount={this.getTotalAmountDue() * 100}
                   name={this.props.appData.app.name}
@@ -1910,7 +1911,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       resendingConfirmationEmail: true,
     });
 
-    API.post("stripe", "/resend-order-confirmation-email", {
+    API.post("hlsapireststripe", "/resend-order-confirmation-email", {
       body: {
         charge: {
           payeeName: this.state.checkoutSuccessOrder.payeeName,
@@ -1940,7 +1941,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         });
       });
 
-    // return fetch("http://localhost:3001/resend-order-confirmation-email", {
+    // fetch("http://localhost:3001/resend-order-confirmation-email", {
     //   headers: {
     //     Accept: "application/json",
     //     "Content-Type": "application/json",

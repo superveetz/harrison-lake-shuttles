@@ -37,7 +37,62 @@ export const getTicketType = `query GetTicketType($id: ID!) {
     id
     age
     price
-    ticket {
+  }
+}
+`;
+export const listTicketTypes = `query ListTicketTypes(
+  $filter: ModelTicketTypeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTicketTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      age
+      price
+    }
+    nextToken
+  }
+}
+`;
+export const getTicket = `query GetTicket($id: ID!) {
+  getTicket(id: $id) {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const listTickets = `query ListTickets(
+  $filter: ModelTicketFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTickets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
       id
       orderNum
       departsLong
@@ -58,40 +113,6 @@ export const getTicketType = `query GetTicketType($id: ID!) {
       restBreakLocations
       ticketTypes {
         nextToken
-      }
-    }
-  }
-}
-`;
-export const listTicketTypes = `query ListTicketTypes(
-  $filter: ModelTicketTypeFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTicketTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      age
-      price
-      ticket {
-        id
-        orderNum
-        departsLong
-        arrivesLong
-        departsLocName
-        departsLocStreet
-        departsLocCity
-        departsLocPostal
-        departsTime
-        departsDesc
-        arrivesLocName
-        arrivesLocStreet
-        arrivesLocCity
-        arrivesLocPostal
-        arrivesTime
-        arrivesDesc
-        transitDesc
-        restBreakLocations
       }
     }
     nextToken
@@ -164,70 +185,6 @@ export const listTicketSaleTypes = `query ListTicketSaleTypes(
         arrivesDropoffLoc
         departsPickupLoc
         requiresWheelchair
-      }
-    }
-    nextToken
-  }
-}
-`;
-export const getTicket = `query GetTicket($id: ID!) {
-  getTicket(id: $id) {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const listTickets = `query ListTickets(
-  $filter: ModelTicketFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTickets(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
       }
     }
     nextToken

@@ -33,37 +33,17 @@ export type CreateTicketTypeInput = {
   id?: string | null,
   age: string,
   price: number,
-  ticketTypeTicketId: string,
+  ticketTicketTypesId?: string | null,
 };
 
 export type UpdateTicketTypeInput = {
   id: string,
   age?: string | null,
   price?: number | null,
-  ticketTypeTicketId?: string | null,
+  ticketTicketTypesId?: string | null,
 };
 
 export type DeleteTicketTypeInput = {
-  id?: string | null,
-};
-
-export type CreateTicketSaleTypeInput = {
-  id?: string | null,
-  age: string,
-  travellerName: string,
-  price: number,
-  ticketSaleTypeTicketId?: string | null,
-};
-
-export type UpdateTicketSaleTypeInput = {
-  id: string,
-  age?: string | null,
-  travellerName?: string | null,
-  price?: number | null,
-  ticketSaleTypeTicketId?: string | null,
-};
-
-export type DeleteTicketSaleTypeInput = {
   id?: string | null,
 };
 
@@ -110,6 +90,26 @@ export type UpdateTicketInput = {
 };
 
 export type DeleteTicketInput = {
+  id?: string | null,
+};
+
+export type CreateTicketSaleTypeInput = {
+  id?: string | null,
+  age: string,
+  travellerName: string,
+  price: number,
+  ticketSaleTypeTicketId?: string | null,
+};
+
+export type UpdateTicketSaleTypeInput = {
+  id: string,
+  age?: string | null,
+  travellerName?: string | null,
+  price?: number | null,
+  ticketSaleTypeTicketId?: string | null,
+};
+
+export type DeleteTicketSaleTypeInput = {
   id?: string | null,
 };
 
@@ -257,16 +257,6 @@ export type ModelFloatFilterInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelTicketSaleTypeFilterInput = {
-  id?: ModelIDFilterInput | null,
-  age?: ModelStringFilterInput | null,
-  travellerName?: ModelStringFilterInput | null,
-  price?: ModelFloatFilterInput | null,
-  and?: Array< ModelTicketSaleTypeFilterInput | null > | null,
-  or?: Array< ModelTicketSaleTypeFilterInput | null > | null,
-  not?: ModelTicketSaleTypeFilterInput | null,
-};
-
 export type ModelTicketFilterInput = {
   id?: ModelIDFilterInput | null,
   orderNum?: ModelIntFilterInput | null,
@@ -301,6 +291,16 @@ export type ModelIntFilterInput = {
   contains?: number | null,
   notContains?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type ModelTicketSaleTypeFilterInput = {
+  id?: ModelIDFilterInput | null,
+  age?: ModelStringFilterInput | null,
+  travellerName?: ModelStringFilterInput | null,
+  price?: ModelFloatFilterInput | null,
+  and?: Array< ModelTicketSaleTypeFilterInput | null > | null,
+  or?: Array< ModelTicketSaleTypeFilterInput | null > | null,
+  not?: ModelTicketSaleTypeFilterInput | null,
 };
 
 export type ModelTicketSaleFilterInput = {
@@ -415,31 +415,6 @@ export type CreateTicketTypeMutation = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
   } | null,
 };
 
@@ -453,31 +428,6 @@ export type UpdateTicketTypeMutation = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
   } | null,
 };
 
@@ -491,31 +441,120 @@ export type DeleteTicketTypeMutation = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
+  } | null,
+};
+
+export type CreateTicketMutationVariables = {
+  input: CreateTicketInput,
+};
+
+export type CreateTicketMutation = {
+  createTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateTicketMutationVariables = {
+  input: UpdateTicketInput,
+};
+
+export type UpdateTicketMutation = {
+  updateTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteTicketMutationVariables = {
+  input: DeleteTicketInput,
+};
+
+export type DeleteTicketMutation = {
+  deleteTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -695,120 +734,6 @@ export type DeleteTicketSaleTypeMutation = {
         date: string,
         closed: boolean | null,
       } | null,
-    } | null,
-  } | null,
-};
-
-export type CreateTicketMutationVariables = {
-  input: CreateTicketInput,
-};
-
-export type CreateTicketMutation = {
-  createTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type UpdateTicketMutationVariables = {
-  input: UpdateTicketInput,
-};
-
-export type UpdateTicketMutation = {
-  updateTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type DeleteTicketMutationVariables = {
-  input: DeleteTicketInput,
-};
-
-export type DeleteTicketMutation = {
-  deleteTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -1458,7 +1383,76 @@ export type GetTicketTypeQuery = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
+  } | null,
+};
+
+export type ListTicketTypesQueryVariables = {
+  filter?: ModelTicketTypeFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTicketTypesQuery = {
+  listTicketTypes:  {
+    __typename: "ModelTicketTypeConnection",
+    items:  Array< {
+      __typename: "TicketType",
+      id: string,
+      age: string,
+      price: number,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetTicketQueryVariables = {
+  id: string,
+};
+
+export type GetTicketQuery = {
+  getTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListTicketsQueryVariables = {
+  filter?: ModelTicketFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTicketsQuery = {
+  listTickets:  {
+    __typename: "ModelTicketConnection",
+    items:  Array< {
       __typename: "Ticket",
       id: string,
       orderNum: number | null,
@@ -1482,45 +1476,6 @@ export type GetTicketTypeQuery = {
         __typename: "ModelTicketTypeConnection",
         nextToken: string | null,
       } | null,
-    },
-  } | null,
-};
-
-export type ListTicketTypesQueryVariables = {
-  filter?: ModelTicketTypeFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListTicketTypesQuery = {
-  listTicketTypes:  {
-    __typename: "ModelTicketTypeConnection",
-    items:  Array< {
-      __typename: "TicketType",
-      id: string,
-      age: string,
-      price: number,
-      ticket:  {
-        __typename: "Ticket",
-        id: string,
-        orderNum: number | null,
-        departsLong: string | null,
-        arrivesLong: string | null,
-        departsLocName: string | null,
-        departsLocStreet: string | null,
-        departsLocCity: string | null,
-        departsLocPostal: string | null,
-        departsTime: string | null,
-        departsDesc: string | null,
-        arrivesLocName: string | null,
-        arrivesLocStreet: string | null,
-        arrivesLocCity: string | null,
-        arrivesLocPostal: string | null,
-        arrivesTime: string | null,
-        arrivesDesc: string | null,
-        transitDesc: string | null,
-        restBreakLocations: Array< string | null > | null,
-      },
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1607,82 +1562,6 @@ export type ListTicketSaleTypesQuery = {
         arrivesDropoffLoc: string | null,
         departsPickupLoc: string | null,
         requiresWheelchair: boolean,
-      } | null,
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type GetTicketQueryVariables = {
-  id: string,
-};
-
-export type GetTicketQuery = {
-  getTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type ListTicketsQueryVariables = {
-  filter?: ModelTicketFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListTicketsQuery = {
-  listTickets:  {
-    __typename: "ModelTicketConnection",
-    items:  Array< {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
       } | null,
     } | null > | null,
     nextToken: string | null,
@@ -2089,31 +1968,6 @@ export type OnCreateTicketTypeSubscription = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
   } | null,
 };
 
@@ -2123,31 +1977,6 @@ export type OnUpdateTicketTypeSubscription = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
   } | null,
 };
 
@@ -2157,31 +1986,108 @@ export type OnDeleteTicketTypeSubscription = {
     id: string,
     age: string,
     price: number,
-    ticket:  {
-      __typename: "Ticket",
-      id: string,
-      orderNum: number | null,
-      departsLong: string | null,
-      arrivesLong: string | null,
-      departsLocName: string | null,
-      departsLocStreet: string | null,
-      departsLocCity: string | null,
-      departsLocPostal: string | null,
-      departsTime: string | null,
-      departsDesc: string | null,
-      arrivesLocName: string | null,
-      arrivesLocStreet: string | null,
-      arrivesLocCity: string | null,
-      arrivesLocPostal: string | null,
-      arrivesTime: string | null,
-      arrivesDesc: string | null,
-      transitDesc: string | null,
-      restBreakLocations: Array< string | null > | null,
-      ticketTypes:  {
-        __typename: "ModelTicketTypeConnection",
-        nextToken: string | null,
-      } | null,
-    },
+  } | null,
+};
+
+export type OnCreateTicketSubscription = {
+  onCreateTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateTicketSubscription = {
+  onUpdateTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteTicketSubscription = {
+  onDeleteTicket:  {
+    __typename: "Ticket",
+    id: string,
+    orderNum: number | null,
+    departsLong: string | null,
+    arrivesLong: string | null,
+    departsLocName: string | null,
+    departsLocStreet: string | null,
+    departsLocCity: string | null,
+    departsLocPostal: string | null,
+    departsTime: string | null,
+    departsDesc: string | null,
+    arrivesLocName: string | null,
+    arrivesLocStreet: string | null,
+    arrivesLocCity: string | null,
+    arrivesLocPostal: string | null,
+    arrivesTime: string | null,
+    arrivesDesc: string | null,
+    transitDesc: string | null,
+    restBreakLocations: Array< string | null > | null,
+    ticketTypes:  {
+      __typename: "ModelTicketTypeConnection",
+      items:  Array< {
+        __typename: "TicketType",
+        id: string,
+        age: string,
+        price: number,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -2349,108 +2255,6 @@ export type OnDeleteTicketSaleTypeSubscription = {
         date: string,
         closed: boolean | null,
       } | null,
-    } | null,
-  } | null,
-};
-
-export type OnCreateTicketSubscription = {
-  onCreateTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnUpdateTicketSubscription = {
-  onUpdateTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnDeleteTicketSubscription = {
-  onDeleteTicket:  {
-    __typename: "Ticket",
-    id: string,
-    orderNum: number | null,
-    departsLong: string | null,
-    arrivesLong: string | null,
-    departsLocName: string | null,
-    departsLocStreet: string | null,
-    departsLocCity: string | null,
-    departsLocPostal: string | null,
-    departsTime: string | null,
-    departsDesc: string | null,
-    arrivesLocName: string | null,
-    arrivesLocStreet: string | null,
-    arrivesLocCity: string | null,
-    arrivesLocPostal: string | null,
-    arrivesTime: string | null,
-    arrivesDesc: string | null,
-    transitDesc: string | null,
-    restBreakLocations: Array< string | null > | null,
-    ticketTypes:  {
-      __typename: "ModelTicketTypeConnection",
-      items:  Array< {
-        __typename: "TicketType",
-        id: string,
-        age: string,
-        price: number,
-      } | null > | null,
-      nextToken: string | null,
     } | null,
   } | null,
 };

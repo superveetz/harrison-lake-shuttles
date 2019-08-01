@@ -1,5 +1,6 @@
 {
-    "projectName": "harrisonlakeshuttles",
+    "projectName": "hls-fixed-1",
+    "version": "2.0",
     "frontend": "javascript",
     "javascript": {
         "framework": "react",

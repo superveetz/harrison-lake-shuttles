@@ -1,41 +1,35 @@
 {
 	"auth": {
-		"cognito37f988c1": {
+		"hlsfixed10f159df0": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
 	},
-	"hosting": {
-		"S3AndCloudFront": {
-			"service": "S3AndCloudFront",
-			"providerPlugin": "awscloudformation"
-		}
-	},
 	"api": {
-		"stripe": {
+		"apigraphql": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "AMAZON_COGNITO_USER_POOLS"
+			}
+		},
+		"hlsapireststripe": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
 				{
 					"category": "function",
-					"resourceName": "stripe",
+					"resourceName": "hlsfunctionstripe",
 					"attributes": [
 						"Name",
 						"Arn"
 					]
 				}
 			]
-		},
-		"hlsgraphqlapi": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "AMAZON_COGNITO_USER_POOLS"
-			}
 		}
 	},
 	"function": {
-		"stripe": {
+		"hlsfunctionstripe": {
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true

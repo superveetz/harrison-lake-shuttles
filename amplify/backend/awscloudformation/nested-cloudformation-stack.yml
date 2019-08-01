@@ -78,58 +78,53 @@
 				}
 			}
 		},
-		"authcognito37f988c1": {
+		"authhlsfixed10f159df0": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/auth/cognito37f988c1-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
 				"Parameters": {
-					"identityPoolName": "cognito37f988c1_identitypool_37f988c1",
+					"identityPoolName": "hlsfixed10f159df0_identitypool_0f159df0",
 					"allowUnauthenticatedIdentities": true,
-					"thirdPartyAuth": false,
-					"lambdaLogPolicy": "cognito37f988c1_lambda_log_policy",
-					"openIdLambdaRoleName": "cognito37f988c1_openid_lambda_role",
-					"openIdRolePolicy": "cognito37f988c1_openid_pass_role_policy",
-					"openIdLambdaIAMPolicy": "cognito37f988c1_openid_lambda_iam_policy",
-					"openIdLogPolicy": "cognito37f988c1_openid_lambda_log_policy",
-					"userPoolName": "cognito37f988c1_userpool_37f988c1",
+					"lambdaLogPolicy": "hlsfix_0f159df0_lambda_log_policy",
+					"openIdLambdaRoleName": "hlsfix_0f159df0_openid_lambda_role",
+					"openIdRolePolicy": "hlsfix_0f159df0_openid_pass_role_policy",
+					"openIdLambdaIAMPolicy": "hlsfix_0f159df0_openid_lambda_iam_policy",
+					"openIdLogPolicy": "hlsfix_0f159df0_openid_lambda_log_policy",
+					"userPoolName": "hlsfixed10f159df0_userpool_0f159df0",
 					"autoVerifiedAttributes": "email",
 					"mfaConfiguration": "OFF",
 					"mfaTypes": "SMS Text Message",
-					"roleName": "cognito37f988c1_sns-role",
-					"roleExternalId": "cognito37f988c1_role_external_id",
-					"policyName": "cognito37f988c1-sns-policy",
+					"roleName": "hlsfix0f159df0_sns-role",
+					"roleExternalId": "hlsfix0f159df0_role_external_id",
+					"policyName": "hlsfix0f159df0-sns-policy",
 					"smsAuthenticationMessage": "Your authentication code is {####}",
 					"smsVerificationMessage": "Your verification code is {####}",
 					"emailVerificationSubject": "Your verification code",
 					"emailVerificationMessage": "Your verification code is {####}",
-					"defaultPasswordPolicy": true,
-					"passwordPolicyMinLength": "6",
-					"passwordPolicyCharacters": "Requires Lowercase",
+					"defaultPasswordPolicy": false,
+					"passwordPolicyMinLength": 8,
+					"passwordPolicyCharacters": "",
 					"requiredAttributes": "email",
-					"userpoolClientName": "cognito37f988c1_app_client",
+					"userpoolClientName": "hlsfix0f159df0_app_client",
 					"userpoolClientGenerateSecret": true,
 					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientWriteAttributes": "email",
 					"userpoolClientReadAttributes": "email",
-					"mfaLambdaRole": "cognito37f988c1_totp_lambda_role",
-					"mfaLambdaLogPolicy": "cognito37f988c1_totp_lambda_log_policy",
-					"mfaPassRolePolicy": "cognito37f988c1_totp_pass_role_policy",
-					"mfaLambdaIAMPolicy": "cognito37f988c1_totp_lambda_iam_policy",
-					"userpoolClientLambdaRole": "cognito37f988c1_userpoolclient_lambda_role",
-					"userpoolClientLogPolicy": "cognito37f988c1_userpoolclient_lambda_log_policy",
-					"userpoolClientLambdaPolicy": "cognito37f988c1_userpoolclient_lambda_iam_policy",
+					"mfaLambdaRole": "hlsfix0f159df0_totp_lambda_role",
+					"mfaLambdaLogPolicy": "hlsfix0f159df0_totp_lambda_log_policy",
+					"mfaPassRolePolicy": "hlsfix0f159df0_totp_pass_role_policy",
+					"mfaLambdaIAMPolicy": "hlsfix0f159df0_totp_lambda_iam_policy",
+					"userpoolClientLambdaRole": "hlsfix0f159df0_userpoolclient_lambda_role",
+					"userpoolClientLogPolicy": "hlsfix0f159df0_userpoolclient_lambda_log_policy",
+					"userpoolClientLambdaPolicy": "hlsfix0f159df0_userpoolclient_lambda_iam_policy",
 					"userpoolClientSetAttributes": false,
-					"useDefault": "manual",
-					"unAuthRoleName": {
-						"Ref": "UnauthRoleName"
-					},
+					"resourceName": "hlsfixed10f159df0",
+					"authSelections": "identityPoolAndUserPool",
 					"authRoleName": {
 						"Ref": "AuthRoleName"
 					},
-					"unAuthRoleArn": {
-						"Fn::GetAtt": [
-							"UnauthRole",
-							"Arn"
-						]
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
 					},
 					"authRoleArn": {
 						"Fn::GetAtt": [
@@ -137,16 +132,40 @@
 							"Arn"
 						]
 					},
-					"resourceName": "cognito37f988c1",
-					"authSelections": "identityPoolAndUserPool",
-					"env": "NONE"
+					"unauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"useDefault": "default",
+					"env": "dev"
 				}
 			}
 		},
-		"apistripe": {
+		"apiapigraphql": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/stripe-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"Parameters": {
+					"AppSyncApiName": "apigraphql",
+					"DynamoDBBillingMode": "PAY_PER_REQUEST",
+					"AuthCognitoUserPoolId": {
+						"Fn::GetAtt": [
+							"authhlsfixed10f159df0",
+							"Outputs.UserPoolId"
+						]
+					},
+					"S3DeploymentBucket": "hls-fixed-1-dev-20190729171914-deployment",
+					"S3DeploymentRootKey": "amplify-appsync-files/f88c225016b2c024db9bc3b9285070b5b130ff4b",
+					"env": "dev"
+				}
+			}
+		},
+		"apihlsapireststripe": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
 				"Parameters": {
 					"authRoleName": {
 						"Ref": "AuthRoleName"
@@ -154,57 +173,28 @@
 					"unauthRoleName": {
 						"Ref": "UnauthRoleName"
 					},
-					"functionstripeName": {
+					"functionhlsfunctionstripeName": {
 						"Fn::GetAtt": [
-							"functionstripe",
+							"functionhlsfunctionstripe",
 							"Outputs.Name"
 						]
 					},
-					"functionstripeArn": {
+					"functionhlsfunctionstripeArn": {
 						"Fn::GetAtt": [
-							"functionstripe",
+							"functionhlsfunctionstripe",
 							"Outputs.Arn"
 						]
 					},
-					"env": "NONE"
+					"env": "dev"
 				}
 			}
 		},
-		"apihlsgraphqlapi": {
+		"functionhlsfunctionstripe": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
 				"Parameters": {
-					"AppSyncApiName": "hlsgraphqlapi",
-					"DynamoDBBillingMode": "PAY_PER_REQUEST",
-					"AuthCognitoUserPoolId": {
-						"Fn::GetAtt": [
-							"authcognito37f988c1",
-							"Outputs.UserPoolId"
-						]
-					},
-					"S3DeploymentBucket": "harrisonlakeshuttles-20190114002647-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/855315c19c1e2052a2e833b64fabfadda92435ed",
-					"env": "NONE"
-				}
-			}
-		},
-		"functionstripe": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/function/stripe-cloudformation-template.json",
-				"Parameters": {
-					"env": "NONE"
-				}
-			}
-		},
-		"hostingS3AndCloudFront": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/harrisonlakeshuttles-20190114002647-deployment/amplify-cfn-templates/hosting/template.json",
-				"Parameters": {
-					"bucketName": "harrisonlakeshuttles-20190301220810-hostingbucket",
-					"env": "NONE"
+					"env": "dev"
 				}
 			}
 		}

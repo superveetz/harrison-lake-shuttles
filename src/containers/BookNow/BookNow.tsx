@@ -344,9 +344,11 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
     return (
       <div className="container pb-5 pt-lg-3">
         <PageHeader>Bus Ticket Bookings</PageHeader>
+        {pageContent}
 
-        {this.renderDesktopView()}
-        {this.renderMobileView()}
+        {/* Disabled Checkout Content */}
+        {/* {this.renderDesktopView()}
+        {this.renderMobileView()} */}
       </div>
     );
   }

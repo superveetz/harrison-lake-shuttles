@@ -48,29 +48,6 @@ export const createTicketType = `mutation CreateTicketType($input: CreateTicketT
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
-      }
-    }
   }
 }
 `;
@@ -79,29 +56,6 @@ export const updateTicketType = `mutation UpdateTicketType($input: UpdateTicketT
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
-      }
-    }
   }
 }
 `;
@@ -110,28 +64,98 @@ export const deleteTicketType = `mutation DeleteTicketType($input: DeleteTicketT
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
+  }
+}
+`;
+export const createTicket = `mutation CreateTicket($input: CreateTicketInput!) {
+  createTicket(input: $input) {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
       }
+      nextToken
+    }
+  }
+}
+`;
+export const updateTicket = `mutation UpdateTicket($input: UpdateTicketInput!) {
+  updateTicket(input: $input) {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const deleteTicket = `mutation DeleteTicket($input: DeleteTicketInput!) {
+  deleteTicket(input: $input) {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
+      }
+      nextToken
     }
   }
 }
@@ -282,99 +306,6 @@ export const deleteTicketSaleType = `mutation DeleteTicketSaleType($input: Delet
         date
         closed
       }
-    }
-  }
-}
-`;
-export const createTicket = `mutation CreateTicket($input: CreateTicketInput!) {
-  createTicket(input: $input) {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const updateTicket = `mutation UpdateTicket($input: UpdateTicketInput!) {
-  updateTicket(input: $input) {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const deleteTicket = `mutation DeleteTicket($input: DeleteTicketInput!) {
-  deleteTicket(input: $input) {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
     }
   }
 }

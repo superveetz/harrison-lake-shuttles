@@ -1,0 +1,20 @@
+{
+  "name": "hlsfunctionstripe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-serverless-express": "^3.3.5",
+    "body-parser": "^1.17.1",
+    "dotenv": "^6.2.0",
+    "express": "^4.15.2",
+    "moment": "^2.24.0",
+    "stripe": "^6.23.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

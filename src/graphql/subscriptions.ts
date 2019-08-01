@@ -48,29 +48,6 @@ export const onCreateTicketType = `subscription OnCreateTicketType {
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
-      }
-    }
   }
 }
 `;
@@ -79,29 +56,6 @@ export const onUpdateTicketType = `subscription OnUpdateTicketType {
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
-      }
-    }
   }
 }
 `;
@@ -110,28 +64,98 @@ export const onDeleteTicketType = `subscription OnDeleteTicketType {
     id
     age
     price
-    ticket {
-      id
-      orderNum
-      departsLong
-      arrivesLong
-      departsLocName
-      departsLocStreet
-      departsLocCity
-      departsLocPostal
-      departsTime
-      departsDesc
-      arrivesLocName
-      arrivesLocStreet
-      arrivesLocCity
-      arrivesLocPostal
-      arrivesTime
-      arrivesDesc
-      transitDesc
-      restBreakLocations
-      ticketTypes {
-        nextToken
+  }
+}
+`;
+export const onCreateTicket = `subscription OnCreateTicket {
+  onCreateTicket {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
       }
+      nextToken
+    }
+  }
+}
+`;
+export const onUpdateTicket = `subscription OnUpdateTicket {
+  onUpdateTicket {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onDeleteTicket = `subscription OnDeleteTicket {
+  onDeleteTicket {
+    id
+    orderNum
+    departsLong
+    arrivesLong
+    departsLocName
+    departsLocStreet
+    departsLocCity
+    departsLocPostal
+    departsTime
+    departsDesc
+    arrivesLocName
+    arrivesLocStreet
+    arrivesLocCity
+    arrivesLocPostal
+    arrivesTime
+    arrivesDesc
+    transitDesc
+    restBreakLocations
+    ticketTypes {
+      items {
+        id
+        age
+        price
+      }
+      nextToken
     }
   }
 }
@@ -282,99 +306,6 @@ export const onDeleteTicketSaleType = `subscription OnDeleteTicketSaleType {
         date
         closed
       }
-    }
-  }
-}
-`;
-export const onCreateTicket = `subscription OnCreateTicket {
-  onCreateTicket {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const onUpdateTicket = `subscription OnUpdateTicket {
-  onUpdateTicket {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
-    }
-  }
-}
-`;
-export const onDeleteTicket = `subscription OnDeleteTicket {
-  onDeleteTicket {
-    id
-    orderNum
-    departsLong
-    arrivesLong
-    departsLocName
-    departsLocStreet
-    departsLocCity
-    departsLocPostal
-    departsTime
-    departsDesc
-    arrivesLocName
-    arrivesLocStreet
-    arrivesLocCity
-    arrivesLocPostal
-    arrivesTime
-    arrivesDesc
-    transitDesc
-    restBreakLocations
-    ticketTypes {
-      items {
-        id
-        age
-        price
-      }
-      nextToken
     }
   }
 }
