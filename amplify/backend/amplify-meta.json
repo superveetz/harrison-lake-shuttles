@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
 				"logicalId": "authhlsfixed10f159df0"
 			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
+			"lastPushTimeStamp": "2019-08-01T07:35:59.474Z",
 			"output": {
 				"AppClientSecret": "10822i3q9rjomuf0gn4qrbtegstv746iq180rkphbnnh1ttq106u",
 				"UserPoolId": "us-west-2_dqpE0GZfY",
@@ -45,7 +45,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiapigraphql"
 			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
+			"lastPushTimeStamp": "2019-08-01T07:35:59.484Z",
 			"lastPushDirHash": "AN2uihEqUzWeLxGxZEAjARbFdkI="
 		},
 		"hlsapireststripe": {
@@ -65,7 +65,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
 				"logicalId": "apihlsapireststripe"
 			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
+			"lastPushTimeStamp": "2019-08-01T07:35:59.488Z",
 			"output": {
 				"ApiName": "hlsapireststripe",
 				"RootUrl": "https://pq5bmwvccl.execute-api.us-west-2.amazonaws.com/prod"
@@ -79,19 +79,40 @@
 			"providerPlugin": "awscloudformation",
 			"build": true,
 			"lastBuildTimeStamp": "2019-08-01T03:00:52.220Z",
-			"lastPackageTimeStamp": "2019-08-01T03:00:55.086Z",
-			"distZipFilename": "hlsfunctionstripe-1564628452-latest-build.zip",
+			"lastPackageTimeStamp": "2019-08-01T07:24:22.194Z",
+			"distZipFilename": "hlsfunctionstripe-1564644257-latest-build.zip",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
 				"logicalId": "functionhlsfunctionstripe"
 			},
-			"lastPushTimeStamp": "2019-08-01T03:07:08.305Z",
+			"lastPushTimeStamp": "2019-08-01T07:35:59.498Z",
 			"output": {
 				"Region": "us-west-2",
 				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:hlsfunctionstripe-prod",
 				"Name": "hlsfunctionstripe-prod"
 			},
-			"lastPushDirHash": "G6X7utFDjbBysnQx1FdY6UEn3K4="
+			"lastPushDirHash": "fOHaIOw2UzWEvIAIEfEwroWqdE4="
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2019-08-01T07:35:59.498Z",
+			"output": {
+				"CloudFrontSecureURL": "https://d140gwh7kyk86r.cloudfront.net",
+				"S3BucketSecureURL": "https://hls-fixed-1-20190801002345-hostingbucket-prod.s3.amazonaws.com",
+				"WebsiteURL": "http://hls-fixed-1-20190801002345-hostingbucket-prod.s3-website-us-west-2.amazonaws.com",
+				"CloudFrontDistributionID": "E2WEIMA43RLNR5",
+				"Region": "us-west-2",
+				"HostingBucketName": "hls-fixed-1-20190801002345-hostingbucket-prod",
+				"CloudFrontDomainName": "d140gwh7kyk86r.cloudfront.net"
+			},
+			"lastPushDirHash": "WWY0eaDwJf5U5zkkJ+R/rKbPLyQ="
 		}
 	}
 }

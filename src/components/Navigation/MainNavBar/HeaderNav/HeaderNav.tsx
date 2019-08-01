@@ -21,6 +21,7 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   private scrollUpAnimationRef: number = 0;
   private scrollDownAnimationRef: number = 0;
   private animationOccurring: boolean = false;
+  private navbarHeight = 70;
 
   public state: HeaderNavState = {
     animateClass: "slideInDown",
@@ -93,6 +94,19 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   handleScrollUp(scrollAmount: number): void {
     if (this.scrollDownAnimationRef) clearTimeout(this.scrollDownAnimationRef);
     this.willAnimateUp = false;
+
+    // this chunk is weird, it keeps the navbar down at the top
+    if (scrollAmount <= this.navbarHeight && !this.willAnimateDown) {
+      this.state.animateClass === "slideInDown";
+      if (this.animationOccurring) {
+        this.willAnimateDown = true;
+        return this.initDelayedScrollUpAnimation();
+      } else {
+        this.willAnimateDown = true;
+        this.initScrollUpAnimation();
+      }
+      return;
+    }
 
     // if the nav is already hidden, return
     if (this.state.animateClass === "slideInDown" || this.willAnimateDown) return;

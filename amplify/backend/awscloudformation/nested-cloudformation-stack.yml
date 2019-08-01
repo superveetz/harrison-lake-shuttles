@@ -197,6 +197,16 @@
 					"env": "prod"
 				}
 			}
+		},
+		"hostingS3AndCloudFront": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/hosting/template.json",
+				"Parameters": {
+					"bucketName": "hls-fixed-1-20190801002345-hostingbucket",
+					"env": "prod"
+				}
+			}
 		}
 	},
 	"Outputs": {
