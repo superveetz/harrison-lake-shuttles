@@ -42,116 +42,16 @@
     "Resources": {
         
         
-        "PolicyAPIGWhlsapireststripeunauth": {
-            "DependsOn": [
-              "hlsapireststripe"
-            ],
-            "Type": "AWS::IAM::Policy",
-            "Properties": {
-              "PolicyName": "PolicyAPIGWhlsapireststripeunauth",
-              "Roles": [
-                 {"Ref": "unauthRoleName"}
-              ],
-              "PolicyDocument": {
-                "Version": "2012-10-17",
-                "Statement": [
-                  {
-                    "Effect": "Allow",
-                    "Action": [
-                      "execute-api:Invoke"
-                    ],
-                     "Resource": [
-                    
-                    
-                    
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:aws:execute-api:",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            ":",
-                            {
-                              "Ref": "AWS::AccountId"
-                            },
-                            ":",
-                            {
-                              "Ref": "hlsapireststripe"
-                            },
-                            "/",
-                            {
-                              "Fn::If": [
-                                "ShouldNotCreateEnvResources",
-                                "Prod", 
-                                {
-                                  "Ref": "env"
-                                } 
-                              ]
-                            },
-                              "/POST",
-                            "/items/*"
-                          ]
-                        ]
-                      }
-                    
-                      ,
-                    
-                    
-                      {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "arn:aws:execute-api:",
-                            {
-                              "Ref": "AWS::Region"
-                            },
-                            ":",
-                            {
-                              "Ref": "AWS::AccountId"
-                            },
-                            ":",
-                            {
-                              "Ref": "hlsapireststripe"
-                            },
-                            "/",
-                            {
-                              "Fn::If": [
-                                "ShouldNotCreateEnvResources",
-                                "Prod", 
-                                {
-                                  "Ref": "env"
-                                } 
-                              ]
-                            },
-                              "/GET",
-                            "/items/*"
-                          ]
-                        ]
-                      }
-                    
-                    
-                    
-                    
-                    
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-        
-      "hlsapireststripe": {
+      "apihlsstripe": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "hlsapireststripe",
+          "Name": "apihlsstripe",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "hlsapireststripe"
+              "title": "apihlsstripe"
             },
             "host": {
                 "Fn::Join": [
@@ -187,7 +87,7 @@
             ],
             "paths": {
               
-              "/items": {
+              "/process-transaction": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -254,12 +154,6 @@
                       }
                     }
                   },
-                          
-                    "security": [
-                        {
-                          "sigv4": []
-                        }
-                      ],
                   
                   "x-amazon-apigateway-integration": {
                     "responses": {
@@ -292,7 +186,7 @@
                   }
                 }
               },
-              "/items/{proxy+}": {
+              "/process-transaction/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -359,12 +253,6 @@
                       }
                     }
                   },
-                          
-                    "security": [
-                        {
-                          "sigv4": []
-                        }
-                      ],
                   
                   "x-amazon-apigateway-integration": {
                     "responses": {
@@ -441,7 +329,7 @@
                   
         
         
-        "functionhlsfunctionstripePermissionhlsapireststripe": {
+        "functionhlsfunctionstripePermissionapihlsstripe": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
@@ -465,7 +353,7 @@
                             },
                             ":",
                             {
-                                "Ref": "hlsapireststripe"
+                                "Ref": "apihlsstripe"
                             },
                             "/*/*/*"
                         ]
@@ -476,7 +364,7 @@
         
         
         
-      "DeploymentAPIGWhlsapireststripe": {
+      "DeploymentAPIGWapihlsstripe": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -490,7 +378,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "hlsapireststripe"
+            "Ref": "apihlsstripe"
           }
         }
       }
@@ -498,11 +386,11 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "hlsapireststripe"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "apihlsstripe"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "hlsapireststripe"
+          "Value": "apihlsstripe"
         }
     }
   }

@@ -30,5 +30,4 @@ amplify/\#current-cloud-backend
 build/
 dist/
 node_modules/
-aws-exports.js
 awsconfiguration.json

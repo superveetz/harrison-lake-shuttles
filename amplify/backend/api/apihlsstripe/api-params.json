@@ -1,20 +1,15 @@
 {
     "paths": [
         {
-            "name": "/items",
+            "name": "/process-transaction",
             "lambdaFunction": "hlsfunctionstripe",
             "privacy": {
-                "protected": true,
-                "auth": [],
-                "unauth": [
-                    "/POST",
-                    "/GET"
-                ]
+                "open": true
             }
         }
     ],
-    "resourceName": "hlsapireststripe",
-    "apiName": "hlsapireststripe",
+    "resourceName": "apihlsstripe",
+    "apiName": "apihlsstripe",
     "functionArns": [
         {
             "lambdaFunction": "hlsfunctionstripe"
@@ -22,9 +17,9 @@
     ],
     "privacy": {
         "auth": 0,
-        "unauth": 1,
-        "authRoleName": "hls-fixed-1-dev-20190729171914-authRole",
-        "unAuthRoleName": "hls-fixed-1-dev-20190729171914-unauthRole"
+        "unauth": 0,
+        "authRoleName": "hls-fixed-1-prod-20190731195900-authRole",
+        "unAuthRoleName": "hls-fixed-1-prod-20190731195900-unauthRole"
     },
     "dependsOn": [
         {

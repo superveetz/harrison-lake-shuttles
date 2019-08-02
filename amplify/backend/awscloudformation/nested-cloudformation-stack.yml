@@ -162,10 +162,10 @@
 				}
 			}
 		},
-		"apihlsapireststripe": {
+		"apiapihlsstripe": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-prod-20190731195900-deployment/amplify-cfn-templates/api/apihlsstripe-cloudformation-template.json",
 				"Parameters": {
 					"authRoleName": {
 						"Ref": "AuthRoleName"
