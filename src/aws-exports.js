@@ -12,11 +12,14 @@ const awsmobile = {
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_cloud_logic_custom": [
         {
-            "name": "hlsapireststripe",
-            "endpoint": "https://8sq6ye8g18.execute-api.us-west-2.amazonaws.com/dev",
+            "name": "apihlsreststripe1",
+            "endpoint": "https://czs3kvf7fj.execute-api.us-west-2.amazonaws.com/dev",
             "region": "us-west-2"
         }
-    ]
+    ],
+    "aws_content_delivery_bucket": "hls-fixed-hosting-dev-dev",
+    "aws_content_delivery_bucket_region": "us-west-2",
+    "aws_content_delivery_url": "https://d1qutao1oji97r.cloudfront.net"
 };
 
 

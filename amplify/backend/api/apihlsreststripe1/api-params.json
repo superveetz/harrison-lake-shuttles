@@ -1,11 +1,29 @@
 {
     "paths": [
         {
-            "name": "/items",
+            "name": "/process-transaction",
             "lambdaFunction": "hlsfunctionstripe",
             "privacy": {
                 "protected": true,
-                "auth": [],
+                "auth": [
+                    "/POST",
+                    "/GET"
+                ],
+                "unauth": [
+                    "/POST",
+                    "/GET"
+                ]
+            }
+        },
+        {
+            "name": "/resend-order-confirmation-email",
+            "lambdaFunction": "hlsfunctionstripe",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET"
+                ],
                 "unauth": [
                     "/POST",
                     "/GET"
@@ -13,16 +31,16 @@
             }
         }
     ],
-    "resourceName": "hlsapireststripe",
-    "apiName": "hlsapireststripe",
+    "resourceName": "apihlsreststripe1",
+    "apiName": "apihlsreststripe1",
     "functionArns": [
         {
             "lambdaFunction": "hlsfunctionstripe"
         }
     ],
     "privacy": {
-        "auth": 0,
-        "unauth": 1,
+        "auth": 2,
+        "unauth": 2,
         "authRoleName": "hls-fixed-1-dev-20190729171914-authRole",
         "unAuthRoleName": "hls-fixed-1-dev-20190729171914-unauthRole"
     },

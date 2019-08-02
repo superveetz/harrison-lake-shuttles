@@ -157,15 +157,15 @@
 						]
 					},
 					"S3DeploymentBucket": "hls-fixed-1-dev-20190729171914-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/f88c225016b2c024db9bc3b9285070b5b130ff4b",
+					"S3DeploymentRootKey": "amplify-appsync-files/a1ba3f411912eab59d711a0b147fff6040cdcbdf",
 					"env": "dev"
 				}
 			}
 		},
-		"apihlsapireststripe": {
+		"apiapihlsreststripe1": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/hlsapireststripe-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/apihlsreststripe1-cloudformation-template.json",
 				"Parameters": {
 					"authRoleName": {
 						"Ref": "AuthRoleName"
@@ -194,6 +194,16 @@
 			"Properties": {
 				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
 				"Parameters": {
+					"env": "dev"
+				}
+			}
+		},
+		"hostingS3AndCloudFront": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/hosting/template.json",
+				"Parameters": {
+					"bucketName": "hls-fixed-hosting-dev",
 					"env": "dev"
 				}
 			}
