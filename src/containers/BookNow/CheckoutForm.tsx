@@ -452,7 +452,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
   }
 
   private processStripeCharge(token: any, formikBag: FormikProps<CheckoutFormValues>): Promise<any> {
-    return API.post("apihlsstripe", "/process-transaction", {
+    return API.post("apihlsreststripeprod", "/process-transaction", {
       body: {
         stripeToken: token,
         charge: {
@@ -1912,7 +1912,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       resendingConfirmationEmail: true,
     });
 
-    API.post("apihlsstripe", "/resend-order-confirmation-email", {
+    API.post("apihlsreststripeprod", "/resend-order-confirmation-email", {
       body: {
         charge: {
           payeeName: this.state.checkoutSuccessOrder.payeeName,

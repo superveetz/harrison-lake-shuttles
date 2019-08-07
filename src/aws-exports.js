@@ -12,8 +12,8 @@ const awsmobile = {
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_cloud_logic_custom": [
         {
-            "name": "apihlsstripe",
-            "endpoint": "https://ihscccd19d.execute-api.us-west-2.amazonaws.com/prod",
+            "name": "apihlsreststripeprod",
+            "endpoint": "https://o0fj43x7zk.execute-api.us-west-2.amazonaws.com/prod",
             "region": "us-west-2"
         }
     ],

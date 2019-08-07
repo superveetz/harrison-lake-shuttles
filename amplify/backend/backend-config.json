@@ -13,7 +13,7 @@
 				"securityType": "AMAZON_COGNITO_USER_POOLS"
 			}
 		},
-		"apihlsstripe": {
+		"apihlsreststripeprod": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
