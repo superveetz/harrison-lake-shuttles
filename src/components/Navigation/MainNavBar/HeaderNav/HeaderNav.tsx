@@ -58,6 +58,11 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
     // if the nav is already hidden, return
     if (this.state.animateClass === "slideOutUp" || this.willAnimateUp) return;
 
+    // if the scroll position is less than the height, return also
+    console.log("scrollAmount:", scrollAmount);
+
+    if (scrollAmount <= this.navbarHeight) return;
+
     // if an animation is already occuring, set a timeout and apply then hide animation after
     if (this.animationOccurring) {
       this.willAnimateUp = true;
@@ -94,19 +99,6 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   handleScrollUp(scrollAmount: number): void {
     if (this.scrollDownAnimationRef) clearTimeout(this.scrollDownAnimationRef);
     this.willAnimateUp = false;
-
-    // this chunk is weird, it keeps the navbar down at the top
-    if (scrollAmount <= this.navbarHeight && !this.willAnimateDown) {
-      this.state.animateClass === "slideInDown";
-      if (this.animationOccurring) {
-        this.willAnimateDown = true;
-        return this.initDelayedScrollUpAnimation();
-      } else {
-        this.willAnimateDown = true;
-        this.initScrollUpAnimation();
-      }
-      return;
-    }
 
     // if the nav is already hidden, return
     if (this.state.animateClass === "slideInDown" || this.willAnimateDown) return;
