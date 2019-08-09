@@ -12,3 +12,25 @@
 .SelectMenuItem:last-child {
   border-bottom: 2px dashed darkgray !important;
 }
+
+.TotalPriceWrapper {
+  position: relative;
+}
+
+.PromoCodeDiscount {
+  position: absolute;
+  display: inline-block;
+  top: 110%;
+  left: -38px;
+  width: 115px;
+  font-size: 12px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+@media (min-width: 991px) {
+  .PromoCodeDiscount {
+    position: absolute;
+    left: -10%;
+  }
+}

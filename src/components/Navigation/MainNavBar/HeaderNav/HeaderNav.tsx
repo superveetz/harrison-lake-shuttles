@@ -21,6 +21,7 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   private scrollUpAnimationRef: number = 0;
   private scrollDownAnimationRef: number = 0;
   private animationOccurring: boolean = false;
+  private navbarHeight: number = 70;
 
   public state: HeaderNavState = {
     animateClass: "slideInDown",
@@ -51,6 +52,9 @@ class HeaderNav extends React.Component<any, HeaderNavState> {
   }
 
   handleScrollDown(scrollAmount: number): void {
+    // if the scroll position is less than the height, return also
+    if (scrollAmount <= this.navbarHeight) return;
+
     if (this.scrollUpAnimationRef) clearTimeout(this.scrollUpAnimationRef);
     this.willAnimateDown = false;
 

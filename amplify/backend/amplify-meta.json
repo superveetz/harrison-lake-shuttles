@@ -29,7 +29,7 @@
 				"IdentityPoolName": "hlsfixed10f159df0_identitypool_0f159df0__dev",
 				"UserPoolName": "hlsfixed10f159df0_userpool_0f159df0"
 			},
-			"lastPushTimeStamp": "2019-08-02T19:09:11.681Z",
+			"lastPushTimeStamp": "2019-08-09T17:54:45.247Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/auth/hlsfixed10f159df0-cloudformation-template.yml",
 				"logicalId": "authhlsfixed10f159df0"
@@ -45,7 +45,7 @@
 				"GraphQLAPIIdOutput": "it3rzvn3vrdrrf3bqp436r73r4",
 				"GraphQLAPIEndpointOutput": "https://mvvoculilzbw7ciwz7xuoneu7q.appsync-api.us-west-2.amazonaws.com/graphql"
 			},
-			"lastPushTimeStamp": "2019-08-02T19:09:11.689Z",
+			"lastPushTimeStamp": "2019-08-09T17:54:45.251Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiapigraphql"
@@ -68,7 +68,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/api/apihlsreststripe1-cloudformation-template.json",
 				"logicalId": "apiapihlsreststripe1"
 			},
-			"lastPushTimeStamp": "2019-08-02T19:09:11.715Z",
+			"lastPushTimeStamp": "2019-08-09T17:54:45.254Z",
 			"output": {
 				"ApiName": "apihlsreststripe1",
 				"RootUrl": "https://czs3kvf7fj.execute-api.us-west-2.amazonaws.com/dev"
@@ -86,15 +86,15 @@
 				"Arn": "arn:aws:lambda:us-west-2:577142657045:function:hlsfunctionstripe-dev",
 				"Name": "hlsfunctionstripe-dev"
 			},
-			"lastPushTimeStamp": "2019-08-02T19:09:11.701Z",
+			"lastPushTimeStamp": "2019-08-09T17:54:45.267Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/function/hlsfunctionstripe-cloudformation-template.json",
 				"logicalId": "functionhlsfunctionstripe"
 			},
-			"lastBuildTimeStamp": "2019-08-02T18:10:24.396Z",
-			"lastPackageTimeStamp": "2019-08-02T18:10:28.583Z",
-			"distZipFilename": "hlsfunctionstripe-1564769424-latest-build.zip",
-			"lastPushDirHash": "hov0fhJVZcYiThMArqW/dWJ7JAI="
+			"lastBuildTimeStamp": "2019-08-09T17:30:57.543Z",
+			"lastPackageTimeStamp": "2019-08-09T17:53:17.857Z",
+			"distZipFilename": "hlsfunctionstripe-1565373194-latest-build.zip",
+			"lastPushDirHash": "Fn+SlLQPIVpbdD1ALlcocnJSBY0="
 		}
 	},
 	"hosting": {
@@ -105,7 +105,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/hls-fixed-1-dev-20190729171914-deployment/amplify-cfn-templates/hosting/template.json",
 				"logicalId": "hostingS3AndCloudFront"
 			},
-			"lastPushTimeStamp": "2019-08-02T19:09:11.709Z",
+			"lastPushTimeStamp": "2019-08-09T17:54:45.260Z",
 			"output": {
 				"CloudFrontSecureURL": "https://d1qutao1oji97r.cloudfront.net",
 				"S3BucketSecureURL": "https://hls-fixed-hosting-dev-dev.s3.amazonaws.com",

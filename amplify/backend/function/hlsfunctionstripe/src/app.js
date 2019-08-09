@@ -39,8 +39,19 @@ app.use(function(req, res, next) {
 
 const GST_TAX_AMOUNT = 0.05;
 const PST_TAX_AMOUNT = 0.07;
+const DISCOUNT_PERCENTAGE = 0.1;
 
-function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTickets, ticketId, depDate, reqWheelchair) {
+function buildTicketTables(
+  title,
+  ticketProds,
+  pickupLoc,
+  dropoffLoc,
+  passTickets,
+  ticketId,
+  depDate,
+  reqWheelchair,
+  discountApplied,
+) {
   let ticketTables = "";
   const selectedDepartureTicket = ticketProds.find((ticketProd) => ticketProd.id === ticketId);
 
@@ -108,6 +119,20 @@ function buildTicketTables(title, ticketProds, pickupLoc, dropoffLoc, passTicket
 
     // show taxes and close table
     if (passTicketIndex === passTickets.length - 1) {
+      let amountSaved = 0;
+      // appy discount before taxes
+      if (discountApplied) {
+        amountSaved = departureTravellerSubTotal * DISCOUNT_PERCENTAGE;
+        departureTravellerSubTotal -= amountSaved;
+        departureTravellerTable += `
+          <tr>
+            <td colspan="2" style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;'>Discount:</td>
+            <td style='background: #FAFAFA; border: 1px solid #CCC; border-top: 2px solid #4a4a4a; text-align: center; padding-left: 20px; padding-top: 10px; padding-bottom: 10px;'><b>-$${amountSaved.toFixed(
+              2,
+            )}</b></td>
+          </tr>
+        `;
+      }
       // calc tax and apply
       const departureTravellerTaxSubTotal = GST_TAX_AMOUNT * departureTravellerSubTotal;
       const departureTravellerTaxPSTSubTotal = PST_TAX_AMOUNT * departureTravellerSubTotal;
@@ -210,6 +235,7 @@ function buildEmailConfirmationEmail(req) {
     req.body.charge.departure.ticketId,
     req.body.charge.departure.departureDate,
     req.body.charge.departure.requiresWheelchair,
+    req.body.charge.discountApplied,
   );
 
   receiptHtml += depHtml;
@@ -226,6 +252,7 @@ function buildEmailConfirmationEmail(req) {
       req.body.charge.return.ticketId,
       req.body.charge.return.departureDate,
       req.body.charge.return.requiresWheelchair,
+      req.body.charge.discountApplied,
     );
 
     receiptHtml += returnHtml;
@@ -243,6 +270,7 @@ function buildEmailConfirmationEmail(req) {
       req.body.charge.return.extraTicketId,
       req.body.charge.return.extraDepartureDate,
       req.body.charge.return.extraRequiresWheelchair,
+      req.body.charge.discountApplied,
     );
 
     receiptHtml += extraReturnHtml;
