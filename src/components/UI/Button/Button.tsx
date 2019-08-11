@@ -14,6 +14,7 @@ interface ButtonProps {
   btnType?: string;
   click?: React.MouseEventHandler;
   children: any;
+  style?: React.CSSProperties;
 }
 
 const button = (props: ButtonProps) => {
@@ -46,7 +47,9 @@ const button = (props: ButtonProps) => {
   switch (btnKind) {
     case "button":
       button = (
-        <button className={btnClasses.join(" ")} type={btnType} onClick={props.click} disabled={btnDisabled}>
+        <button className={btnClasses.join(" ")} type={btnType} onClick={props.click} disabled={btnDisabled} style={{
+          ...props.style
+        }}>
           {props.children}
         </button>
       );
@@ -54,7 +57,9 @@ const button = (props: ButtonProps) => {
 
     case "link": {
       button = (
-        <Link className={btnClasses.join(" ")} to={props.to as string}>
+        <Link className={btnClasses.join(" ")} to={props.to as string} style={{
+          ...props.style
+        }}>
           {props.children}
         </Link>
       );

@@ -17,13 +17,13 @@ class MainNavBar extends React.Component<any, any> {
       { path: "/", text: "Home", exact: true, classes: "btn btn-link text-white" },
       { path: "/about", text: "About", classes: "btn btn-link text-white" },
       { path: "/bus-routes", text: "Bus Routes", classes: "btn btn-link text-white" },
-      // { path: "/fares", text: "Fares", classes: "btn btn-link text-white" },
+      { path: "/fares", text: "Fares", classes: "btn btn-link text-white" },
       { path: "/more-info", text: "More Info", classes: "btn btn-link text-white" },
       { path: "/contact", text: "Contact", classes: "btn btn-link text-white" },
     ],
   };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   linkClickedHandler = (newPath: string) => {
     if (this.state.mobileNavMenu.animating || !this.state.mobileNavMenu.opened) return;

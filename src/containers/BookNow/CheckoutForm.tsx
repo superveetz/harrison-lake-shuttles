@@ -52,6 +52,10 @@ export interface CheckoutFormValues {
   reviewedPolicies: boolean;
 }
 
+export interface PromoCodeFormValues {
+  promoCode: string;
+}
+
 interface CheckoutFormProps {
   activeStep: BookNowSteps;
   cachedState: CachedState;
@@ -70,6 +74,7 @@ interface CheckoutFormState {
   checkoutSuccessOrder: any;
   resendingConfirmationEmail: boolean;
   resendConfirmationSuccess: boolean;
+  promoCodeApplied: boolean;
 }
 
 interface CheckoutFormReduxProps {
@@ -103,9 +108,13 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     checkoutSuccessOrder: null,
     resendingConfirmationEmail: false,
     resendConfirmationSuccess: false,
+    promoCodeApplied: false
   };
 
   private checkoutTabsRef: React.Ref<HTMLDivElement>;
+
+  private promoCodeAmountSaved: number = 0;
+  private promoCodeDiscountPerc: number = 0.1;
 
   private departTicket: any;
   private adultTicketType: any;
@@ -154,6 +163,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     this.validateFrontEndErrors = this.validateFrontEndErrors.bind(this);
     this.resendOrderConfirmationEmail = this.resendOrderConfirmationEmail.bind(this);
     this.onBack = this.onBack.bind(this);
+    this.onPromoCodeFormSubmit = this.onPromoCodeFormSubmit.bind(this);
 
     // ref for the tabs on return page
     this.checkoutTabsRef = React.createRef();
@@ -176,7 +186,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       // get data ready for rendering
       this.initReviewOrderData();
       // validate selected order
-      this.validateOrder().finally(() => {});
+      this.validateOrder().finally(() => { });
     }
   }
 
@@ -307,7 +317,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       if (totalTicketTally + seatsRequested > seatsOnBus) {
         errors.push(
           `Unfortunately on ${scheduleForRouteDateFormatted}, there are ${seatsOnBus -
-            totalTicketTally} seats left on the bus and you requested ${seatsRequested}. Please try a diffferent departure date.`,
+          totalTicketTally} seats left on the bus and you requested ${seatsRequested}. Please try a diffferent departure date.`,
         );
       }
 
@@ -441,7 +451,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
       this.props.cachedState.returnForm.departureDate &&
       this.props.cachedState.returnForm.extraDepartureDate &&
       moment(this.props.cachedState.returnForm.departureDate).format("YYYY-MM-DD") ===
-        moment(this.props.cachedState.returnForm.extraDepartureDate).format("YYYY-MM-DD")
+      moment(this.props.cachedState.returnForm.extraDepartureDate).format("YYYY-MM-DD")
     ) {
       errors.returnExtraForm.push(
         "Whoops, it appears you've tried to reserve a wheelchair more than once for the same date and route. We only have one wheelchair seat on the bus.",
@@ -461,6 +471,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
           amount: this.getTotalAmountDue() * 100,
           description: "Bus Ticket Booking",
           payeeName: formikBag.values.payeeName,
+          discountApplied: this.state.promoCodeApplied,
           payeePhone: formikBag.values.payeePhone,
           payeeEmail: formikBag.values.payeeEmail,
           departure: {
@@ -486,6 +497,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     //       currency: "CAD",
     //       amount: this.getTotalAmountDue() * 100,
     //       description: "Bus Ticket Booking",
+    //       discountApplied: this.state.promoCodeApplied,
     //       payeeName: formikBag.values.payeeName,
     //       payeePhone: formikBag.values.payeePhone,
     //       payeeEmail: formikBag.values.payeeEmail,
@@ -761,6 +773,13 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     // # infant * priceInfant +
     this.subTotal += this.departingInfantTickets ? this.departingInfantTickets.length * this.infantTicketType.price : 0;
 
+    // apply promo code
+    if (this.state.promoCodeApplied) {
+      const amountSaved = this.subTotal * this.promoCodeDiscountPerc;
+      this.promoCodeAmountSaved += amountSaved;
+      this.subTotal -= amountSaved;
+    }
+
     // calc tax on subtotal
     this.taxSubTotal = this.subTotal * GST_TAX_AMOUNT;
     this.taxPstSubTotal = this.subTotal * PST_TAX_AMOUNT;
@@ -825,6 +844,13 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         ? this.returning1InfantTickets.length * this.infantTicketType.price
         : 0;
 
+    // apply promo code
+    if (this.state.promoCodeApplied) {
+      const amountSaved = this.return1SubTotal * this.promoCodeDiscountPerc;
+      this.promoCodeAmountSaved += amountSaved;
+      this.return1SubTotal -= amountSaved;
+    }
+
     // calc tax on subtotal
     this.returning1TaxSubTotal = this.return1SubTotal * GST_TAX_AMOUNT;
     this.returning1TaxPSTSubTotal = this.return1SubTotal * PST_TAX_AMOUNT;
@@ -887,6 +913,13 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         ? this.returning2InfantTickets.length * this.return2InfantTicketType.price
         : 0;
 
+    // apply promo code
+    if (this.state.promoCodeApplied) {
+      const amountSaved = this.return1SubTotal * this.promoCodeDiscountPerc;
+      this.promoCodeAmountSaved += amountSaved;
+      this.return1SubTotal -= amountSaved;
+    }
+
     // calc tax on subtotal
     this.returning2TaxSubTotal = this.return2SubTotal * GST_TAX_AMOUNT;
     this.returning2TaxPSTSubTotal = this.return2SubTotal * PST_TAX_AMOUNT;
@@ -937,6 +970,19 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     //   activeStep: BookNowSteps.Return,
     //   cachedState: cachedUpdate,
     // });
+  }
+
+  // submit promo code form
+  onPromoCodeFormSubmit(values: PromoCodeFormValues) {
+    if (values.promoCode.trim().toLowerCase() === "hotelsharrison") {
+      this.setState({
+        promoCodeApplied: true
+      }, () => {
+        // update prices
+        this.initReviewOrderData();
+        this.forceUpdate();
+      });
+    }
   }
 
   renderReviewOrderDeparture(
@@ -1637,179 +1683,273 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     );
   }
 
-  renderCheckoutTab(formikBag: FormikProps<CheckoutFormValues>): JSX.Element {
+  renderCheckoutTab(): JSX.Element {
     return (
       <React.Fragment>
-        <h2>
-          <small>
-            Payment Details:<sup>*</sup>
-          </small>
-        </h2>
+        <div className="mb-4">
+          {/* Total Amount Due */}
+          <h2 className="text-left">
+            <span>
+              <small>
+                Total Amount Due:
+            </small>
+              <span className={[classes.TotalPriceWrapper, "ml-2 mb-2 float-right border-bottom border-secondary"].join(' ')} id="total-price">
+                {new Intl.NumberFormat("en-CDN", {
+                  style: "currency",
+                  currency: "USD",
+                  currencyDisplay: "symbol",
+                }).format(this.getTotalAmountDue())}
 
-        {/* Total Amount Due */}
-        <h5 className="text-right">
-          <span className="pb-2 border-secondary border-bottom">
-            <strong>
-              <small>Total Amount Due: </small>
-            </strong>
-            <span className="ml-2 mb-2" id="total-price">
-              {new Intl.NumberFormat("en-CDN", {
-                style: "currency",
-                currency: "USD",
-                currencyDisplay: "symbol",
-              }).format(this.getTotalAmountDue())}
+                {this.state.promoCodeApplied ? (
+                  <span className={[classes.PromoCodeDiscount, "p-1", "alert alert-success"].join(" ")}>
+                    You Saved -{new Intl.NumberFormat("en-CDN", {
+                      style: "currency",
+                      currency: "USD",
+                      currencyDisplay: "symbol",
+                    }).format(this.promoCodeAmountSaved)}
+                  </span>
+                ) : null}
+              </span>
             </span>
-          </span>
-        </h5>
+          </h2>
 
-        {this.state.checkoutFail ? (
-          <div className="alert alert-danger">
-            <h5 className="alert-title">Problem Processing Transaction</h5>
-            <p>
-              It appears there was a problem processing a transaction with the provided card. If this is a prepaid card,
-              then we likely do not accept this type of credit card. If this is not a prepaid card, then there may have
-              been insufficient funds to complete the transaction. Either way, your card should not have been charged.
+          <Formik // Promo Code Form
+            initialValues={{
+              promoCode: "",
+            }}
+            onSubmit={(values: PromoCodeFormValues) => this.onPromoCodeFormSubmit(values)}
+            validationSchema={Yup.object().shape({
+              promoCode: Yup.string()
+                .max(256, "Too Long"),
+            })}
+            render={(formikBag: FormikProps<PromoCodeFormValues>) => {
+              return (
+                <form onSubmit={formikBag.handleSubmit}>
+                  <div className="row w-100">
+                    <div className="col-9">
+                      <FormControl className="w-100" margin="normal">
+                        {/* className={classes.formControl} */}
+                        <InputLabel htmlFor={`promoCode-required`}>
+                          Enter Promo Code
+                      </InputLabel>
+                        <Input
+                          type="text"
+                          error={!!formikBag.errors.promoCode && formikBag.touched.promoCode}
+                          value={formikBag.values.promoCode}
+                          onChange={formikBag.handleChange}
+                          onBlur={formikBag.handleBlur}
+                          name={`promoCode`}
+                          inputProps={{
+                            id: `promoCode-required`,
+                          }}
+                        />
+                        {!!formikBag.errors.promoCode && formikBag.values.promoCode.length ? (
+                          <FormHelperText className={formikBag.touched.promoCode ? "text-danger" : ""}>
+                            {formikBag.errors.promoCode}
+                          </FormHelperText>
+                        ) : null}
+                      </FormControl>
+                    </div>
+                    <div className="col-3">
+                      <Button size="xs" theme="secondary" style={{ marginTop: "25px" }} btnType="submit">
+                        Apply
+                    </Button>
+                    </div>
+                  </div>
+                </form>
+              )
+            }}
+          />
+        </div>
+        {/* End Total Amount Due + Promo Code Form */}
+
+        <Formik // Checkout Form
+          initialValues={{
+            payeeName: "",
+            payeeEmail: "",
+            payeePhone: "",
+            reviewedPolicies: false,
+          }}
+          onSubmit={(values: CheckoutFormValues) => this.onCheckoutFormSubmit(values)}
+          validationSchema={Yup.object().shape({
+            payeeName: Yup.string()
+              .required("Required")
+              .min(3, "Please provide your first and last name"),
+            payeeEmail: Yup.string()
+              .email("Please provide a valid email address")
+              .required("Required"),
+            payeePhone: Yup.string()
+              .required("Required")
+              .test("payeePhoneIsOnlyNumbers", "Please provide a valid 10 digit phone number", (value) =>
+                new RegExp(/^\d{10}$/g).test(value),
+              ),
+            reviewedPolicies: Yup.boolean().test(
+              "reviewedPoliciesIsTrue",
+              "You must agree to the terms and conditions.",
+              (value) => value === true,
+            ),
+          })}
+          render={(formikBag: FormikProps<CheckoutFormValues>) => {
+            return (
+              <div>
+                <h2>
+                  <small>
+                    Payment Details:<sup>*</sup>
+                  </small>
+                </h2>
+
+                {this.state.checkoutFail ? (
+                  <div className="alert alert-danger">
+                    <h5 className="alert-title">Problem Processing Transaction</h5>
+                    <p>
+                      It appears there was a problem processing a transaction with the provided card. If this is a prepaid card,
+                      then we likely do not accept this type of credit card. If this is not a prepaid card, then there may have
+                      been insufficient funds to complete the transaction. Either way, your card should not have been charged.
             </p>
-          </div>
-        ) : null}
+                  </div>
+                ) : null}
 
-        <div className="row">
-          <div className="col">
-            <FormControl className="w-100" margin="normal">
-              {/* className={classes.formControl} */}
-              <InputLabel htmlFor={`payeeName-required`}>
-                Payee Name <sup>*</sup>
-              </InputLabel>
-              <Input
-                type="text"
-                error={!!formikBag.errors.payeeName && formikBag.touched.payeeName}
-                value={formikBag.values.payeeName}
-                onChange={formikBag.handleChange}
-                onBlur={formikBag.handleBlur}
-                name={`payeeName`}
-                inputProps={{
-                  id: `payeeName-required`,
-                }}
-              />
-              {!!formikBag.errors.payeeName && formikBag.values.payeeName.length ? (
-                <FormHelperText className={formikBag.touched.payeeName ? "text-danger" : ""}>
-                  {formikBag.errors.payeeName}
-                </FormHelperText>
-              ) : null}
-            </FormControl>
-          </div>
-        </div>
+                <div className="row">
+                  <div className="col">
+                    <FormControl className="w-100" margin="normal">
+                      {/* className={classes.formControl} */}
+                      <InputLabel htmlFor={`payeeName-required`}>
+                        Payee Name <sup>*</sup>
+                      </InputLabel>
+                      <Input
+                        type="text"
+                        error={!!formikBag.errors.payeeName && formikBag.touched.payeeName}
+                        value={formikBag.values.payeeName}
+                        onChange={formikBag.handleChange}
+                        onBlur={formikBag.handleBlur}
+                        name={`payeeName`}
+                        inputProps={{
+                          id: `payeeName-required`,
+                        }}
+                      />
+                      {!!formikBag.errors.payeeName && formikBag.values.payeeName.length ? (
+                        <FormHelperText className={formikBag.touched.payeeName ? "text-danger" : ""}>
+                          {formikBag.errors.payeeName}
+                        </FormHelperText>
+                      ) : null}
+                    </FormControl>
+                  </div>
+                </div>
 
-        <div className="row">
-          <div className="col">
-            <FormControl className="w-100" margin="normal">
-              {/* className={classes.formControl} */}
-              <InputLabel htmlFor={`payeeEmail-required`}>
-                Payee Email <sup>*</sup>
-              </InputLabel>
-              <Input
-                type="email"
-                error={!!formikBag.errors.payeeEmail && formikBag.touched.payeeEmail}
-                value={formikBag.values.payeeEmail}
-                onChange={formikBag.handleChange}
-                onBlur={formikBag.handleBlur}
-                name={`payeeEmail`}
-                inputProps={{
-                  id: `payeeEmail-required`,
-                }}
-              />
-              {!!formikBag.errors.payeeEmail && formikBag.values.payeeEmail.length ? (
-                <FormHelperText className={formikBag.touched.payeeEmail ? "text-danger" : ""}>
-                  {formikBag.errors.payeeEmail}
-                </FormHelperText>
-              ) : null}
-            </FormControl>
-          </div>
-        </div>
+                <div className="row">
+                  <div className="col">
+                    <FormControl className="w-100" margin="normal">
+                      {/* className={classes.formControl} */}
+                      <InputLabel htmlFor={`payeeEmail-required`}>
+                        Payee Email <sup>*</sup>
+                      </InputLabel>
+                      <Input
+                        type="email"
+                        error={!!formikBag.errors.payeeEmail && formikBag.touched.payeeEmail}
+                        value={formikBag.values.payeeEmail}
+                        onChange={formikBag.handleChange}
+                        onBlur={formikBag.handleBlur}
+                        name={`payeeEmail`}
+                        inputProps={{
+                          id: `payeeEmail-required`,
+                        }}
+                      />
+                      {!!formikBag.errors.payeeEmail && formikBag.values.payeeEmail.length ? (
+                        <FormHelperText className={formikBag.touched.payeeEmail ? "text-danger" : ""}>
+                          {formikBag.errors.payeeEmail}
+                        </FormHelperText>
+                      ) : null}
+                    </FormControl>
+                  </div>
+                </div>
 
-        <div className="row">
-          <div className="col">
-            <FormControl className="w-100" margin="normal">
-              {/* className={classes.formControl} */}
-              <InputLabel htmlFor={`payeePhone-required`}>
-                Payee Phone # <sup>*</sup>
-              </InputLabel>
-              <Input
-                type="tel"
-                error={!!formikBag.errors.payeePhone && formikBag.touched.payeePhone}
-                value={formikBag.values.payeePhone}
-                onChange={formikBag.handleChange}
-                onBlur={formikBag.handleBlur}
-                name={`payeePhone`}
-                inputProps={{
-                  id: `payeePhone-required`,
-                }}
-              />
-              {!!formikBag.errors.payeePhone && formikBag.values.payeePhone.length ? (
-                <FormHelperText className={formikBag.touched.payeePhone ? "text-danger" : ""}>
-                  {formikBag.errors.payeePhone}
-                </FormHelperText>
-              ) : null}
-            </FormControl>
-          </div>
-        </div>
+                <div className="row">
+                  <div className="col">
+                    <FormControl className="w-100" margin="normal">
+                      {/* className={classes.formControl} */}
+                      <InputLabel htmlFor={`payeePhone-required`}>
+                        Payee Phone # <sup>*</sup>
+                      </InputLabel>
+                      <Input
+                        type="tel"
+                        error={!!formikBag.errors.payeePhone && formikBag.touched.payeePhone}
+                        value={formikBag.values.payeePhone}
+                        onChange={formikBag.handleChange}
+                        onBlur={formikBag.handleBlur}
+                        name={`payeePhone`}
+                        inputProps={{
+                          id: `payeePhone-required`,
+                        }}
+                      />
+                      {!!formikBag.errors.payeePhone && formikBag.values.payeePhone.length ? (
+                        <FormHelperText className={formikBag.touched.payeePhone ? "text-danger" : ""}>
+                          {formikBag.errors.payeePhone}
+                        </FormHelperText>
+                      ) : null}
+                    </FormControl>
+                  </div>
+                </div>
 
-        <div className="row">
-          <div className="col">
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formikBag.values.reviewedPolicies}
-                  onChange={(e: React.ChangeEvent<any>) => {
-                    // update noReturnNeeded
-                    this.onKeyboardChange(
-                      { target: { value: e.target.checked } } as any,
-                      formikBag,
-                      "reviewedPolicies",
-                    );
-                  }}
-                  value={true}
-                  color="primary"
-                />
-              }
-              label={
-                <span className="text-dark">
-                  I confirm that I have read, understand and agree, to the rules and travel polices described in the{" "}
-                  <Link to="/more-info">More Info</Link> section.
+                <div className="row">
+                  <div className="col">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={formikBag.values.reviewedPolicies}
+                          onChange={(e: React.ChangeEvent<any>) => {
+                            // update noReturnNeeded
+                            this.onKeyboardChange(
+                              { target: { value: e.target.checked } } as any,
+                              formikBag,
+                              "reviewedPolicies",
+                            );
+                          }}
+                          value={true}
+                          color="primary"
+                        />
+                      }
+                      label={
+                        <span className="text-dark">
+                          I confirm that I have read, understand and agree, to the rules and travel polices described in the{" "}
+                          <Link to="/more-info">More Info</Link> section.
                 </span>
-              }
-            />
-          </div>
-        </div>
+                      }
+                    />
+                  </div>
+                </div>
 
-        {/* Credit Card Element */}
-        <div className="row my-4">
-          <div className="col justify-content-center d-flex">
-            <FormControl>
-              {this.props.appData ? (
-                <StripeCheckout
-                  currency="CAD"
-                  // test key: pk_test_96M7DAWZBxn5eZDIn2dNtUEe
-                  // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
-                  stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
-                  // if you change amount, make sure you change it everywhere
-                  amount={this.getTotalAmountDue() * 100}
-                  name={this.props.appData.app.name}
-                  locale="auto"
-                  email={formikBag.values.payeeEmail}
-                  description={this.props.appData.app.slogan}
-                  image={logoThumb}
-                  token={(token: any) => this.onStripeCheckout(token, formikBag)}
-                  allowRememberMe={false}
-                >
-                  <Button btnType="button" theme="primary" disabled={!formikBag.isValid}>
-                    Pay with Credit Card
+                {/* Credit Card Element */}
+                <div className="row my-4">
+                  <div className="col justify-content-center d-flex">
+                    <FormControl>
+                      {this.props.appData ? (
+                        <StripeCheckout
+                          currency="CAD"
+                          // test key: pk_test_96M7DAWZBxn5eZDIn2dNtUEe
+                          // live key: pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP
+                          stripeKey="pk_live_YQxjcmag19n5L5DOhD9yOll100DtIj0viP"
+                          // if you change amount, make sure you change it everywhere
+                          amount={this.getTotalAmountDue() * 100}
+                          name={this.props.appData.app.name}
+                          locale="auto"
+                          email={formikBag.values.payeeEmail}
+                          description={this.props.appData.app.slogan}
+                          image={logoThumb}
+                          token={(token: any) => this.onStripeCheckout(token, formikBag)}
+                          allowRememberMe={false}
+                        >
+                          <Button btnType="button" theme="primary" disabled={!formikBag.isValid}>
+                            Pay with Credit Card
                   </Button>
-                </StripeCheckout>
-              ) : null}
-            </FormControl>
-          </div>
-        </div>
+                        </StripeCheckout>
+                      ) : null}
+                    </FormControl>
+                  </div>
+                </div>
+              </div>
+            )
+          }}
+        />
       </React.Fragment>
     );
   }
@@ -1833,27 +1973,27 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
             {/* Departure */}
             {this.props.cachedState.departureForm.ticketId
               ? this.renderReviewOrderDeparture(
-                  this.departTicket,
-                  this.departingAdultTickets,
-                  this.adultTicketType,
-                  this.departingChildTickets,
-                  this.childTicketType,
-                  this.departingInfantTickets,
-                  this.infantTicketType,
-                  this.subTotal,
-                  this.taxSubTotal,
-                  this.taxPstSubTotal,
-                )
+                this.departTicket,
+                this.departingAdultTickets,
+                this.adultTicketType,
+                this.departingChildTickets,
+                this.childTicketType,
+                this.departingInfantTickets,
+                this.infantTicketType,
+                this.subTotal,
+                this.taxSubTotal,
+                this.taxPstSubTotal,
+              )
               : null}
 
             {/* show return ticket only if noReturnNeeded is not checked, or if one of the return tickets has been selected */}
             {this.props.cachedState.returnForm &&
-            (!this.props.cachedState.returnForm.noReturnNeeded ||
-              (this.props.cachedState.returnForm.ticketId || this.props.cachedState.returnForm.extraTicketId)) ? (
-              <React.Fragment>
-                {/* Return One */}
-                {this.props.cachedState.returnForm.ticketId
-                  ? this.renderReviewOrderReturnOne(
+              (!this.props.cachedState.returnForm.noReturnNeeded ||
+                (this.props.cachedState.returnForm.ticketId || this.props.cachedState.returnForm.extraTicketId)) ? (
+                <React.Fragment>
+                  {/* Return One */}
+                  {this.props.cachedState.returnForm.ticketId
+                    ? this.renderReviewOrderReturnOne(
                       this.returnTicket1,
                       this.returning1AdultTickets,
                       this.return1AdultTicketType,
@@ -1865,10 +2005,10 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning1TaxSubTotal,
                       this.returning1TaxPSTSubTotal,
                     )
-                  : null}
-                {/* Return Two */}
-                {this.props.cachedState.returnForm.extraTicketId
-                  ? this.renderReviewOrderReturnTwo(
+                    : null}
+                  {/* Return Two */}
+                  {this.props.cachedState.returnForm.extraTicketId
+                    ? this.renderReviewOrderReturnTwo(
                       this.returnTicket2,
                       this.returning2AdultTickets,
                       this.return2AdultTicketType,
@@ -1880,10 +2020,10 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                       this.returning2TaxSubTotal,
                       this.returning2TaxPSTSubTotal,
                     )
-                  : null}
-              </React.Fragment>
-            ) : // no departure ticket selected
-            null}
+                    : null}
+                </React.Fragment>
+              ) : // no departure ticket selected
+              null}
 
             <div className="row mt-4">
               <button className="btn btn-link pull-left ml-2" onClick={this.onBack}>
@@ -1971,178 +2111,178 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
         {this.state.validatingOrder ? (
           <Spinner />
         ) : (
-          <React.Fragment>
-            {this.state.checkingOut ? (
-              // Checking Out / Processing CC
-              <Spinner />
-            ) : (
-              <React.Fragment>
-                <div>
-                  {this.state.checkoutSuccess ? (
-                    // Checkout Success
-                    <div className="alert alert-success mt-4">
-                      <h2 className="alert-title text-center">Trip Booked!</h2>
-                      <hr />
-                      <p>
-                        Your bus seats are officially reserved! We have sent you an email that includes your receipt as
-                        well as your tickets. You will be required to provide this email as well as one piece of
-                        government issued ID for each traveller in order to board the bus. If you do not receive the
-                        email within a few minutes, you can resend the email using the following link.
+            <React.Fragment>
+              {this.state.checkingOut ? (
+                // Checking Out / Processing CC
+                <Spinner />
+              ) : (
+                  <React.Fragment>
+                    <div>
+                      {this.state.checkoutSuccess ? (
+                        // Checkout Success
+                        <div className="alert alert-success mt-4">
+                          <h2 className="alert-title text-center">Trip Booked!</h2>
+                          <hr />
+                          <p>
+                            Your bus seats are officially reserved! We have sent you an email that includes your receipt as
+                            well as your tickets. You will be required to provide this email as well as one piece of
+                            government issued ID for each traveller in order to board the bus. If you do not receive the
+                            email within a few minutes, you can resend the email using the following link.
                       </p>
-                      <div className="text-center">
-                        <Button classes="mt-2" kind="link" to="/more-info" theme="primary">
-                          Review Travel Policies
+                          <div className="text-center">
+                            <Button classes="mt-2" kind="link" to="/more-info" theme="primary">
+                              Review Travel Policies
                         </Button>
-                        <Button
-                          classes="mt-2"
-                          btnType="button"
-                          theme="secondary"
-                          click={this.resendOrderConfirmationEmail}
-                          disabled={this.state.resendingConfirmationEmail}
-                        >
-                          Resend Confirmation Email{" "}
-                          {this.state.resendingConfirmationEmail ? (
-                            <i className="fa fa-spinner text-primary fa-pulse" />
-                          ) : null}
-                          {this.state.resendConfirmationSuccess ? <i className="fa fa-check text-success" /> : null}
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <Formik // Checkout Form
-                      initialValues={{
-                        payeeName: "",
-                        payeeEmail: "",
-                        payeePhone: "",
-                        reviewedPolicies: false,
-                      }}
-                      onSubmit={(values: CheckoutFormValues) => this.onCheckoutFormSubmit(values)}
-                      validationSchema={Yup.object().shape({
-                        payeeName: Yup.string()
-                          .required("Required")
-                          .min(3, "Please provide your first and last name"),
-                        payeeEmail: Yup.string()
-                          .email("Please provide a valid email address")
-                          .required("Required"),
-                        payeePhone: Yup.string()
-                          .required("Required")
-                          .test("payeePhoneIsOnlyNumbers", "Please provide a valid 10 digit phone number", (value) =>
-                            new RegExp(/^\d{10}$/g).test(value),
-                          ),
-                        reviewedPolicies: Yup.boolean().test(
-                          "reviewedPoliciesIsTrue",
-                          "testing!",
-                          (value) => value === true,
-                        ),
-                      })}
-                      render={(formikBag: FormikProps<CheckoutFormValues>) => {
-                        return (
-                          <React.Fragment>
-                            {/* <button type="button" onClick={() => this.testShit(formikBag)}>
+                            <Button
+                              classes="mt-2"
+                              btnType="button"
+                              theme="secondary"
+                              click={this.resendOrderConfirmationEmail}
+                              disabled={this.state.resendingConfirmationEmail}
+                            >
+                              Resend Confirmation Email{" "}
+                              {this.state.resendingConfirmationEmail ? (
+                                <i className="fa fa-spinner text-primary fa-pulse" />
+                              ) : null}
+                              {this.state.resendConfirmationSuccess ? <i className="fa fa-check text-success" /> : null}
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                          <Formik // Checkout Form
+                            initialValues={{
+                              payeeName: "",
+                              payeeEmail: "",
+                              payeePhone: "",
+                              reviewedPolicies: false,
+                            }}
+                            onSubmit={(values: CheckoutFormValues) => this.onCheckoutFormSubmit(values)}
+                            validationSchema={Yup.object().shape({
+                              payeeName: Yup.string()
+                                .required("Required")
+                                .min(3, "Please provide your first and last name"),
+                              payeeEmail: Yup.string()
+                                .email("Please provide a valid email address")
+                                .required("Required"),
+                              payeePhone: Yup.string()
+                                .required("Required")
+                                .test("payeePhoneIsOnlyNumbers", "Please provide a valid 10 digit phone number", (value) =>
+                                  new RegExp(/^\d{10}$/g).test(value),
+                                ),
+                              reviewedPolicies: Yup.boolean().test(
+                                "reviewedPoliciesIsTrue",
+                                "testing!",
+                                (value) => value === true,
+                              ),
+                            })}
+                            render={(formikBag: FormikProps<CheckoutFormValues>) => {
+                              return (
+                                <React.Fragment>
+                                  {/* <button type="button" onClick={() => this.testShit(formikBag)}>
                               Test Shit
                             </button> */}
-                            <div ref={this.checkoutTabsRef}>
-                              <Steps activeStep={this.props.activeStep} clicked={this.props.updateParentState} />
-                            </div>
-                            <React.Fragment>
-                              {this.state.validateOrderErrors ? (
-                                <React.Fragment>
-                                  <div className="alert alert-danger">
-                                    <h4 className="alert-title">There is a problem with your ticket selection.</h4>
-                                    <hr />
-
-                                    {/* departure ticket errors */}
-                                    {this.state.validateOrderErrors.departureForm.length ? (
-                                      <div>
-                                        <h5>Departure Ticket</h5>
-                                        <ul>
-                                          {this.state.validateOrderErrors.departureForm.map(
-                                            (errorMsg: string, index: number) => {
-                                              return <li key={index}>{errorMsg}</li>;
-                                            },
-                                          )}
-                                        </ul>
-                                      </div>
-                                    ) : null}
-
-                                    {/* return ticket one errors */}
-                                    {this.state.validateOrderErrors.returnForm.length ? (
-                                      <div>
-                                        <h5>Return Ticket</h5>
-                                        <ul>
-                                          {this.state.validateOrderErrors.returnForm.map(
-                                            (errorMsg: string, index: number) => {
-                                              return <li key={index}>{errorMsg}</li>;
-                                            },
-                                          )}
-                                        </ul>
-                                      </div>
-                                    ) : null}
-
-                                    {/* return ticket two errors */}
-                                    {this.state.validateOrderErrors.returnExtraForm.length ? (
-                                      <div>
-                                        <h5>Return Ticket Two</h5>
-                                        <ul>
-                                          {this.state.validateOrderErrors.returnExtraForm.map(
-                                            (errorMsg: string, index: number) => {
-                                              return <li key={index}>{errorMsg}</li>;
-                                            },
-                                          )}
-                                        </ul>
-                                      </div>
-                                    ) : null}
+                                  <div ref={this.checkoutTabsRef}>
+                                    <Steps activeStep={this.props.activeStep} clicked={this.props.updateParentState} />
                                   </div>
-                                  <button className="btn btn-link ml-2" onClick={this.onBack}>
-                                    <i className="fa fa-3x fa-chevron-circle-left text-secondary" />
-                                  </button>
-                                </React.Fragment>
-                              ) : null}
-                            </React.Fragment>
-                            {this.state.validateOrderSuccess ? (
-                              <div>
-                                {this.props.ticketProducts.length ? (
                                   <React.Fragment>
-                                    <AppBar className="mb-2" position="static" color="default">
-                                      <Tabs
-                                        value={this.state.activeTab}
-                                        onChange={this.handleTabChange}
-                                        indicatorColor="primary"
-                                        textColor="primary"
-                                        variant="fullWidth"
-                                      >
-                                        <Tab label="Review Order" icon={<ReceiptIcon />} />
-                                        <Tab label="Checkout" icon={<CreditCardIcon />} />
-                                      </Tabs>
-                                    </AppBar>
-                                    {this.state.activeTab === 0 && (
-                                      <TabContent className="w-100" style={{ animationDuration: "450ms" }}>
-                                        {this.renderReviewOrderTab()}
-                                      </TabContent>
-                                    )}
+                                    {this.state.validateOrderErrors ? (
+                                      <React.Fragment>
+                                        <div className="alert alert-danger">
+                                          <h4 className="alert-title">There is a problem with your ticket selection.</h4>
+                                          <hr />
 
-                                    {this.state.activeTab === 1 && (
-                                      <TabContent className="w-100" style={{ animationDuration: "450ms" }}>
-                                        {this.renderCheckoutTab(formikBag)}
-                                      </TabContent>
-                                    )}
+                                          {/* departure ticket errors */}
+                                          {this.state.validateOrderErrors.departureForm.length ? (
+                                            <div>
+                                              <h5>Departure Ticket</h5>
+                                              <ul>
+                                                {this.state.validateOrderErrors.departureForm.map(
+                                                  (errorMsg: string, index: number) => {
+                                                    return <li key={index}>{errorMsg}</li>;
+                                                  },
+                                                )}
+                                              </ul>
+                                            </div>
+                                          ) : null}
+
+                                          {/* return ticket one errors */}
+                                          {this.state.validateOrderErrors.returnForm.length ? (
+                                            <div>
+                                              <h5>Return Ticket</h5>
+                                              <ul>
+                                                {this.state.validateOrderErrors.returnForm.map(
+                                                  (errorMsg: string, index: number) => {
+                                                    return <li key={index}>{errorMsg}</li>;
+                                                  },
+                                                )}
+                                              </ul>
+                                            </div>
+                                          ) : null}
+
+                                          {/* return ticket two errors */}
+                                          {this.state.validateOrderErrors.returnExtraForm.length ? (
+                                            <div>
+                                              <h5>Return Ticket Two</h5>
+                                              <ul>
+                                                {this.state.validateOrderErrors.returnExtraForm.map(
+                                                  (errorMsg: string, index: number) => {
+                                                    return <li key={index}>{errorMsg}</li>;
+                                                  },
+                                                )}
+                                              </ul>
+                                            </div>
+                                          ) : null}
+                                        </div>
+                                        <button className="btn btn-link ml-2" onClick={this.onBack}>
+                                          <i className="fa fa-3x fa-chevron-circle-left text-secondary" />
+                                        </button>
+                                      </React.Fragment>
+                                    ) : null}
                                   </React.Fragment>
-                                ) : (
-                                  <Spinner />
-                                )}
-                              </div>
-                            ) : null}
-                            <React.Fragment />
-                          </React.Fragment>
-                        );
-                      }}
-                    />
-                  )}
-                </div>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        )}
+                                  {this.state.validateOrderSuccess ? (
+                                    <div>
+                                      {this.props.ticketProducts.length ? (
+                                        <React.Fragment>
+                                          <AppBar className="mb-2" position="static" color="default">
+                                            <Tabs
+                                              value={this.state.activeTab}
+                                              onChange={this.handleTabChange}
+                                              indicatorColor="primary"
+                                              textColor="primary"
+                                              variant="fullWidth"
+                                            >
+                                              <Tab label="Review Order" icon={<ReceiptIcon />} />
+                                              <Tab label="Checkout" icon={<CreditCardIcon />} />
+                                            </Tabs>
+                                          </AppBar>
+                                          {this.state.activeTab === 0 && (
+                                            <TabContent className="w-100" style={{ animationDuration: "450ms" }}>
+                                              {this.renderReviewOrderTab()}
+                                            </TabContent>
+                                          )}
+
+                                          {this.state.activeTab === 1 && (
+                                            <TabContent className="w-100" style={{ animationDuration: "450ms" }}>
+                                              {this.renderCheckoutTab()}
+                                            </TabContent>
+                                          )}
+                                        </React.Fragment>
+                                      ) : (
+                                          <Spinner />
+                                        )}
+                                    </div>
+                                  ) : null}
+                                  <React.Fragment />
+                                </React.Fragment>
+                              );
+                            }}
+                          />
+                        )}
+                    </div>
+                  </React.Fragment>
+                )}
+            </React.Fragment>
+          )}
       </div>
     );
   }

@@ -52,11 +52,11 @@ class Footer extends React.Component<FooterReduxProps, {}> {
                     <i className="fa fa-caret-right" /> Bus Routes
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link className="btn-block btn-link lead m-0" to="/fares">
                     <i className="fa fa-caret-right" /> Fares
                   </Link>
-                </li> */}
+                </li>
                 <li>
                   <Link className="btn-block btn-link lead m-0" to="/more-info">
                     <i className="fa fa-caret-right" /> More Info

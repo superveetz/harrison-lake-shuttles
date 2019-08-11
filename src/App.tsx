@@ -27,7 +27,7 @@ import Admin from "./containers/Admin/Admin";
 
 import Spinner from "./components/UI/Spinner/Spinner";
 
-interface AppProps extends RouteComponentProps {}
+interface AppProps extends RouteComponentProps { }
 
 interface AppReduxProps extends AppProps {
   appData: AppDataStore;
@@ -109,11 +109,11 @@ class App extends React.Component<AppReduxProps, {}> {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/bus-routes" component={BusRoutes} />
-        {/* <Route path="/fares" component={Fares} /> */}
+        <Route path="/fares" component={Fares} />
         <Route path="/more-info" component={MoreInfo} />
         <Route path="/contact" component={Contact} />
         <Route path="/book-now" appData={this.props.appData} component={BookNow} />
-        <Route path="/style-guide" component={StyleGuide} />
+        {/* <Route path="/style-guide" component={StyleGuide} /> */}
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/login" component={AuthRoute} />
         <Route path="/404" component={RouteNotFound404} />

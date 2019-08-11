@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { scrollToTop } from "../../shared/util";
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
 import PricingTable from "../../components/UI/PricingTable/PricingTable";
 
 class Fares extends Component {
+  componentDidMount() {
+    scrollToTop();
+  }
+
   render() {
     return (
       <div className="container pb-5 pt-lg-3">
