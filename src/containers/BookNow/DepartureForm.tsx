@@ -14,7 +14,7 @@ import {
   FormGroup,
   FormControlLabel,
 } from "@material-ui/core";
-
+import moment from "moment";
 import TextField from "@material-ui/core/TextField";
 
 const classes: any = require("./BookNow.module.css");
@@ -425,7 +425,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&
                 this.props.cachedState.departureForm.departureDate) ||
-              new Date().toISOString(),
+              moment().toISOString(),
             numberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&
@@ -537,8 +537,8 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                   <DatePicker
                     className="w-100"
                     autoOk={true}
-                    minDate={new Date()}
-                    initialFocusedDate={new Date()}
+                    minDate={moment()}
+                    initialFocusedDate={moment()}
                     format="MMMM DD, YYYY"
                     label="Departure Date"
                     value={formikBag.values.departureDate}

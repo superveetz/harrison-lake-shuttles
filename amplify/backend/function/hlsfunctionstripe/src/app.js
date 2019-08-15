@@ -92,7 +92,7 @@ function buildTicketTables(
 
   let departureTravellerTable = "";
   let departureTravellerSubTotal = 0;
-  passTickets.forEach((passTicket, passTicketIndex) => {
+  passTickets.forEach((passTicket, passTicketIndex) => {  
     const selectedTicketType =
       selectedDepartureTicket &&
       selectedDepartureTicket.ticketTypes.items.find((ticketType) => ticketType.id === passTicket.type);
@@ -182,8 +182,9 @@ function buildTicketTables(
       </tr>
       <tr>
         <td style='background: #FAFAFA; border: 1px solid #CCC; text-align: center; padding-top: 10px; padding-bottom: 10px; padding-right: 20px;'>Departure Date:</td>
-        <td style='background: #FAFAFA; border: 1px solid #CCC; text-align: center; padding-top: 10px; padding-bottom: 10px; padding-left: 20px;'><b>${moment(
+        <td style='background: #FAFAFA; border: 1px solid #CCC; text-align: center; padding-top: 10px; padding-bottom: 10px; padding-left: 20px;'><b>${moment.utc(
           depDate,
+          'YYYY-MM-DD'
         ).format("MMM DD, YYYY")}</b></td>
       </tr>
       <tr>

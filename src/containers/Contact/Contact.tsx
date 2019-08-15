@@ -28,13 +28,13 @@ class Contact extends React.Component<ContactProps, {}> {
             <PageHeader>Open 7 Days a Week</PageHeader>
 
             <p className="lead">
-              Have a question? Send us an email and we'll get back to you as soon as we can.
+              Have a question? Send us an email or give us a call and we'll get back to you as soon as we can.
               <br />
             </p>
 
             <ul className="lead list-group">
               <li className="list-group-item">
-                <i className="fa fa-fw fa-envelope" />
+                <i className="fa fa-fw fa-envelope-square" />
                 &nbsp;
                 <strong>
                   {this.props.appData.app.infoEmail ? (
@@ -42,6 +42,16 @@ class Contact extends React.Component<ContactProps, {}> {
                       {this.props.appData.app.infoEmail}
                     </a>
                   ) : null}
+                </strong>
+              </li>
+              <li className="list-group-item">
+                <i className="fa fa-fw fa-phone-square" />
+                &nbsp;
+                <strong>
+                    <a href={`tel:6043780481`} className="">
+                      (604) 378-0481 
+                    </a>
+                    (available after 10:30am PST)
                 </strong>
               </li>
             </ul>

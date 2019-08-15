@@ -8,6 +8,7 @@ import credentials from "../../credentials";
 import "./BookNow.css";
 import PageHeader from "../../components/UI/PageHeader/PageHeader";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import moment from "moment";
 
 import DepartureForm, { DepartureFormValues } from "./DepartureForm";
 import ReturnForm, { ReturnFormValues } from "./ReturnForm";
@@ -69,7 +70,7 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
           departureForm: {
             ticketId: "",
             passengerTickets: [{ name: "", type: "" }],
-            departureDate: new Date(),
+            departureDate: moment(),
             numberOfPassengers: 1,
           },
         };

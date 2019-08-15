@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { AppDataStore } from "../../../store/reducers/app-data";
+import moment from "moment";
 
 const classes: any = require("./Footer.module.css");
 import logo from "../../../assets/img/logo-large.png";
@@ -127,7 +128,7 @@ class Footer extends React.Component<FooterReduxProps, {}> {
         </div>
         <div className={classes.FooterBottom}>
           <p className="m-0  text-center text-light">
-            Copyright &copy; {appName} {startYear} - {new Date().getFullYear()}
+            Copyright &copy; {appName} {startYear} - {moment().format("YYYY")}
           </p>
           <p className="text-center">
             <small>

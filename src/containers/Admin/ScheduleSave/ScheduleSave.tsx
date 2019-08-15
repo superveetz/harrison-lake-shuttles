@@ -200,7 +200,7 @@ class ScheduleSave extends React.Component<ScheduleSaveProps, ScheduleSaveState>
               date:
                 this.state.fetchedSchedule && this.state.fetchedSchedule.date
                   ? moment(this.state.fetchedSchedule.date).format("YYYY-MM-DD")
-                  : moment(new Date()).format("YYYY-MM-DD"),
+                  : moment().format("YYYY-MM-DD"),
               departureTicketId:
                 this.state.fetchedSchedule &&
                 this.state.fetchedSchedule.departureTicket &&
@@ -248,7 +248,7 @@ class ScheduleSave extends React.Component<ScheduleSaveProps, ScheduleSaveState>
                       <DatePicker
                         className="w-100"
                         autoOk={true}
-                        initialFocusedDate={new Date(formikBag.values.date)}
+                        initialFocusedDate={moment(formikBag.values.date)}
                         format="MMMM DD, YYYY"
                         label="Schedule Date"
                         value={formikBag.values.date}
