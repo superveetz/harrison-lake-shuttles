@@ -15,7 +15,7 @@ class Fares extends Component {
         <PageHeader>Bus Fares</PageHeader>
 
         <p className="lead">
-          Fares are for one direction and do not include 12% GST/PST. Before you choose your ticket, we strongly
+          Fares are for one direction and do not include 5% GST. Before you choose your ticket, we strongly
           recommend reading our <Link to="/more-info">More Info</Link> section to view all policies and regulations.
         </p>
 

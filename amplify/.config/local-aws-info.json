@@ -2,11 +2,11 @@
     "dev": {
         "configLevel": "project",
         "useProfile": true,
-        "profileName": "amplify-profile"
+        "profileName": "amplify"
     },
     "prod": {
         "configLevel": "project",
         "useProfile": true,
-        "profileName": "amplify-profile"
+        "profileName": "amplify"
     }
 }

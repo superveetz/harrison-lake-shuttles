@@ -50,7 +50,8 @@ class Contact extends React.Component<ContactProps, {}> {
                 <strong>
                     <a href={`tel:6043780481`} className="">
                       (604) 378-0481 
-                    </a>
+                    </a> 
+                    <br />
                     (available after 10:30am PST)
                 </strong>
               </li>
