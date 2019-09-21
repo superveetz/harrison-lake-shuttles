@@ -16,7 +16,7 @@ class MainNavBar extends React.Component<any, any> {
       { path: "/book-now", text: "Book Now", classes: "btn btn-outline-primary text-white" },
       { path: "/", text: "Home", exact: true, classes: "btn btn-link text-white" },
       { path: "/about", text: "About", classes: "btn btn-link text-white" },
-      { path: "/bus-routes", text: "Bus Routes", classes: "btn btn-link text-white" },
+      { path: "/bus-routes", text: "Trip Info", classes: "btn btn-link text-white" },
       { path: "/fares", text: "Fares", classes: "btn btn-link text-white" },
       { path: "/more-info", text: "More Info", classes: "btn btn-link text-white" },
       { path: "/contact", text: "Contact", classes: "btn btn-link text-white" },

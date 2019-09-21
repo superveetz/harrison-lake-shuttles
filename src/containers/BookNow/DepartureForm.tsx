@@ -83,7 +83,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
   }
 
   onChangeDepartureDate(e: React.ChangeEvent<DepartureFormValues>, formikBag: FormikProps<DepartureFormValues>) {
-    formikBag.setFieldValue("departureDate", (e as any)._d.toISOString());
+    formikBag.setFieldValue("departureDate", moment((e as any)._d).format('YYYY-MM-DD'));
   }
 
   onKeyboardChange(
