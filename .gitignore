@@ -28,6 +28,7 @@ yarn-error.log*
 #amplify
 amplify/\#current-cloud-backend
 amplify/backend/
+src/aws-exports.js
 build/
 dist/
 node_modules/
