@@ -50,7 +50,7 @@ class Footer extends React.Component<FooterReduxProps, {}> {
                 </li>
                 <li>
                   <Link className="btn-block btn-link lead m-0" to="/bus-routes">
-                    <i className="fa fa-caret-right" /> Bus Routes
+                    <i className="fa fa-caret-right" /> Trip Info
                   </Link>
                 </li>
                 <li>

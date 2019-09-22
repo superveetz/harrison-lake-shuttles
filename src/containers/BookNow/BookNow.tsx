@@ -70,7 +70,7 @@ class BookNow extends React.Component<BookNowProps, IBookNowState> implements Bo
           departureForm: {
             ticketId: "",
             passengerTickets: [{ name: "", type: "" }],
-            departureDate: moment(),
+            departureDate: moment().format("YYYY-MM-DD"),
             numberOfPassengers: 1,
           },
         };

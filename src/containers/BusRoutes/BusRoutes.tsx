@@ -22,7 +22,8 @@ class BusRoutes extends Component {
           <div className="col-12">
             <p className="lead">
               The bus travels between Richmond and Harrison Hot Springs along the following route. Please note that the
-              bus cannot provide service elsewhere other than the route displayed.
+              bus cannot provide service elsewhere other than the route displayed. Continue scrolling to view images of the Bridgeport
+              Pickup location.
             </p>
 
             <GoogleMap />

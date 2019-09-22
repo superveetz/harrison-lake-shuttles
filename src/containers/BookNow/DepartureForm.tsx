@@ -421,11 +421,11 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
       <React.Fragment>
         <Formik
           initialValues={{
-            departureDate:
+            departureDate: 
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&
                 this.props.cachedState.departureForm.departureDate) ||
-              moment().toISOString(),
+              moment().format("YYYY-MM-DD"),
             numberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.departureForm &&
@@ -465,6 +465,9 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                 activeStep={this.props.activeStep}
                 clicked={this.props.updateParentState}
               />
+              <pre>
+                {JSON.stringify(formikBag.values, null, 4)}
+              </pre>
               <h2>
                 <small>
                   Departure Ticket Details:<sup>*</sup>
@@ -538,7 +541,7 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                     className="w-100"
                     autoOk={true}
                     minDate={moment()}
-                    initialFocusedDate={moment()}
+                    initialFocusedDate={moment().format('YYYY-MM-DD')}
                     format="MMMM DD, YYYY"
                     label="Departure Date"
                     value={formikBag.values.departureDate}

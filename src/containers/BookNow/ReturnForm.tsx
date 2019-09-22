@@ -203,7 +203,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
     formikBag: FormikProps<ReturnFormValues>,
     keyName: string,
   ) {
-    formikBag.setFieldValue(keyName, (e as any)._d.toISOString());
+    formikBag.setFieldValue(keyName, moment((e as any)._d).format('YYYY-MM-DD'));
   }
 
   onKeyboardChange(
@@ -455,8 +455,8 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             <DatePicker
               className="w-100"
               autoOk={true}
-              initialFocusedDate={moment()}
-              minDate={moment()}
+              initialFocusedDate={moment().format('YYYY-MM-DD')}
+              minDate={moment().format('YYYY-MM-DD')}
               format="MMMM DD, YYYY"
               label="Return Date"
               placeholder="Test"
@@ -677,8 +677,8 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
             <DatePicker
               className="w-100"
               autoOk={true}
-              minDate={moment()}
-              initialFocusedDate={moment()}
+              minDate={moment().format('YYYY-MM-DD')}
+              initialFocusedDate={moment().format('YYYY-MM-DD')}
               format="MMMM DD, YYYY"
               label="Return Date"
               placeholder="Test"
@@ -911,7 +911,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
                 this.props.cachedState.returnForm.departureDate) ||
-              moment().toISOString(),
+              moment().format('YYYY-MM-DD'),
             numberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
@@ -944,7 +944,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
                 this.props.cachedState.returnForm.extraDepartureDate) ||
-              moment().toISOString(),
+              moment().format('YYYY-MM-DD'),
             extraNumberOfPassengers:
               (this.props.cachedState &&
                 this.props.cachedState.returnForm &&
@@ -1089,7 +1089,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                             formikBag.resetForm({
                               noReturnNeeded: formikBag.values.noReturnNeeded,
                               additionalReturnNeeded: false,
-                              departureDate: moment().toString(),
+                              departureDate: moment().format('YYYY-MM-DD'),
                               numberOfPassengers: 1,
                               pickupLocation: "",
                               dropoffLocation: "",
@@ -1098,7 +1098,7 @@ class ReturnForm extends React.Component<ReturnFormProps, {}> {
                               passengerTickets: [{ name: "", type: "" }],
 
                               extraTicketId: "",
-                              extraDepartureDate: moment().toString(),
+                              extraDepartureDate: moment().format('YYYY-MM-DD'),
                               extraNumberOfPassengers: 1,
                               extraPickupLocation: "",
                               extraDropoffLocation: "",
