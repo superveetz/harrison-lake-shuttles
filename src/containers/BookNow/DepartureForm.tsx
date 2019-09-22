@@ -465,9 +465,6 @@ class DepartureForm extends React.Component<DepartureFormProps, {}> {
                 activeStep={this.props.activeStep}
                 clicked={this.props.updateParentState}
               />
-              <pre>
-                {JSON.stringify(formikBag.values, null, 4)}
-              </pre>
               <h2>
                 <small>
                   Departure Ticket Details:<sup>*</sup>
