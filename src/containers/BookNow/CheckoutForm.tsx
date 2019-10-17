@@ -1048,11 +1048,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(adultTicketType.price * departingAdultTickets.length)}
+                      ${(adultTicketType.price * departingAdultTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1069,11 +1065,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(childTicketType.price * departingChildTickets.length)}
+                      ${(childTicketType.price * departingChildTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1090,11 +1082,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(infantTicketType.price * departingInfantTickets.length)}
+                      ${(infantTicketType.price * departingInfantTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1108,11 +1096,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(taxSubTotal)}
+                    ${(taxSubTotal).toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1124,11 +1108,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(taxPSTSubTotal)}
+                    ${(taxPSTSubTotal).toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1141,11 +1121,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(subTotal)}
+                    ${subTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1281,11 +1257,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return1AdultTicketType.price * returning1AdultTickets.length)}
+                      ${(return1AdultTicketType.price * returning1AdultTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1302,11 +1274,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return1ChildTicketType.price * returning1ChildTickets.length)}
+                      ${(return1ChildTicketType.price * returning1ChildTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1323,11 +1291,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return1InfantTicketType.price * returning1InfantTickets.length)}
+                      ${(return1InfantTicketType.price * returning1InfantTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1341,11 +1305,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return1TaxSubTotal)}
+                    ${return1TaxSubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1357,11 +1317,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return1TaxPSTSubTotal)}
+                    ${return1TaxPSTSubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1374,11 +1330,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return1SubTotal)}
+                    ${return1SubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1516,11 +1468,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return2AdultTicketType.price * returning2AdultTickets.length)}
+                      ${(return2AdultTicketType.price * returning2AdultTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1537,11 +1485,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return2ChildTicketType.price * returning2ChildTickets.length)}
+                      ${(return2ChildTicketType.price * returning2ChildTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1558,11 +1502,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                   </TableCell>
                   <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                     <strong>
-                      {new Intl.NumberFormat("en-CDN", {
-                        style: "currency",
-                        currency: "USD",
-                        currencyDisplay: "symbol",
-                      }).format(return2InfantTicketType.price * returning2InfantTickets.length)}
+                      ${(return2InfantTicketType.price * returning2InfantTickets.length).toFixed(2)}
                     </strong>
                   </TableCell>
                 </TableRow>
@@ -1576,11 +1516,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return2TaxSubTotal)}
+                    ${return2TaxSubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1592,11 +1528,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return2TaxPSTSubTotal)}
+                    ${return2TaxPSTSubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1609,11 +1541,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 </TableCell>
                 <TableCell align="right" component="td" padding="none" style={{ width: "35%" }}>
                   <strong>
-                    {new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(return2SubTotal)}
+                    ${return2SubTotal.toFixed(2)}
                   </strong>
                 </TableCell>
               </TableRow>
@@ -1694,19 +1622,11 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
                 Total Amount Due:
             </small>
               <span className={[classes.TotalPriceWrapper, "ml-2 mb-2 float-right border-bottom border-secondary"].join(' ')} id="total-price">
-                {new Intl.NumberFormat("en-CDN", {
-                  style: "currency",
-                  currency: "USD",
-                  currencyDisplay: "symbol",
-                }).format(this.getTotalAmountDue())}
+                ${this.getTotalAmountDue().toFixed(2)}
 
                 {this.state.promoCodeApplied ? (
                   <span className={[classes.PromoCodeDiscount, "p-1", "alert alert-success"].join(" ")}>
-                    You Saved -{new Intl.NumberFormat("en-CDN", {
-                      style: "currency",
-                      currency: "USD",
-                      currencyDisplay: "symbol",
-                    }).format(this.promoCodeAmountSaved)}
+                    You Saved - ${this.promoCodeAmountSaved.toFixed(2)}
                   </span>
                 ) : null}
               </span>
