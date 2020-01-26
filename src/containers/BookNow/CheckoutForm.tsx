@@ -747,7 +747,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     // get all child departure tickets
     this.childTicketType =
       this.departTicket &&
-      this.departTicket.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Child"));
+      this.departTicket.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Youth"));
     this.departingChildTickets =
       this.childTicketType &&
       this.props.cachedState.departureForm.passengerTickets.filter(
@@ -807,7 +807,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     // get all child departure tickets
     this.return1ChildTicketType =
       this.returnTicket1 &&
-      this.returnTicket1.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Child"));
+      this.returnTicket1.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Youth"));
     this.returning1ChildTickets =
       this.return1ChildTicketType &&
       this.props.cachedState.returnForm.passengerTickets.filter(
@@ -878,7 +878,7 @@ class CheckoutForm extends React.Component<CheckoutFormProps & CheckoutFormRedux
     // get all child departure tickets
     this.return2ChildTicketType =
       this.returnTicket2 &&
-      this.returnTicket2.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Child"));
+      this.returnTicket2.ticketTypes.items.find((ticketType: any) => ticketType.age.includes("Youth"));
     this.returning2ChildTickets =
       this.return2ChildTicketType &&
       this.props.cachedState.returnForm.extraPassengerTickets.filter(

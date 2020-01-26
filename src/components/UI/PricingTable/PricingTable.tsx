@@ -74,9 +74,9 @@ const pricingTable: React.SFC<{}> = (props) => {
         <div className="col-lg-4">
           <div className="card mb-5 mb-lg-0 shadow">
             <div className="card-body">
-              <h5 className="card-title text-muted text-uppercase text-center">Child</h5>
+              <h5 className="card-title text-muted text-uppercase text-center">Youth</h5>
               <h6 className="card-price text-center">
-                $49<span className="period">/ticket</span>
+                $59<span className="period">/ticket</span>
               </h6>
 
               <h6 className="card-title text-muted text-lowercase text-center">
@@ -135,7 +135,7 @@ const pricingTable: React.SFC<{}> = (props) => {
             <div className="card-body">
               <h5 className="card-title text-muted text-uppercase text-center">Adult</h5>
               <h6 className="card-price text-center">
-                $59<span className="period">/ticket</span>
+                $69<span className="period">/ticket</span>
               </h6>
               <h6 className="card-title text-muted text-lowercase text-center">
                 <em>ages: 18+</em>
